@@ -1,0 +1,40 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_strlcpy.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bduval <bduval@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/11 15:37:59 by bduval            #+#    #+#             */
+/*   Updated: 2024/11/11 16:44:47 by bduval           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+
+static int	strlen(const char *str)
+{
+	size_t	len;
+
+	len = 0;
+	while (str[len])
+		len++;
+	return (len);
+}
+
+size_t	ft_strlcpy(char *dst, const char *src, size_t siz)
+{
+	size_t	i;
+	size_t	src_len;
+
+	src_len = strlen(src);
+	i = 0;
+	while (i < siz - 1 && i < src_len)
+	{
+		dst[i] = src[i];
+		i++;
+	}
+	while (i < siz)
+		dst[i++] = 0;
+	return (src_len);
+}
