@@ -1,29 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strncmp.c                                       :+:      :+:    :+:   */
+/*   ft_strnstr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bduval <bduval@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/12 13:58:02 by bduval            #+#    #+#             */
-/*   Updated: 2024/11/12 17:06:29 by bduval           ###   ########.fr       */
+/*   Created: 2024/11/12 16:55:19 by bduval            #+#    #+#             */
+/*   Updated: 2024/11/12 18:00:15 by bduval           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_strncmp(const char *s1, const char *s2, size_t n)
+char	*ft_strnstr(const char *big, const char *to_find, size_t len)
 {
-	size_t				i;
-	const unsigned char	*us1;
-	const unsigned char	*us2;
+	size_t	i;
 
-	us1 = (const unsigned char *) s1;
-	us2 = (const unsigned char *) s2;
-	i = 0;
-	if (n == 1)
-		return (us1[i] - us2[i]);
-	while (us1[i] && us1[i] == us2[i] && i < n)
-		i++;
-	return (us1[i] - us2[i]);
+	if (!*to_find)
+		return ((char *)big);
+	while (*big)
+	{
+		i = 0;
+		while (big[i] == to_find[i] && i < len)
+			i++;
+		if (!to_find[i] || i == len)
+			return ((char *)big);
+		big++;
+	}
+	return (0);
 }

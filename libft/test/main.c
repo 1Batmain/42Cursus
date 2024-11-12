@@ -6,10 +6,12 @@
 #include <ctype.h>
 #include <string.h>
 
-int	fctIs(char *fct, char *model)
+int	strIs(char *fct, char *model)
 {
 	int i;
 
+	if (fct[0] == '\0')
+		return (0);
 	i = 0;
 	while (fct[i] && fct[i] == model[i])
 		i++;
@@ -24,9 +26,9 @@ void	printMem(void *tab, size_t len, char *msg)
 	size_t			i;
 
 	i = 0;
-	printf("%s\t -> ", msg);
+	printf("%s add[0] = %p\t-> ", msg, (void *)tab);
 	while (i < len)
-		printf("%02X ", p_tab[i++]);
+		printf("0x%02X ", p_tab[i++]);
 	printf("\n");
 
 }
@@ -34,13 +36,15 @@ void	printMem(void *tab, size_t len, char *msg)
 int	main(int ac, char **av)
 {
 	char	*fct;
-	int integer;
-	char *str;
+	int 	integer;
+	int 	integer2;
+	char 	*str;
+	char	buff[255];
 	
 	fct = av[1];
 	if (ac > 1)
 	{
-		if (fctIs(fct, "srcs/ft_isalpha.c"))
+		if (strIs(fct, "srcs/ft_isalpha.c"))
 		{
 			integer = av[2][0];
 			printf("___\tTEST isalpha\t___\n");
@@ -48,7 +52,7 @@ int	main(int ac, char **av)
 			"\tft_isalpha('%c') = %d\n", \
 			integer, isalpha(integer), integer, ft_isalpha(integer));
 		}
-		if (fctIs(fct, "srcs/ft_isdigit.c"))
+		if (strIs(fct, "srcs/ft_isdigit.c"))
 		{
 			integer = av[2][0];
 			printf("___\tTEST isdigit\t___\n");
@@ -56,7 +60,7 @@ int	main(int ac, char **av)
 			"\tft_isdigit('%c') = %d\n", \
 			integer, isdigit(integer), integer, ft_isdigit(integer));
 		}
-		if (fctIs(fct, "srcs/ft_isalnum.c"))
+		if (strIs(fct, "srcs/ft_isalnum.c"))
 		{
 			integer = av[2][0];
 			printf("___\tTEST isalnum\t___\n");
@@ -64,7 +68,7 @@ int	main(int ac, char **av)
 			"\tft_isalnum('%c') = %d\n", \
 			integer, isalnum(integer), integer, ft_isalnum(integer));
 		}
-		if (fctIs(fct, "srcs/ft_isascii.c"))
+		if (strIs(fct, "srcs/ft_isascii.c"))
 		{
 			integer = atoi(av[2]);
 			printf("___\tTEST isascii\t___\n");
@@ -72,7 +76,7 @@ int	main(int ac, char **av)
 			"\tft_isascii('%c') = %d\n", \
 			integer, isascii(integer), integer, ft_isascii(integer));
 		}
-		if (fctIs(fct, "srcs/ft_isprint.c"))
+		if (strIs(fct, "srcs/ft_isprint.c"))
 		{
 			integer = atoi(av[2]);
 			printf("___\tTEST isprint\t___\n");
@@ -80,7 +84,7 @@ int	main(int ac, char **av)
 			"\tft_isprint('%c') = %d\n", \
 			integer, isprint(integer), integer, ft_isprint(integer));
 		}
-		if (fctIs(fct, "srcs/ft_strlen.c"))
+		if (strIs(fct, "srcs/ft_strlen.c"))
 		{
 		str = av[2];
 			printf("___\tTEST strlen\t___\n");
@@ -88,7 +92,7 @@ int	main(int ac, char **av)
 			"\tft_strlen('%s') = %lu\n", \
 			str, strlen(str), str, ft_strlen(str));
 		}
-		if (fctIs(fct, "srcs/ft_memset.c"))
+		if (strIs(fct, "srcs/ft_memset.c"))
 		{
 			// ./[..] ft_memset.c [int to fill tab] [base of int]
 			int	base = atoi(av[3]);
@@ -100,7 +104,7 @@ int	main(int ac, char **av)
 			ft_memset(tabc, integer, 10);
 			printMem(tabc, 10, "ft_memset :");
 		}
-		if (fctIs(fct, "srcs/ft_bzero.c"))
+		if (strIs(fct, "srcs/ft_bzero.c"))
 		{
 			char tabc[10] = "OUAICGREG";
 			printf("___\tTEST bzero char tab[10] = %s\t___\n", tabc);
@@ -109,7 +113,7 @@ int	main(int ac, char **av)
 			ft_bzero(tabc, 10);
 			printMem(tabc, 10, "ft_bzero :");
 		}
-		if (fctIs(fct, "srcs/ft_memcpy.c"))
+		if (strIs(fct, "srcs/ft_memcpy.c"))
 		{
 			char	tabcdst1[10];
 			char	tabcdst2[10];
@@ -144,7 +148,7 @@ int	main(int ac, char **av)
 			printMem(tabcdst2, 10, "Final tabcdst :");
 			printMem(tabidst2, 10 * sizeof(int), "Final tabidst :");
 		}
-		if (fctIs(fct, "srcs/ft_memmove.c"))
+		if (strIs(fct, "srcs/ft_memmove.c"))
 		{
 			char	src[20];
 			char	fsrc[20];
@@ -182,7 +186,7 @@ int	main(int ac, char **av)
 			printMem(dst3, 20, "memmove :");
 			printMem(fdst3, 20, "ft_memmove :");
 		}
-		if (fctIs(fct, "srcs/ft_strlcpy.c"))
+		if (strIs(fct, "srcs/ft_strlcpy.c"))
 		{
 			str = av[2];
 			char dst[20];
@@ -198,7 +202,7 @@ int	main(int ac, char **av)
 			printMem(dst, 20, "strncpy dest :");
 			printMem(fdst, 20, "ft_strlcpy dest :");
 		}
-		if (fctIs(fct, "srcs/ft_strlcat.c"))
+		if (strIs(fct, "srcs/ft_strlcat.c"))
 		{
 			str = av[2];
 			char fdst[30] = {"______(10)"};
@@ -209,7 +213,7 @@ int	main(int ac, char **av)
 			printf("ft_strlcat : dst[30] = %s return %lu\n", fdst, frtrn);
 			printMem(fdst, 30, "ft_strlcat dest :");
 		}
-		if (fctIs(fct, "srcs/ft_toupper.c"))
+		if (strIs(fct, "srcs/ft_toupper.c"))
 		{
 			integer = atoi(av[2]);
 			while (integer != 0)
@@ -218,7 +222,7 @@ int	main(int ac, char **av)
 				scanf("%d", &integer);
 			}
 		}
-		if (fctIs(fct, "srcs/ft_tolower.c"))
+		if (strIs(fct, "srcs/ft_tolower.c"))
 		{
 			integer = atoi(av[2]);
 			while (integer >= 0)
@@ -227,7 +231,7 @@ int	main(int ac, char **av)
 				scanf("%d", &integer);
 			}
 		}
-		if (fctIs(fct, "srcs/ft_tolower.c"))
+		if (strIs(fct, "srcs/ft_tolower.c"))
 		{
 			integer = atoi(av[2]);
 			while (integer >= 0)
@@ -236,7 +240,7 @@ int	main(int ac, char **av)
 				scanf("%d", &integer);
 			}
 		}
-		if (fctIs(fct, "srcs/ft_strchr.c"))
+		if (strIs(fct, "srcs/ft_strchr.c"))
 		{
 			char	tab[30] = "quel character tu veux ?\n";
 			printf("SOURCE : %s", tab);
@@ -249,7 +253,7 @@ int	main(int ac, char **av)
 				scanf("%d", &integer);
 			}
 		}
-		if (fctIs(fct, "srcs/ft_strrchr.c"))
+		if (strIs(fct, "srcs/ft_strrchr.c"))
 		{
 			char	tab[30] = "quel character tu veux ?\n";
 			printf("SOURCE : %s", tab);
@@ -262,6 +266,137 @@ int	main(int ac, char **av)
 				scanf("%d", &integer);
 			}
 		}
+		if (strIs(fct, "srcs/ft_strncmp.c"))
+		{
+			char t1[15] = "la Peche";
+			char t2[15] = "la Banane";
+			printf("%s\n%s\n-> %d\n", t1, t2, ft_strncmp(t1, t2, 15));
+			printf("%s\n%s\n-> %d\n", t1, t1, ft_strncmp(t1, t1, 15));
+			char t3[3];
+			printf("Test char/char, enter 1 ascii and another (<-100 to exit)\n");
+			while (integer >= -100)
+			{
+				scanf("%d", &integer);
+				t3[0] = integer;
+				scanf("%d", &integer);
+				t3[1] = integer;
+				printf("strncmp(%c, %c, 1) = %d\n", \
+				t3[0], t3[1], strncmp(&t3[0], &t3[1], 1));
+				printf("ft_strncmp(%c, %c, 1) = %d\n", \
+				t3[0], t3[1], ft_strncmp(&t3[0], &t3[1], 1));
+				printf("memcmp(%c, %c, 1) = %d\n", \
+				t3[0], t3[1], memcmp(&t3[0], &t3[1], 1));
+			}
+		}
+		if (strIs(fct, "srcs/ft_memchr.c"))
+		{
+			char tab[20];
+			ft_bzero(tab, 20);
+			ft_memset(&tab[5], 16, 10);
+			tab[7] = 32;
+			tab[10] = 64;
+			tab[13] = 32;
+			printMem(tab, 20,"Find in this tab :");
+			while (integer >= 0)
+			{
+				printf("Enter [tofind] [size_t n] : ");
+				scanf("%d %d", &integer, &integer2);
+				char *r = ft_memchr(tab, integer, integer2);
+				printf("return = %p that is &tab[%ld]\n", r, r - tab);
+
+			}
+		}
+		if (strIs(fct, "srcs/ft_memcmp.c"))
+		{
+			char t1[15] = "la Peche";
+			char t2[15] = "la Banane";
+			printf("memcmp :\t%s & %s\t-> %d\n", t1, t2, memcmp(t1, t2, 15));
+			printf("ft_memcmp :\t%s & %s\t-> %d\n", t1, t2, ft_memcmp(t1, t2, 15));
+			printf("memcmp :\t%s & %s\t-> %d\n", t1, t1, memcmp(t1, t1, 15));
+			printf("ft_memcmp :\t%s & %s\t-> %d\n", t1, t1, ft_memcmp(t1, t1, 15));
+			char t3[3];
+			printf("Test char/char, enter 1 ascii and another (<-100 to exit)\n");
+			while (integer >= -100)
+			{
+				scanf("%d", &integer);
+				t3[0] = integer;
+				scanf("%d", &integer);
+				t3[1] = integer;
+				printf("memcmp(%c, %c, 1) = %d\n", \
+				t3[0], t3[1], memcmp(&t3[0], &t3[1], 1));
+				printf("ft_memcmp(%c, %c, 1) = %d\n", \
+				t3[0], t3[1], ft_memcmp(&t3[0], &t3[1], 1));
+			}
+		}
+		if (strIs(fct, "srcs/ft_strnstr.c"))
+		{
+			char t1[] = "Provide a string to find into this sentence or '0'"\
+					   "to search an empty string and "\
+					   " a length of the string to find('X' to quit)\n";
+			char *fres;
+			while (t1[0] != 'X')
+			{
+				printf("%s", t1);
+				scanf("%s %d", buff, &integer);
+				if (buff[0] == '0')
+				{
+					char empty = '\0';
+					fres = ft_strnstr(t1, &empty, integer);
+				}
+				else
+					fres = ft_strnstr(t1, buff, integer);
+				printf("ft_strnstr : %p\t-> %s\n", (void *)fres, fres);
+			}
+		}
+		if (strIs(fct, "srcs/ft_atoi.c"))
+		{
+				char t1[] = "\t\t456";
+				printf("   atoi(%s)\t-> %d\nft_atoi(%s)\t-> %d\n", \
+						t1, atoi(t1), t1, ft_atoi(t1));
+				char t3[] = "  21474_83648  ";
+				printf("   atoi(%s)\t-> %d\nft_atoi(%s)\t-> %d\n", \
+						t3, atoi(t3), t3, ft_atoi(t3));
+				char t2[] = "\t\r\n\v\f\r   -2147483648";
+				printf("   atoi(%s)\t-> %d\nft_atoi(%s)\t-> %d\n", \
+						t2, atoi(t2), t2, ft_atoi(t2));
+
+		}
+		if (strIs(fct, "srcs/ft_calloc.c"))
+		{
+			void	*res;
+			long 	nmemb = 2;
+
+			printf("TEST 1 : nmemb = %ld sizeof(char)\n", nmemb);
+			res	= calloc(nmemb, sizeof(char));
+			printMem(res, nmemb * sizeof(char), "   calloc");
+			printf("free(%p)\n", res);
+			free(res);
+			res	= ft_calloc(nmemb, sizeof(char));
+			printMem(res, nmemb * sizeof(char), "ft_calloc");
+			printf("free(%p)\n", res);
+			free(res);
+
+			nmemb = 4294967295;
+			printf("TEST 2 : nmemb = %ld sizeof(int)\n", nmemb);
+			res	= calloc(nmemb, sizeof(char));
+			printMem(res, 16, "   calloc (16firsts)");
+			printf("free(%p)\n", res);
+			free(res);
+			//res	= ft_calloc(nmemb, sizeof(int));
+			//printMem(res, 16, "ft_calloc (16firsts)");
+			//printf("free(%p)\n", res);
+			//free(res);
+
+			nmemb = 0;
+			printf("TEST 3 : nmemb = %ld sizeof(int)\n", nmemb);
+			res	= calloc(nmemb, sizeof(int));
+			printMem(res, nmemb * sizeof(int), "   calloc");
+			printf("free(%p)\n", res);
+			free(res);
+			res	= ft_calloc(nmemb, sizeof(int));
+			printMem(res, nmemb * sizeof(int), "ft_calloc");
+			printf("free(%p)\n", res);
+			free(res);
+		}
 	}
 }
-

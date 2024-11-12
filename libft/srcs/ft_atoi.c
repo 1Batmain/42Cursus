@@ -1,29 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strncmp.c                                       :+:      :+:    :+:   */
+/*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bduval <bduval@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/12 13:58:02 by bduval            #+#    #+#             */
-/*   Updated: 2024/11/12 17:06:29 by bduval           ###   ########.fr       */
+/*   Created: 2024/11/12 18:20:31 by bduval            #+#    #+#             */
+/*   Updated: 2024/11/12 19:23:33 by bduval           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_strncmp(const char *s1, const char *s2, size_t n)
-{
-	size_t				i;
-	const unsigned char	*us1;
-	const unsigned char	*us2;
 
-	us1 = (const unsigned char *) s1;
-	us2 = (const unsigned char *) s2;
-	i = 0;
-	if (n == 1)
-		return (us1[i] - us2[i]);
-	while (us1[i] && us1[i] == us2[i] && i < n)
-		i++;
-	return (us1[i] - us2[i]);
+int	ft_atoi(const void *ptr)
+{
+	unsigned char	*p_ptr;
+	int				sign;
+	int				result;
+
+	p_ptr = (unsigned char *) ptr;
+	sign = 1;
+	result = 0;
+	while (ft_isspace(*p_ptr))
+		p_ptr++;
+	while (*p_ptr == '+' || *p_ptr == '-')
+	{
+		if (*p_ptr == '-')
+			sign *= -1;
+		p_ptr++;
+	}
+	while (ft_isdigit(*p_ptr))
+	{
+		result += *p_ptr - '0';
+		if (ft_isdigit(*(p_ptr + 1)))
+			result *= 10;
+		p_ptr++;
+	}
+	return (sign * result);
 }
