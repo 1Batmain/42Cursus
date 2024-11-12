@@ -6,7 +6,7 @@
 #    By: bduval <bduval@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/08 10:56:02 by bduval            #+#    #+#              #
-#    Updated: 2024/11/11 10:22:19 by bduval           ###   ########.fr        #
+#    Updated: 2024/11/12 11:40:50 by bduval           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 CC = cc
@@ -25,7 +25,7 @@ TEST_MAIN = test/main.c
 all : $(NAME)
 
 $(OBJ_DIR)%.o : $(SRC_DIR)%.c objs
-	$(CC) -c $< -o $@
+	$(CC) -c $(LIB_DIR) $< -o $@
 
 objs : 
 	mkdir -p $@
@@ -40,9 +40,9 @@ clean :
 	rm -rf $(OBJ_DIR)
 
 fclean : clean 
-	rm -f $(NAME)
+	rm -f $(NAME) a.out
 
 test : $(TEST_FILE) $(TEST_MAIN)
-	$(CC) $(CFLAGS) $(LIB_DIR) $(SRC) $(TEST_MAIN) -o test.out
+	$(CC) $(CFLAGS) $(LIB_DIR) $(SRC) $(TEST_MAIN)
 
 .PHONY : re clean fclean test

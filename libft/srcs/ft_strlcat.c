@@ -6,7 +6,7 @@
 /*   By: bduval <bduval@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 16:19:08 by bduval            #+#    #+#             */
-/*   Updated: 2024/11/11 16:47:24 by bduval           ###   ########.fr       */
+/*   Updated: 2024/11/12 11:21:51 by bduval           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static size_t	strlen(const char *str)
 	return (len);
 }
 
-size_t	strlcat(char *dst, const char *src, size_t siz)
+size_t	ft_strlcat(char *dst, const char *src, size_t siz)
 {
 	size_t	i;
 	size_t	j;

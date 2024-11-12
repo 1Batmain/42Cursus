@@ -24,7 +24,7 @@ void	printMem(void *tab, size_t len, char *msg)
 	size_t			i;
 
 	i = 0;
-	printf("%s\n", msg);
+	printf("%s\t -> ", msg);
 	while (i < len)
 		printf("%02X ", p_tab[i++]);
 	printf("\n");
@@ -197,6 +197,70 @@ int	main(int ac, char **av)
 			printMem(str, 20, "av[2] (20 bytes):");
 			printMem(dst, 20, "strncpy dest :");
 			printMem(fdst, 20, "ft_strlcpy dest :");
+		}
+		if (fctIs(fct, "srcs/ft_strlcat.c"))
+		{
+			str = av[2];
+			char fdst[30] = {"______(10)"};
+			size_t frtrn;
+
+			printf("Cat argv[2] to dst[30]\n");
+			frtrn = ft_strlcat(fdst, str, 30);
+			printf("ft_strlcat : dst[30] = %s return %lu\n", fdst, frtrn);
+			printMem(fdst, 30, "ft_strlcat dest :");
+		}
+		if (fctIs(fct, "srcs/ft_toupper.c"))
+		{
+			integer = atoi(av[2]);
+			while (integer != 0)
+			{
+				printf("%c to upper -> %c \n", integer, ft_toupper(integer));
+				scanf("%d", &integer);
+			}
+		}
+		if (fctIs(fct, "srcs/ft_tolower.c"))
+		{
+			integer = atoi(av[2]);
+			while (integer >= 0)
+			{
+				printf("%c to lower -> %c \n", integer, ft_tolower(integer));
+				scanf("%d", &integer);
+			}
+		}
+		if (fctIs(fct, "srcs/ft_tolower.c"))
+		{
+			integer = atoi(av[2]);
+			while (integer >= 0)
+			{
+				printf("%c to lower -> %c \n", integer, ft_tolower(integer));
+				scanf("%d", &integer);
+			}
+		}
+		if (fctIs(fct, "srcs/ft_strchr.c"))
+		{
+			char	tab[30] = "quel character tu veux ?\n";
+			printf("SOURCE : %s", tab);
+			printMem(tab, 30, "in Memory :");
+			integer = 1;
+			while (integer >= 0)
+			{
+				printf("First occurence(%c) here : %p -> %s\n", \
+				integer, ft_strchr(tab, integer), ft_strchr(tab, integer));
+				scanf("%d", &integer);
+			}
+		}
+		if (fctIs(fct, "srcs/ft_strrchr.c"))
+		{
+			char	tab[30] = "quel character tu veux ?\n";
+			printf("SOURCE : %s", tab);
+			printMem(tab, 30, "in Memory :");
+			integer = 1;
+			while (integer >= 0)
+			{
+				printf("Last occurence(%c) here : %p -> %s\n", \
+				integer, ft_strrchr(tab, integer), ft_strrchr(tab, integer));
+				scanf("%d", &integer);
+			}
 		}
 	}
 }
