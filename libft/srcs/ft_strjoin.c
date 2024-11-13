@@ -1,30 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_calloc.c                                        :+:      :+:    :+:   */
+/*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bduval <bduval@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/12 19:24:43 by bduval            #+#    #+#             */
-/*   Updated: 2024/11/13 15:17:18 by bduval           ###   ########.fr       */
+/*   Created: 2024/11/13 16:45:03 by bduval            #+#    #+#             */
+/*   Updated: 2024/11/13 17:10:19 by bduval           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include <libft.h>
 
-void	*ft_calloc(size_t nmemb, size_t siz)
+char	*ft_strjoin(const char *s1, const char *s2)
 {
-	void	*ptr;
-	size_t	total;
+	size_t	ln1;
+	size_t	ln2;
+	size_t	i;
+	char	*res;
 
-	if (nmemb > 0 && siz > 0 && nmemb > SIZE_MAX / siz)
+	if (s1 == NULL || s2 == NULL)
 		return (NULL);
-	total = nmemb * siz;
-	if (total < 0)
+	ln1 = ft_strlen(s1);
+	ln2 = ft_strlen(s2);
+	res = malloc(ln1 + ln2 + 1);
+	if (!res)
 		return (NULL);
-	ptr = malloc(total);
-	if (!ptr)
-		return (NULL);
-	ft_bzero(ptr, total);
-	return (ptr);
+	i = 0;
+	while (i < ln1)
+	{
+		res[i] = s1[i];
+		i++;
+	}
+	while (i < (ln1 + ln2))
+	{
+		res[i] = s2[i - ln1];
+		i++;
+	}
+	res[i] = '\0';
+	return (res);
 }

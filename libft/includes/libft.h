@@ -6,15 +6,16 @@
 /*   By: bduval <bduval@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 16:21:18 by bduval            #+#    #+#             */
-/*   Updated: 2024/11/12 20:00:02 by bduval           ###   ########.fr       */
+/*   Updated: 2024/11/13 18:09:49 by bduval           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef LIBFT_H
 # define LIBFT_H
 
 #include <stdlib.h>
+#include <stdint.h>
 
-typedef typeof(sizeof(0)) size_t;
+//typedef typeof(sizeof(0)) size_t;
 
 int		ft_isalpha(int c);
 int		ft_isdigit(int c);
@@ -39,5 +40,10 @@ char	*ft_strnstr(const char *big, const char *to_find, size_t len);
 int		ft_atoi(const void *ptr);
 int		ft_isspace(const char c);
 void	*ft_calloc(size_t nmemb, size_t size);
+char	*ft_strdup(const char *src);
+char	*ft_substr(char const *s, unsigned int start, size_t len);
+char	*ft_strjoin(const char *s1, const char *s2);
+char	*ft_strtrim(const char *s1, const char *set);
+char	**ft_split(const char *s, const char c);
 
 #endif

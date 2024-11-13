@@ -30,6 +30,7 @@ void	printMem(void *tab, size_t len, char *msg)
 	while (i < len)
 		printf("0x%02X ", p_tab[i++]);
 	printf("\n");
+	return ;
 
 }
 
@@ -364,39 +365,126 @@ int	main(int ac, char **av)
 		if (strIs(fct, "srcs/ft_calloc.c"))
 		{
 			void	*res;
+			void	*fres;
 			long 	nmemb = 2;
 
 			printf("TEST 1 : nmemb = %ld sizeof(char)\n", nmemb);
 			res	= calloc(nmemb, sizeof(char));
 			printMem(res, nmemb * sizeof(char), "   calloc");
-			printf("free(%p)\n", res);
-			free(res);
-			res	= ft_calloc(nmemb, sizeof(char));
+			fres	= ft_calloc(nmemb, sizeof(char));
 			printMem(res, nmemb * sizeof(char), "ft_calloc");
 			printf("free(%p)\n", res);
 			free(res);
+			printf("free(%p)\n", fres);
+			free(fres);
 
 			nmemb = 4294967295;
-			printf("TEST 2 : nmemb = %ld sizeof(int)\n", nmemb);
+			printf("TEST 2 : nmemb = %ld sizeof(char)\n", nmemb);
 			res	= calloc(nmemb, sizeof(char));
 			printMem(res, 16, "   calloc (16firsts)");
+			fres	= ft_calloc(nmemb, sizeof(char));
+			printMem(res, 16, "ft_calloc (16firsts)");
 			printf("free(%p)\n", res);
 			free(res);
-			//res	= ft_calloc(nmemb, sizeof(int));
-			//printMem(res, 16, "ft_calloc (16firsts)");
-			//printf("free(%p)\n", res);
-			//free(res);
+			printf("free(%p)\n", fres);
+			free(fres);
 
 			nmemb = 0;
 			printf("TEST 3 : nmemb = %ld sizeof(int)\n", nmemb);
 			res	= calloc(nmemb, sizeof(int));
 			printMem(res, nmemb * sizeof(int), "   calloc");
-			printf("free(%p)\n", res);
-			free(res);
-			res	= ft_calloc(nmemb, sizeof(int));
+			fres	= ft_calloc(nmemb, sizeof(int));
 			printMem(res, nmemb * sizeof(int), "ft_calloc");
 			printf("free(%p)\n", res);
 			free(res);
+			printf("free(%p)\n", fres);
+			free(fres);
+
+			//nmemb = -10;
+			//printf("TEST 4 : nmemb = %ld sizeof(int)\n", nmemb);
+			//res	= calloc(nmemb, sizeof(int));
+			//printMem(res, nmemb * sizeof(int), "   calloc");
+			//printf("free(%p)\n", res);
+			//free(res);
+			//res	= ft_calloc(nmemb, sizeof(int));
+			//printMem(res, nmemb * sizeof(int), "ft_calloc");
+			//printf("free(%p)\n", res);
+			//free(res);
+		}
+		if (strIs(fct, "srcs/ft_strdup.c"))
+		{
+			char *res;
+			printf("Test 1 : empty string \n");
+			res = ft_strdup("");
+			printMem(res, 0, "10 first bytes");
+			while (buff[0] != 'Q')
+			{
+				printf("\nEnter a string to duplicate ('Q' to quit)\n");
+				scanf("%s", buff);
+				res = ft_strdup(buff);
+				printf("Original : %s\nDuplicate : %s'%d'\n", buff, res,\
+						*(res + ft_strlen(res)));
+
+			}
+		}
+		if (strIs(fct, "srcs/ft_substr.c"))
+		{
+			char t1[] = "This is a string that you can search into";
+			char *res;
+			printf("%s\n", t1);
+			unsigned int	start, len;
+			start = len = 1;
+			while (start + len)
+			{
+				printf("Enter startIdx and len :");
+				scanf("%u %u", &start, &len);
+				res = ft_substr(t1, start, len);
+				printf("Resulting : %s\n", res);
+			}
+		}
+		if (strIs(fct, "srcs/ft_strjoin.c"))
+		{
+			char t1[] = "garde";
+			char t2[] = "la PECHE";
+			char *res = ft_strjoin(t1, t2);
+			printf("TEST 1 : '%s' & '%s'\n"\
+					"(%p) -> %s\n", t1, t2, res, res);
+			char t3[] = "";
+			char t4[] = "la PECHE";
+			res = ft_strjoin(t3, t4);
+			printf("TEST 4 : '%s' & '%s'\n"\
+					"(%p)-> %s\n", t3, t4, res, res);
+			char t5[] = "";
+			char t6[] = "";
+			res = ft_strjoin(t5, t6);
+			printf("TEST 3 : '%s' & '%s'\n"\
+					"(%p)-> %s\n", t5, t6, res, res);
+			res = ft_strjoin(NULL, t6);
+			printf("TEST 4 : NULL & '%s'\n"\
+					"(%p)-> %s\n", t6, res, res);
+		}
+		if (strIs(fct, "srcs/ft_strtrim.c"))
+		{
+			char t1[] = "0123   YES   7654";
+			char t2[] = "0123456789 ";
+			char *res = ft_strtrim(t1, t2);
+			printf("TEST 1 :\n\ts1 : '%s'\n\tset : '%s'\n"\
+					"Result : (%p) -> '%s'\n", t1, t2, res, res);
+			char t3[] = "";
+			char t4[] = "0123456789 ";
+			res = ft_strtrim(t3, t4);
+			printf("TEST 3 :\n\ts3 : '%s'\n\tset : '%s'\n"\
+					"Result : (%p) -> '%s'\n", t3, t4, res, res);
+		}
+		if (strIs(fct, "srcs/ft_split.c"))
+		{
+			char	**res;
+			char	t1[] = "Im one the one suppose to be splitted out ??";
+			char 	set1 = ' ';
+			printf("TEST 1 : \n\ts1 : '%s'\n\tset : %c\n", t1, set1);
+			res = ft_split(t1, set1);
+			while (**res)
+				printf("(%p)-> '%s'\n",res, (*res)++);
 		}
 	}
 }

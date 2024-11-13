@@ -6,12 +6,11 @@
 /*   By: bduval <bduval@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 18:20:31 by bduval            #+#    #+#             */
-/*   Updated: 2024/11/12 19:23:33 by bduval           ###   ########.fr       */
+/*   Updated: 2024/11/13 14:40:51 by bduval           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-
 
 int	ft_atoi(const void *ptr)
 {
