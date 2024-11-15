@@ -1,102 +1,84 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_split.c                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: bduval <bduval@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/13 17:57:10 by bduval            #+#    #+#             */
-/*   Updated: 2024/11/13 19:09:24 by bduval           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "libft.h"
 
-static size_t	len_till_c(const char *s, const char c)
+static size_t	ft_count_chains(const char *s, char c)
 {
-	size_t	len;
+	size_t	i;
+	int		tem;
+	int		cnt;
 
-	len = 0;
-	while (s[len] != c && s[len])
-		len++;
-	return (len);
-}
-
-static int	count_part(const char *s, const char c)
-{
-	size_t	cnt;
-	char	tem;
-
-	cnt = 0;
+	i = 0;
 	tem = 0;
-	while (*s)
+	cnt = 0;
+	while (s[i])
 	{
-		while (*s == c)
-			s++;
-		while (*s != c)
+		while (s[i] == c && s[i])
+			i++;
+		while (s[i] != c && s[i])
 		{
-			s++;
+			i++;
 			tem = 1;
 		}
-		if (tem)
-		{
-			cnt++;
-			tem = 0;
-		}
+		if (tem == 1)
+			cnt ++;
+		tem = 0;
 	}
 	return (cnt);
 }
 
-static void	strncpy(char *dest, const char *src, size_t len)
+static size_t	ft_get_chain_length(const char *s, const char c)
 {
 	size_t	i;
 
 	i = 0;
-	while (i < len)
-	{
-		dest[i] = src[i];
+	while (s[i] && s[i] != c)
 		i++;
-	}
-	dest[i] = '\0';
+	return (i);
 }
 
-static int	init_res(char **res, const char *s, const char c)
+static char	*ft_strndup(const  char *s, size_t len)
 {
-	size_t	len;
-
-	len = count_part(s, c);
-	res = malloc((len + 1) * sizeof(char **));
-	if (!res)
-		return (0);
-	res[len] = NULL;
-	return (1);
-}
-
-char	**ft_split(const char *s, const char c)
-{
-	char	**res;
-	size_t	len;
+	char	*res;
 	size_t	i;
 
-	res = NULL;
-	if (!init_res(res, s, c))
-		return (NULL);
-	i = 0;
-	while (*s)
+	res = malloc(len + 1);
+	if (res)
 	{
+		i = 0;
+		while (i < len)
+		{
+			res[i] = s[i];
+			i++;
+		}
+		res[i] = '\0';
+		return (res);
+	}
+	return (NULL);
+}
+
+char	**ft_split(const char *s, char c)
+{
+	size_t	len;
+	size_t	idx;
+	char	**chains;
+
+	len = ft_count_chains(s, c);
+	chains = malloc((len + 1) * sizeof(char *));
+	if (chains)
+	{
+		chains[len] = NULL;
 		while (*s == c)
 			s++;
-		len = len_till_c(s, c);
-		res[i] = malloc(len + 1);
-		if (!res[i])
+		idx = 0;
+		while (*s)
 		{
-			while (--i >= 0)
-				free(res[i]);
-			return (NULL);
+			len = ft_get_chain_length(s, c);
+			chains[idx] = ft_strndup(s, len);
+			s = &s[len];
+			while (*s == c)
+				s++;
+			idx++;
 		}
-		strncpy(res[i], s, len);
-		s = &s[len];
-		i++;
+		return (chains);
 	}
-	return (res);
+	return (NULL);
 }
