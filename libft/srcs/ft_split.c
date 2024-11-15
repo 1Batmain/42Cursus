@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_split.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bduval <bduval@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/15 12:24:36 by bduval            #+#    #+#             */
+/*   Updated: 2024/11/15 12:24:53 by bduval           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libft.h"
 
 static size_t	ft_count_chains(const char *s, char c)
@@ -35,7 +47,7 @@ static size_t	ft_get_chain_length(const char *s, const char c)
 	return (i);
 }
 
-static char	*ft_strndup(const  char *s, size_t len)
+static char	*ft_strndup(const char *s, size_t len)
 {
 	char	*res;
 	size_t	i;

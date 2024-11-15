@@ -6,7 +6,7 @@
 #    By: bduval <bduval@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/08 10:56:02 by bduval            #+#    #+#              #
-#    Updated: 2024/11/12 17:55:04 by bduval           ###   ########.fr        #
+#    Updated: 2024/11/15 15:10:46 by bduval           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 CC = cc
@@ -14,7 +14,7 @@ CFLAGS 	= -Wall -Werror -Wextra
 NAME 	= libft.a
 
 SRC_DIR = srcs/
-LIB_DIR	= -I includes/
+LIB_DIR	= -I ./
 OBJ_DIR	= objs/
 
 SRC = $(wildcard $(SRC_DIR)*.c)
@@ -41,6 +41,10 @@ clean :
 
 fclean : clean 
 	rm -f $(NAME) a.out
+
+so:
+	$(CC) -nostartfiles -fPIC $(CFLAGS) $(SRC)
+	gcc -nostartfiles -shared -o libft.so $(OBJ)
 
 test : $(TEST_FILE) $(TEST_MAIN)
 	$(CC) $(CFLAGS) $(LIB_DIR) -g $(SRC) $(TEST_MAIN)

@@ -29,7 +29,7 @@ static void *ft_capevenidxvoid(void *vc)
 }
 static void ft_deletestr(void * str)
 {
-	str = str;
+	str = str + 0;
 	return ;
 }
 
@@ -394,6 +394,9 @@ int	main(int ac, char **av)
 				char t2[] = "\t\r\n\v\f\r   -2147483648";
 				printf("   atoi(%s)\t-> %d\nft_atoi(%s)\t-> %d\n", \
 						t2, atoi(t2), t2, ft_atoi(t2));
+				char t4[] = "\t\r\n\v\f\r   -0  ";
+				printf("   atoi(%s)\t-> %d\nft_atoi(%s)\t-> %d\n", \
+						t4, atoi(t4), t4, ft_atoi(t4));
 
 		}
 		if (strIs(fct, "srcs/ft_calloc.c"))
@@ -565,6 +568,20 @@ int	main(int ac, char **av)
 			int i = 0;
 			while (t1[i])
 				ft_putchar_fd(t1[i++], fd);
+			printf("Open test.txt to check\n");
+		}
+		if (strIs(fct, "srcs/ft_putendl_fd.c"))
+		{
+			int fd = open("test.txt", O_WRONLY);
+			char t1[] = "Test, my name is test";
+			ft_putendl_fd(t1, fd);
+			printf("Open test.txt to check\n");
+		}
+		if (strIs(fct, "srcs/ft_putnbr_fd.c"))
+		{
+			int fd = open("test.txt", O_WRONLY);
+			scanf("%d", &integer);
+			ft_putnbr_fd(integer, fd);
 			printf("Open test.txt to check\n");
 		}
 		if (strIs(fct, "srcs/ft_lstnew.c"))

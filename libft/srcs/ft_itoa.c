@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_itoa.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bduval <bduval@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/15 12:14:22 by bduval            #+#    #+#             */
+/*   Updated: 2024/11/15 14:41:01 by bduval           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libft.h"
 
 static size_t	ft_strlen_from_int(int n)
@@ -10,6 +22,8 @@ static size_t	ft_strlen_from_int(int n)
 		len++;
 		n = -n;
 	}
+	else if (n == 0)
+		return (1);
 	while (n >= 1)
 	{
 		n /= 10;
@@ -25,7 +39,7 @@ char	*ft_itoa(int n)
 
 	len = ft_strlen_from_int(n);
 	str = malloc(len + 1);
-	if  (str)
+	if (str)
 	{
 		str[len] = '\0';
 		if (n < 0)
@@ -33,6 +47,8 @@ char	*ft_itoa(int n)
 			str[0] = '-';
 			n = -n;
 		}
+		else if (n == 0)
+			str[0] = '0';
 		while (n >= 1)
 		{
 			str[--len] = (n % 10) + '0';
