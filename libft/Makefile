@@ -6,16 +6,16 @@
 #    By: bduval <bduval@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/08 10:56:02 by bduval            #+#    #+#              #
-#    Updated: 2024/11/15 15:10:46 by bduval           ###   ########.fr        #
+#    Updated: 2024/11/15 17:57:44 by bduval           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 CC = cc
 CFLAGS 	= -Wall -Werror -Wextra
 NAME 	= libft.a
 
-SRC_DIR = srcs/
+SRC_DIR = ./
 LIB_DIR	= -I ./
-OBJ_DIR	= objs/
+OBJ_DIR	= ./
 
 SRC = $(wildcard $(SRC_DIR)*.c)
 OBJ = $(SRC:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
@@ -30,21 +30,20 @@ $(OBJ_DIR)%.o : $(SRC_DIR)%.c objs
 objs : 
 	mkdir -p $@
 
-
 $(NAME) : $(OBJ)
 	ar rcs $@ $(OBJ)
 
 re	: fclean all
 	
 clean : 
-	rm -rf $(OBJ_DIR)
+	rm -rf $(OBJ)
 
 fclean : clean 
 	rm -f $(NAME) a.out
 
-so:
-	$(CC) -nostartfiles -fPIC $(CFLAGS) $(SRC)
-	gcc -nostartfiles -shared -o libft.so $(OBJ)
+##so:
+##	$(CC) -nostartfiles -fPIC $(CFLAGS) $(SRC)
+##	gcc -nostartfiles -shared -o libft.so $(OBJ)
 
 test : $(TEST_FILE) $(TEST_MAIN)
 	$(CC) $(CFLAGS) $(LIB_DIR) -g $(SRC) $(TEST_MAIN)

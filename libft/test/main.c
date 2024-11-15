@@ -305,8 +305,10 @@ int	main(int ac, char **av)
 		{
 			char t1[15] = "la Peche";
 			char t2[15] = "la Banane";
+			char t4[] = "AAAAAAAAAA";
 			printf("%s\n%s\n-> %d\n", t1, t2, ft_strncmp(t1, t2, 15));
 			printf("%s\n%s\n-> %d\n", t1, t1, ft_strncmp(t1, t1, 15));
+			printf("%s\n%s\n-> %d\n", &t4[4], t4, ft_strncmp(&t4[4], t4, 6));
 			char t3[3];
 			printf("Test char/char, enter 1 ascii and another (<-100 to exit)\n");
 			while (integer >= -100)
