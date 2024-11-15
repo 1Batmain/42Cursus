@@ -1,44 +1,10 @@
 #include <stdlib.h>
-#include <unistd.h>
-#include <fcntl.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include "libft.h"
 
 #include <ctype.h>
 #include <string.h>
-
-static char ft_capevenidx(unsigned int idx, char c)
-{
-	if(idx % 2 == 0 && ft_isalpha(c))
-		return (ft_toupper(c));
-	return (c);
-}
-
-static void *ft_capevenidxvoid(void *vc)
-{
-	char 	*c = (char *)vc;
-	unsigned int idx = 0;
-	while (c[idx])
-	{
-		if(idx % 2 == 0 && ft_isalpha(c[idx]))
-			c[idx] = (ft_toupper(c[idx]));
-		idx++;
-	}
-	return (c);
-}
-static void ft_deletestr(void * str)
-{
-	str = str;
-	return ;
-}
-
-static char ft_capevenidxinplace(unsigned int idx, char c)
-{
-	if(idx % 2 == 0 && ft_isalpha(c))
-		return (ft_toupper(c));
-	return (c);
-}
 
 int	strIs(char *fct, char *model)
 {
@@ -513,151 +479,12 @@ int	main(int ac, char **av)
 		if (strIs(fct, "srcs/ft_split.c"))
 		{
 			char	**res;
-			char	t1[] = "I am the one suppose to be splitted out ??";
+			char	t1[] = "Im one the one suppose to be splitted out ??";
 			char 	set1 = ' ';
-			int	i;
-			printf("TEST 1 : \n\ts1 : '%s'\n\tset : '%c'\n", t1, set1);
+			printf("TEST 1 : \n\ts1 : '%s'\n\tset : %c\n", t1, set1);
 			res = ft_split(t1, set1);
-			i = -1;
-			while (res[++i])
-			{
-				printf("(%p)-> '%s'\n",res, res[i]);
-			}
-			printf("(%p)-> '%s'\n",res, res[i]);
-			char	t2[] = "  I am the one suppose  ??  ";
-			char 	set2 = ' ';
-			printf("TEST 2 : \n\ts2 : '%s'\n\tset : '%c'\n", t2, set2);
-			res = ft_split(t2, set2);
-			i = -1;
-			while (res[++i])
-				printf("(%p)-> '%s'\n",res, res[i]);
-			printf("(%p)-> '%s'\n",res, res[i]);
-		}
-		if (strIs(fct, "srcs/ft_itoa.c"))
-		{
-			char	*res;
-			printf("Enter an int to convert in string (-333 to quit): \n");
-			while (integer != -333)
-			{
-				printf(" -> ");
-				scanf("%d", &integer);
-				res = ft_itoa(integer);
-				printf("str(%d) : '%s'\n", integer, res);	
-				free(res);
-			}
-		}
-		if (strIs(fct, "srcs/ft_strmapi.c"))
-		{
-			char t1[] = "applying ft_capitalize even indexed characters";
-			char *res = ft_strmapi(t1, &ft_capevenidx);
-			printf("TEST 1 : '%s'\n -> '%s'\n", t1, res);
-		}
-		if (strIs(fct, "srcs/ft_striteri.c"))
-		{
-			char t1[] = "applying ft_capitalize even indexed characters";
-			char *res = ft_strmapi(t1, &ft_capevenidxinplace);
-			printf("TEST 1 : '%s'\n -> '%s'\n", t1, res);
-		}
-		if (strIs(fct, "srcs/ft_putchar_fd.c"))
-		{
-			int fd = open("test.txt", O_WRONLY);
-			char t1[] = "Test, my name is test";
-			int i = 0;
-			while (t1[i])
-				ft_putchar_fd(t1[i++], fd);
-			printf("Open test.txt to check\n");
-		}
-		if (strIs(fct, "srcs/ft_lstnew.c"))
-		{
-			char t1[] = "SISIII";
-			t_list *l;
-			l = ft_lstnew(t1);
-			printf("New list created (%p): \n"\
-				"l.content(%p) = '%s'\n"\
-				"l.next(%p)\n", l, l->content, (char *)l->content, l->next);
-		}
-		if (strIs(fct, "srcs/ft_lstadd_front.c"))
-		{
-			char t1[] = "OOHEEE";
-			t_list *l1;
-			l1 = ft_lstnew(t1);
-			printf("New list created (%p): \n"\
-				"l1.content(%p) = '%s'\n"\
-				"l1.next(%p)\n", l1, l1->content, (char *)l1->content, l1->next);
-			char t2[] = "deplus";
-			t_list *l2;
-			l2 = ft_lstnew(t2);
-			printf("New list created (%p): \n"\
-				"l2.content(%p) = '%s'\n"\
-				"l2.next(%p)\n", l2, l2->content, (char *)l2->content, l2->next);
-			ft_lstadd_front(&l1, l2);
-			printf("'l1 :%s ->next: %s'\n", (char *)l1->content, (char *)l1->next->content);
-		}
-		if (strIs(fct, "srcs/ft_lstsize.c"))
-		{
-			char t1[] = "OOHEEE";
-			t_list *l1;
-			l1 = ft_lstnew(t1);
-			printf("New list created (%p): \n"\
-				"l1.content(%p) = '%s'\n"\
-				"l1.next(%p)\n", l1, l1->content, (char *)l1->content, l1->next);
-			printf("List size : %lu\n", ft_lstsize(l1));
-			char t2[] = "deplus";
-			t_list *l2;
-			l2 = ft_lstnew(t2);
-			printf("New list created (%p): \n"\
-				"l2.content(%p) = '%s'\n"\
-				"l2.next(%p)\n", l2, l2->content, (char *)l2->content, l2->next);
-			ft_lstadd_front(&l1, l2);
-			printf("'l1 :%s ->next: %s'\n", (char *)l1->content, (char *)l1->next->content);
-			printf("List size : %lu\n", ft_lstsize(l1));
-			printf("List size list:(null): %lu\n", ft_lstsize(l1->next->next));
-		}
-		if (strIs(fct, "srcs/ft_lstlast.c"))
-		{
-			char t1[] = "OOHEEE";
-			t_list *l1;
-			l1 = ft_lstnew(t1);
-			printf("New list created (%p): \n"\
-				"l1.content(%p) = '%s'\n"\
-				"l1.next(%p)\n", l1, l1->content, (char *)l1->content, l1->next);
-			printf("List size : %lu\n", ft_lstsize(l1));
-			char t2[] = "deplus";
-			t_list *l2;
-			l2 = ft_lstnew(t2);
-			printf("New list created (%p): \n"\
-				"l2.content(%p) = '%s'\n"\
-				"l2.next(%p)\n", l2, l2->content, (char *)l2->content, l2->next);
-			ft_lstadd_front(&l1, l2);
-			printf("'l1 :%s ->next: %s'\n", (char *)l1->content, (char *)l1->next->content);
-			printf("Last : %s\n", (char *)ft_lstlast(l1)->content);
-		}
-		if (strIs(fct, "srcs/ft_lstadd_back.c"))
-		{
-			char t1[] = "OOHEEE";
-			t_list *l1;
-			l1 = ft_lstnew(t1);
-			printf("New list created (%p): \n"\
-				"l1.content(%p) = '%s'\n"\
-				"l1.next(%p)\n", l1, l1->content, (char *)l1->content, l1->next);
-			char t2[] = "deplus";
-			t_list *l2;
-			l2 = ft_lstnew(t2);
-			printf("New list created (%p): \n"\
-				"l2.content(%p) = '%s'\n"\
-				"l2.next(%p)\n", l2, l2->content, (char *)l2->content, l2->next);
-			ft_lstadd_back(&l1, l2);
-			printf("'l1 :%s ->next: %s'\n", (char *)l1->content, (char *)l1->next->content);
-		}
-		if (strIs(fct, "srcs/ft_lstmap.c"))
-		{
-			char t1[] = "Cbonoupas";
-			t_list	*lst1 = ft_lstnew(t1);
-			char t2[] = "HEOO";
-			t_list	*lst2 = ft_lstnew(t2);
-			ft_lstadd_front(&lst1, lst2);
-			lst1 = ft_lstmap(lst1, &ft_capevenidxvoid, &ft_deletestr);
-			printf("%s %s", (char *)lst1->content, (char *)lst1->next->content);
+			while (**res)
+				printf("(%p)-> '%s'\n",res, (*res)++);
 		}
 	}
 }

@@ -43,6 +43,6 @@ fclean : clean
 	rm -f $(NAME) a.out
 
 test : $(TEST_FILE) $(TEST_MAIN)
-	$(CC) $(CFLAGS) $(LIB_DIR) -g $(SRC) $(TEST_MAIN)
+	$(CC) $(CFLAGS) $(LIB_DIR) $(SRC) $(TEST_MAIN)
 
 .PHONY : re clean fclean test
