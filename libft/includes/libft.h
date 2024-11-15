@@ -14,9 +14,15 @@
 
 #include <stdlib.h>
 #include <stdint.h>
+#include <unistd.h>
 
-igj
 //typedef typeof(sizeof(0)) size_t;
+typedef struct s_list t_list;
+struct s_list
+{
+	void	*content;
+	t_list	*next;
+};
 
 int		ft_isalpha(int c);
 int		ft_isdigit(int c);
@@ -46,5 +52,15 @@ char	*ft_substr(char const *s, unsigned int start, size_t len);
 char	*ft_strjoin(const char *s1, const char *s2);
 char	*ft_strtrim(const char *s1, const char *set);
 char	**ft_split(const char *s, const char c);
+char	*ft_itoa(int n);
+char	*ft_strmapi(const char *s, char (*f)(unsigned int, char));
+void	ft_striteri(char *s, char (*f)(unsigned int, char *));
+void	ft_putchar_fd(char c, int fd);
+t_list	*ft_lstnew(void *content);
+void	ft_lstadd_front(t_list **lst, t_list *new);
+size_t	ft_lstsize(t_list *l);
+t_list	*ft_lstlast(t_list *lst);
+void	ft_lstadd_back(t_list **lst, t_list *new);
+t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
 
 #endif
