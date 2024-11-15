@@ -15,6 +15,7 @@
 #include <stdlib.h>
 #include <stdint.h>
 
+igj
 //typedef typeof(sizeof(0)) size_t;
 
 int		ft_isalpha(int c);
