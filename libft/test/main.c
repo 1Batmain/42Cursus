@@ -15,6 +15,24 @@ static char ft_capevenidx(unsigned int idx, char c)
 	return (c);
 }
 
+static void *ft_capevenidxvoid(void *vc)
+{
+	char 	*c = (char *)vc;
+	unsigned int idx = 0;
+	while (c[idx])
+	{
+		if(idx % 2 == 0 && ft_isalpha(c[idx]))
+			c[idx] = (ft_toupper(c[idx]));
+		idx++;
+	}
+	return (c);
+}
+static void ft_deletestr(void * str)
+{
+	str = str;
+	return ;
+}
+
 static char ft_capevenidxinplace(unsigned int idx, char c)
 {
 	if(idx % 2 == 0 && ft_isalpha(c))
@@ -555,8 +573,8 @@ int	main(int ac, char **av)
 			t_list *l;
 			l = ft_lstnew(t1);
 			printf("New list created (%p): \n"\
-				"l.data(%p) = '%s'\n"\
-				"l.next(%p)\n", l, l->data, (char *)l->data, l->next);
+				"l.content(%p) = '%s'\n"\
+				"l.next(%p)\n", l, l->content, (char *)l->content, l->next);
 		}
 		if (strIs(fct, "srcs/ft_lstadd_front.c"))
 		{
@@ -564,16 +582,16 @@ int	main(int ac, char **av)
 			t_list *l1;
 			l1 = ft_lstnew(t1);
 			printf("New list created (%p): \n"\
-				"l1.data(%p) = '%s'\n"\
-				"l1.next(%p)\n", l1, l1->data, (char *)l1->data, l1->next);
+				"l1.content(%p) = '%s'\n"\
+				"l1.next(%p)\n", l1, l1->content, (char *)l1->content, l1->next);
 			char t2[] = "deplus";
 			t_list *l2;
 			l2 = ft_lstnew(t2);
 			printf("New list created (%p): \n"\
-				"l2.data(%p) = '%s'\n"\
-				"l2.next(%p)\n", l2, l2->data, (char *)l2->data, l2->next);
+				"l2.content(%p) = '%s'\n"\
+				"l2.next(%p)\n", l2, l2->content, (char *)l2->content, l2->next);
 			ft_lstadd_front(&l1, l2);
-			printf("'l1 :%s ->next: %s'\n", (char *)l1->data, (char *)l1->next->data);
+			printf("'l1 :%s ->next: %s'\n", (char *)l1->content, (char *)l1->next->content);
 		}
 		if (strIs(fct, "srcs/ft_lstsize.c"))
 		{
@@ -581,17 +599,17 @@ int	main(int ac, char **av)
 			t_list *l1;
 			l1 = ft_lstnew(t1);
 			printf("New list created (%p): \n"\
-				"l1.data(%p) = '%s'\n"\
-				"l1.next(%p)\n", l1, l1->data, (char *)l1->data, l1->next);
+				"l1.content(%p) = '%s'\n"\
+				"l1.next(%p)\n", l1, l1->content, (char *)l1->content, l1->next);
 			printf("List size : %lu\n", ft_lstsize(l1));
 			char t2[] = "deplus";
 			t_list *l2;
 			l2 = ft_lstnew(t2);
 			printf("New list created (%p): \n"\
-				"l2.data(%p) = '%s'\n"\
-				"l2.next(%p)\n", l2, l2->data, (char *)l2->data, l2->next);
+				"l2.content(%p) = '%s'\n"\
+				"l2.next(%p)\n", l2, l2->content, (char *)l2->content, l2->next);
 			ft_lstadd_front(&l1, l2);
-			printf("'l1 :%s ->next: %s'\n", (char *)l1->data, (char *)l1->next->data);
+			printf("'l1 :%s ->next: %s'\n", (char *)l1->content, (char *)l1->next->content);
 			printf("List size : %lu\n", ft_lstsize(l1));
 			printf("List size list:(null): %lu\n", ft_lstsize(l1->next->next));
 		}
@@ -601,18 +619,18 @@ int	main(int ac, char **av)
 			t_list *l1;
 			l1 = ft_lstnew(t1);
 			printf("New list created (%p): \n"\
-				"l1.data(%p) = '%s'\n"\
-				"l1.next(%p)\n", l1, l1->data, (char *)l1->data, l1->next);
+				"l1.content(%p) = '%s'\n"\
+				"l1.next(%p)\n", l1, l1->content, (char *)l1->content, l1->next);
 			printf("List size : %lu\n", ft_lstsize(l1));
 			char t2[] = "deplus";
 			t_list *l2;
 			l2 = ft_lstnew(t2);
 			printf("New list created (%p): \n"\
-				"l2.data(%p) = '%s'\n"\
-				"l2.next(%p)\n", l2, l2->data, (char *)l2->data, l2->next);
+				"l2.content(%p) = '%s'\n"\
+				"l2.next(%p)\n", l2, l2->content, (char *)l2->content, l2->next);
 			ft_lstadd_front(&l1, l2);
-			printf("'l1 :%s ->next: %s'\n", (char *)l1->data, (char *)l1->next->data);
-			printf("Last : %s\n", (char *)ft_lstlast(l1)->data);
+			printf("'l1 :%s ->next: %s'\n", (char *)l1->content, (char *)l1->next->content);
+			printf("Last : %s\n", (char *)ft_lstlast(l1)->content);
 		}
 		if (strIs(fct, "srcs/ft_lstadd_back.c"))
 		{
@@ -620,16 +638,16 @@ int	main(int ac, char **av)
 			t_list *l1;
 			l1 = ft_lstnew(t1);
 			printf("New list created (%p): \n"\
-				"l1.data(%p) = '%s'\n"\
-				"l1.next(%p)\n", l1, l1->data, (char *)l1->data, l1->next);
+				"l1.content(%p) = '%s'\n"\
+				"l1.next(%p)\n", l1, l1->content, (char *)l1->content, l1->next);
 			char t2[] = "deplus";
 			t_list *l2;
 			l2 = ft_lstnew(t2);
 			printf("New list created (%p): \n"\
-				"l2.data(%p) = '%s'\n"\
-				"l2.next(%p)\n", l2, l2->data, (char *)l2->data, l2->next);
+				"l2.content(%p) = '%s'\n"\
+				"l2.next(%p)\n", l2, l2->content, (char *)l2->content, l2->next);
 			ft_lstadd_back(&l1, l2);
-			printf("'l1 :%s ->next: %s'\n", (char *)l1->data, (char *)l1->next->data);
+			printf("'l1 :%s ->next: %s'\n", (char *)l1->content, (char *)l1->next->content);
 		}
 		if (strIs(fct, "srcs/ft_lstmap.c"))
 		{
@@ -638,8 +656,8 @@ int	main(int ac, char **av)
 			char t2[] = "HEOO";
 			t_list	*lst2 = ft_lstnew(t2);
 			ft_lstadd_front(&lst1, lst2);
-			t1 = ft_lstmap(lst1, &ft_capevenidx, (void *));
-			printf("%s %s", lst1->data, lst1->next->data);
+			lst1 = ft_lstmap(lst1, &ft_capevenidxvoid, &ft_deletestr);
+			printf("%s %s", (char *)lst1->content, (char *)lst1->next->content);
 		}
 	}
 }
