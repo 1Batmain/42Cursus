@@ -6,7 +6,7 @@
 /*   By: bduval <bduval@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 16:21:18 by bduval            #+#    #+#             */
-/*   Updated: 2024/11/15 16:54:27 by bduval           ###   ########.fr       */
+/*   Updated: 2024/11/16 13:18:16 by bduval           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef LIBFT_H
@@ -14,6 +14,7 @@
 
 #include <stdlib.h>
 #include <stdint.h>
+#include <limits.h>
 #include <unistd.h>
 
 //typedef typeof(sizeof(0)) size_t;

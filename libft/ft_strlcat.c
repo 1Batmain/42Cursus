@@ -6,7 +6,7 @@
 /*   By: bduval <bduval@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 16:19:08 by bduval            #+#    #+#             */
-/*   Updated: 2024/11/12 11:21:51 by bduval           ###   ########.fr       */
+/*   Updated: 2024/11/16 15:37:43 by bduval           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,22 +24,23 @@ static size_t	strlen(const char *str)
 
 size_t	ft_strlcat(char *dst, const char *src, size_t siz)
 {
-	size_t	i;
-	size_t	j;
 	size_t	src_len;
-	size_t	min_dst_len_siz;
+	size_t	dst_len;
+	size_t	i;
 
 	src_len = strlen(src);
-	min_dst_len_siz = strlen(dst);
-	if (min_dst_len_siz > siz)
-		min_dst_len_siz = siz;
+	dst_len = strlen(dst);
+	if (siz < dst_len)
+		return (src_len + siz);
 	i = 0;
-	while (dst[i])
+	while (dst[i] && i < siz)
 		i++;
-	j = 0;
-	while (i < siz - 1 && src[j])
-		dst[i++] = src[j++];
-	while (i < siz)
-		dst[i++] = 0;
-	return (src_len + min_dst_len_siz);
+	while (i < siz && src[i - dst_len])
+	{
+		dst[i] = src[i - dst_len];
+		if (i == siz - 1)
+			dst[i] = 0;
+		i++;
+	}
+	return (src_len + dst_len);
 }

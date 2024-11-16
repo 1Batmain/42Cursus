@@ -6,7 +6,7 @@
 /*   By: bduval <bduval@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 16:22:53 by bduval            #+#    #+#             */
-/*   Updated: 2024/11/15 15:15:02 by bduval           ###   ########.fr       */
+/*   Updated: 2024/11/16 16:33:59 by bduval           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,24 +14,21 @@
 
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
-	size_t	tt_len;
+	size_t	len_s;
 	char	*substr;
 
-	tt_len = ft_strlen(s);
-	if (start >= tt_len)
-		return (NULL);
-	tt_len = ft_strlen(&s[start]);
-	if (tt_len < len)
-		len = tt_len;
+	len_s = ft_strlen(&s[start]);
+	if (len_s < len)
+		len = len_s;
 	substr = malloc(len + 1);
 	if (!substr)
 		return (NULL);
-	tt_len = 0;
-	while (tt_len < len)
+	len_s = 0;
+	while (len_s < len)
 	{
-		substr[tt_len] = s[tt_len + start];
-		tt_len++;
+		substr[len_s] = s[len_s + start];
+		len_s++;
 	}
-	substr[tt_len] = '\0';
+	substr[len_s] = '\0';
 	return (substr);
 }

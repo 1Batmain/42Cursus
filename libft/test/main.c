@@ -345,25 +345,28 @@ int	main(int ac, char **av)
 		}
 		if (strIs(fct, "srcs/ft_memcmp.c"))
 		{
-			char t1[15] = "la Peche";
-			char t2[15] = "la Banane";
-			printf("memcmp :\t%s & %s\t-> %d\n", t1, t2, memcmp(t1, t2, 15));
-			printf("ft_memcmp :\t%s & %s\t-> %d\n", t1, t2, ft_memcmp(t1, t2, 15));
-			printf("memcmp :\t%s & %s\t-> %d\n", t1, t1, memcmp(t1, t1, 15));
-			printf("ft_memcmp :\t%s & %s\t-> %d\n", t1, t1, ft_memcmp(t1, t1, 15));
-			char t3[3];
-			printf("Test char/char, enter 1 ascii and another (<-100 to exit)\n");
-			while (integer >= -100)
-			{
-				scanf("%d", &integer);
-				t3[0] = integer;
-				scanf("%d", &integer);
-				t3[1] = integer;
-				printf("memcmp(%c, %c, 1) = %d\n", \
-				t3[0], t3[1], memcmp(&t3[0], &t3[1], 1));
-				printf("ft_memcmp(%c, %c, 1) = %d\n", \
-				t3[0], t3[1], ft_memcmp(&t3[0], &t3[1], 1));
-			}
+			char t1[] = {-128, 0, 127, 0};
+			char t1cpy[] = {-128, 0, 127, 0};
+			printf("TEST 1: %d\nvrai fct : %d\n", ft_memcmp(t1, t1cpy, 4), memcmp(t1, t1cpy, 4));
+			//char t1[15] = "la Peche";
+			//char t2[15] = "la Banane";
+			//printf("memcmp :\t%s & %s\t-> %d\n", t1, t2, memcmp(t1, t2, 15));
+			//printf("ft_memcmp :\t%s & %s\t-> %d\n", t1, t2, ft_memcmp(t1, t2, 15));
+			//printf("memcmp :\t%s & %s\t-> %d\n", t1, t1, memcmp(t1, t1, 15));
+			//printf("ft_memcmp :\t%s & %s\t-> %d\n", t1, t1, ft_memcmp(t1, t1, 15));
+			//char t3[3];
+			//printf("Test char/char, enter 1 ascii and another (<-100 to exit)\n");
+			//while (integer >= -100)
+			//{
+			//	scanf("%d", &integer);
+			//	t3[0] = integer;
+			//	scanf("%d", &integer);
+			//	t3[1] = integer;
+			//	printf("memcmp(%c, %c, 1) = %d\n", \
+			//	t3[0], t3[1], memcmp(&t3[0], &t3[1], 1));
+			//	printf("ft_memcmp(%c, %c, 1) = %d\n", \
+			//	t3[0], t3[1], ft_memcmp(&t3[0], &t3[1], 1));
+			//}
 		}
 		if (strIs(fct, "srcs/ft_strnstr.c"))
 		{

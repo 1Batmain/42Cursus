@@ -6,13 +6,13 @@
 /*   By: bduval <bduval@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 12:20:26 by bduval            #+#    #+#             */
-/*   Updated: 2024/11/12 14:06:46 by bduval           ###   ########.fr       */
+/*   Updated: 2024/11/16 12:45:02 by bduval           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 char	*ft_strchr(const char *str, int c)
 {
-	while (*str != c && *str != 0)
+	while (*str != (unsigned char)c && *str != 0)
 		str++;
 	if (c != 0 && *str == 0)
 		return (0);

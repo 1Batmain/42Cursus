@@ -6,7 +6,7 @@
 /*   By: bduval <bduval@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 15:37:59 by bduval            #+#    #+#             */
-/*   Updated: 2024/11/11 16:44:47 by bduval           ###   ########.fr       */
+/*   Updated: 2024/11/16 13:25:44 by bduval           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,15 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t siz)
 	size_t	src_len;
 
 	src_len = ft_strlen(src);
-	i = 0;
-	while (i < siz - 1 && i < src_len)
+	if (siz != 0)
 	{
-		dst[i] = src[i];
-		i++;
+		i = 0;
+		while (i < siz - 1 && i < src_len)
+		{
+			dst[i] = src[i];
+			i++;
+		}
+			dst[i] = 0;
 	}
-	while (i < siz)
-		dst[i++] = 0;
 	return (src_len);
 }

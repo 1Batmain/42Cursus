@@ -6,7 +6,7 @@
 #    By: bduval <bduval@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/08 10:56:02 by bduval            #+#    #+#              #
-#    Updated: 2024/11/15 17:57:44 by bduval           ###   ########.fr        #
+#    Updated: 2024/11/16 15:28:21 by bduval           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 CC = cc
@@ -41,9 +41,9 @@ clean :
 fclean : clean 
 	rm -f $(NAME) a.out
 
-##so:
-##	$(CC) -nostartfiles -fPIC $(CFLAGS) $(SRC)
-##	gcc -nostartfiles -shared -o libft.so $(OBJ)
+#so:
+#	$(CC) -nostartfiles -fPIC $(CFLAGS) $(SRC)
+#	gcc -nostartfiles -shared -o libft.so $(OBJ)
 
 test : $(TEST_FILE) $(TEST_MAIN)
 	$(CC) $(CFLAGS) $(LIB_DIR) -g $(SRC) $(TEST_MAIN)
