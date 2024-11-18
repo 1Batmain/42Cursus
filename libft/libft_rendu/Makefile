@@ -6,7 +6,7 @@
 #    By: bduval <bduval@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/08 10:56:02 by bduval            #+#    #+#              #
-#    Updated: 2024/11/18 19:57:51 by bduval           ###   ########.fr        #
+#    Updated: 2024/11/18 22:01:15 by bduval           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 CC = cc
@@ -18,32 +18,37 @@ LIB_DIR	= -I ./
 OBJ_DIR	= ./
 
 MANDATORY = ft_atoi ft_bzero ft_calloc ft_isalnum ft_isalpha ft_isascii \
-			ft_isdigit ft_isprint ft_isspace ft_itoa ft_lstadd_back \
-			ft_lstadd_front ft_lstclear ft_lstdelone ft_lstiter ft_lstlast \
-			ft_lstmap ft_lstnew ft_lstsize ft_memchr ft_memcmp ft_memcpy \
+			ft_isdigit ft_isprint ft_isspace ft_itoa \
+			ft_memchr ft_memcmp ft_memcpy \
 			ft_memmove ft_memset ft_putchar_fd ft_putendl_fd ft_putnbr_fd \
 			ft_putstr_fd ft_split ft_strchr ft_strdup ft_striteri ft_strjoin \
 			ft_strlcat ft_strlcpy ft_strlen ft_strmapi ft_strncmp ft_strnstr \
 			ft_strrchr ft_strtrim ft_substr ft_tolower ft_toupper 
+
+MANDATORY_BONUS = ft_lstadd_back ft_lstmap ft_lstnew ft_lstsize \
+				  ft_lstadd_front ft_lstclear ft_lstdelone ft_lstiter ft_lstlast
+
 SRC = $(MANDATORY:%=%.c)
 OBJ = $(SRC:%.c=%.o)
+SRC_BONUS = $(MANDATORY_BONUS:%=%.c)
+OBJ_BONUS = $(SRC_BONUS:%.c=%.o)
 TEST_MAIN = ../test/main.c
 
 
 all : $(NAME)
 
-$(OBJ_DIR)%.o : $(SRC_DIR)%.c objs
+$(OBJ_DIR)%.o : $(SRC_DIR)%.c
 	$(CC) -c $(LIB_DIR) $< -o $@
-
-objs : 
-	mkdir -p $@
 
 $(NAME) : $(OBJ)
 	ar rcs $@ $(OBJ)
 
+bonus : $(OBJ) $(OBJ_BONUS)
+	ar rcs $@ $(OBJ) $(OBJ_BONUS)
+
 re	: fclean all
 	
-clean : 
+clean :
 	rm -rf $(OBJ)
 
 fclean : clean 
