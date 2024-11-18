@@ -41,9 +41,9 @@ clean :
 fclean : clean 
 	rm -f $(NAME) a.out
 
-#so:
-#	$(CC) -nostartfiles -fPIC $(CFLAGS) $(SRC)
-#	gcc -nostartfiles -shared -o libft.so $(OBJ)
+so:
+	$(CC) -nostartfiles -fPIC $(CFLAGS) $(SRC)
+	gcc -nostartfiles -shared -o libft.so $(OBJ)
 
 test : $(TEST_FILE) $(TEST_MAIN)
 	$(CC) $(CFLAGS) $(LIB_DIR) -g $(SRC) $(TEST_MAIN)

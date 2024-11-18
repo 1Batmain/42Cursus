@@ -38,8 +38,6 @@ char	*ft_strtrim(const char *s1, const char *set)
 	size_t	i;
 	char	*res;
 
-	if (!*s1)
-		return (NULL);
 	lenres = ft_lentrim(s1, set);
 	res = malloc(lenres + 1);
 	if (!res)
