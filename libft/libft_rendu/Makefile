@@ -6,7 +6,7 @@
 #    By: bduval <bduval@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/08 10:56:02 by bduval            #+#    #+#              #
-#    Updated: 2024/11/18 22:01:15 by bduval           ###   ########.fr        #
+#    Updated: 2024/11/19 12:54:52 by bduval           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 CC = cc
@@ -29,9 +29,9 @@ MANDATORY_BONUS = ft_lstadd_back ft_lstmap ft_lstnew ft_lstsize \
 				  ft_lstadd_front ft_lstclear ft_lstdelone ft_lstiter ft_lstlast
 
 SRC = $(MANDATORY:%=%.c)
-OBJ = $(SRC:%.c=%.o)
+OBJ = $(SRC:%.c=$(OBJ_DIR)%.o)
 SRC_BONUS = $(MANDATORY_BONUS:%=%.c)
-OBJ_BONUS = $(SRC_BONUS:%.c=%.o)
+OBJ_BONUS = $(SRC_BONUS:%.c=$(OBJ_DIR)%.o)
 TEST_MAIN = ../test/main.c
 
 
@@ -43,13 +43,16 @@ $(OBJ_DIR)%.o : $(SRC_DIR)%.c
 $(NAME) : $(OBJ)
 	ar rcs $@ $(OBJ)
 
+objdir : 
+	mkdir -p obj
 bonus : $(OBJ) $(OBJ_BONUS)
-	ar rcs $@ $(OBJ) $(OBJ_BONUS)
+	ar rcs $(NAME) $(OBJ) $(OBJ_BONUS)
 
 re	: fclean all
 	
 clean :
-	rm -rf $(OBJ)
+	rm -rf $(OBJ) $(OBJ_BONUS)
+
 
 fclean : clean 
 	rm -f $(NAME) a.out
