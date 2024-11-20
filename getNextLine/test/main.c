@@ -7,17 +7,22 @@
 int	main(void)
 {
 	printf("BUFFER_SIZE = %d\n", BUFFER_SIZE);
-	char	*res;
 	int		fd;
 
-	fd = open("./LIVRE", O_RD_ONLY);
+	fd = open("./LIVRE", O_RDONLY);
 	if (fd < 0)
-		return (NULL);	
-	res = get_next_line(fd); 
+		return (0);	
 	printf(	" ======== \n"\
 			"  RESULT\n"\
-			" ======== \n"\
-			"-> \t%s", res);
+			" ======== \n");
+	for (int i = 0; i < 15; i++)
+	{
+		char	*res;
+		res = get_next_line(fd); 
+		printf(	"(%p) -> \t%s\n" \
+			, res, res);
+		free(res);
+	}
 	close(fd);
 	return (0);
 }

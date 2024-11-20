@@ -6,19 +6,19 @@
 #    By: bduval <bduval@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/19 13:54:02 by bduval            #+#    #+#              #
-#    Updated: 2024/11/19 14:04:44 by bduval           ###   ########.fr        #
+#    Updated: 2024/11/20 19:46:13 by bduval           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = cc
-CFLAGS 	= -Wall -Werror -Wextra -D BUFFER_SIZE=42
+CFLAGS 	= -Wall -Werror -Wextra -D BUFFER_SIZE=40002
 NAME 	= get_next_line
 
 SRC_DIR = ./
 LIB_DIR	= -I ./
 OBJ_DIR	= ./
 
-MANDATORY = get_next_line get_next_line_utils get_next_line
+MANDATORY = get_next_line get_next_line_utils
 MANDATORY_BONUS =
 
 SRC = $(MANDATORY:%=%.c)

@@ -6,7 +6,7 @@
 /*   By: bduval <bduval@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 17:15:25 by bduval            #+#    #+#             */
-/*   Updated: 2024/11/19 18:43:37 by bduval           ###   ########.fr       */
+/*   Updated: 2024/11/20 19:49:06 by bduval           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,37 +24,44 @@ size_t	ft_strlen(char *s)
 	return (len);
 }
 
-char	*ft_addto(char *res, char *buff, char **mem)
+char	*ft_addto(char *res, char *buff, char mem[BUFFER_SIZE], char *isendl)
 {
 	size_t	lr;
 	size_t	lb;
 	char	*new;
 	int		i;
 	int		j;
-	char	isendl
 
 	lr = ft_strlen(res);
 	lb = ft_strlen(buff);
 	new = (char *) malloc(lr + lb + 1);
-	if (!new);
+	if (!new)
 		return (NULL);
-	i = -1;
-	while (res && res[++i])
-		new[i] = res[i]
+	i = 0;
+	while (res && res[i])
+	{
+		new[i] = res[i];
+		i++;
+	}
 	j = 0;
-	isendl = 0;
+	*isendl = 0;
 	while (buff[i - lr])
 	{
-		if (buff[i - lr] == '\n')
-			isendl = 1;
-		else if (!isendl)
+		if (!*isendl)
+		{
+			if (buff[i - lr] == '\n' && !*isendl)
+				*isendl = 1;
 			new[i] = buff[i - lr];
+			new[i + 1] = '\0';
+			i++;
+		}
 		else
 		{
-			*mem[j] = buff[i - lr];
+			mem[j] = buff[i - lr];
+			buff[0] = -1;
 			j++;
+			i++;
 		}
-		i++;
 	}
 	free(res);
 	return (new);
@@ -68,15 +75,22 @@ char	*get_next_line(int fd)
 	char		stop;
 	char		*res;
 
-	stop = 1;
+	stop = 0;
+	buff[BUFFER_SIZE - 1] = '\0';
+	res = NULL;
 	if (*mem)
 	{
-		res = ft_addto(NULL, mem, &mem);
-		*mem = 0;
+		res = ft_addto(NULL, mem, mem, &stop);
+		if (buff[0] != -1)
+			ft_bzero(mem, BUFFER_SIZE);
 	}
-	while (rd == BUFFER_SIZE && !*mem)
+	rd = BUFFER_SIZE - 1;
+	while (rd == BUFFER_SIZE - 1 && !stop)
 	{
-		rd = read(fd, buff, BUFFER_SIZE);
-		res = ft_addto(res, buff, &mem);
+		rd = read(fd, buff, BUFFER_SIZE - 1);
+		if (rd <= 0 && !stop)
+			return (NULL);
+		res = ft_addto(res, buff, mem, &stop);
 	}
+	return (res);
 }
