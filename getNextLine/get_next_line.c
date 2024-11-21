@@ -6,7 +6,7 @@
 /*   By: bduval <bduval@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 17:15:25 by bduval            #+#    #+#             */
-/*   Updated: 2024/11/21 12:23:14 by bduval           ###   ########.fr       */
+/*   Updated: 2024/11/21 14:14:45 by bduval           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,20 +28,36 @@ size_t	ft_strlen(char *s)
 	return (len);
 }
 
-char	*ft_addto(char *res, char *buff, char mem[BUFFER_SIZE], char *isendl)
+char	*ft_init_new(char *res, char *buff)
 {
 	size_t	lr;
 	size_t	lb;
 	char	*new;
-	int		i;
-	int		j;
 
 	lr = ft_strlen(res);
 	lb = ft_strlen(buff);
 	new = (char *) malloc(lr + lb + 1);
 	if (!new)
 		return (NULL);
+	return (new);
+}
+
+void	ft_addchr(char *to, char *from)
+{
+	*to = *from;
+	*++to = 0;
+	*from = 0;
+	return ;
+}
+
+char	*ft_addto(char *res, char *buff, char mem[BUFFER_SIZE], char *isendl)
+{
+	char	*new;
+	int		i;
+	int		j;
+
 	i = 0;
+	new = ft_init_new(res, buff);
 	while (res && res[i])
 	{
 		new[i] = res[i];
@@ -49,21 +65,21 @@ char	*ft_addto(char *res, char *buff, char mem[BUFFER_SIZE], char *isendl)
 	}
 	j = 0;
 	*isendl = 0;
-	while (buff[i - lr])
+	while (buff[i - ft_strlen(res)])
 	{
 		if (!*isendl)
 		{
-			if (buff[i - lr] == '\n' && !*isendl)
+			if (buff[i - ft_strlen(res)] == '\n' && !*isendl)
 				*isendl = 1;
-			new[i] = buff[i - lr];
-			buff[i - lr] = 0;
+			new[i] = buff[i - ft_strlen(res)];
+			buff[i - ft_strlen(res)] = 0;
 			new[i + 1] = '\0';
 			i++;
 		}
 		else
 		{
-			mem[j] = buff[i - lr];
-			buff[i - lr] = 0;
+			mem[j] = buff[i - ft_strlen(res)];
+			buff[i - ft_strlen(res)] = 0;
 			*isendl = -1;
 			j++;
 			i++;
