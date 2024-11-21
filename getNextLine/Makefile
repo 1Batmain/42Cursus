@@ -6,12 +6,12 @@
 #    By: bduval <bduval@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/19 13:54:02 by bduval            #+#    #+#              #
-#    Updated: 2024/11/20 19:46:13 by bduval           ###   ########.fr        #
+#    Updated: 2024/11/21 11:45:25 by bduval           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = cc
-CFLAGS 	= -Wall -Werror -Wextra -D BUFFER_SIZE=40002
+CFLAGS 	= -Wall -Werror -Wextra -D BUFFER_SIZE=1
 NAME 	= get_next_line
 
 SRC_DIR = ./

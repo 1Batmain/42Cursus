@@ -6,7 +6,7 @@
 /*   By: bduval <bduval@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 17:15:25 by bduval            #+#    #+#             */
-/*   Updated: 2024/11/20 19:49:06 by bduval           ###   ########.fr       */
+/*   Updated: 2024/11/21 12:23:14 by bduval           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,11 @@ size_t	ft_strlen(char *s)
 		return (0);
 	len = 0;
 	while (s[len])
+	{
 		len++;
+		if (len > 0 && s[len - 1] == '\n')
+			return (len);
+	}
 	return (len);
 }
 
@@ -52,13 +56,15 @@ char	*ft_addto(char *res, char *buff, char mem[BUFFER_SIZE], char *isendl)
 			if (buff[i - lr] == '\n' && !*isendl)
 				*isendl = 1;
 			new[i] = buff[i - lr];
+			buff[i - lr] = 0;
 			new[i + 1] = '\0';
 			i++;
 		}
 		else
 		{
 			mem[j] = buff[i - lr];
-			buff[0] = -1;
+			buff[i - lr] = 0;
+			*isendl = -1;
 			j++;
 			i++;
 		}
@@ -75,15 +81,16 @@ char	*get_next_line(int fd)
 	char		stop;
 	char		*res;
 
-	stop = 0;
 	buff[BUFFER_SIZE - 1] = '\0';
 	res = NULL;
 	if (*mem)
 	{
 		res = ft_addto(NULL, mem, mem, &stop);
-		if (buff[0] != -1)
+		if (stop != -1)
 			ft_bzero(mem, BUFFER_SIZE);
 	}
+	else 
+		stop = 0;
 	rd = BUFFER_SIZE - 1;
 	while (rd == BUFFER_SIZE - 1 && !stop)
 	{
