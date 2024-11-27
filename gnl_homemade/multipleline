@@ -1,0 +1,28 @@
+he read() function shall attempt to read nbyte bytes from the file associated with the open file descriptor, fildes, into the buffer pointed to by buf. The behavior of multiple concurrent reads on the same pipe, FIFO, or terminal device is unspecified.
+
+Before any action described below is taken, and if nbyte is zero, the read() function may detect and return errors as described below. In the absence of errors, or if error detection is not performed, the read() function shall return zero and have no other results.
+
+On files that support seeking (for example, a regular file), the read() shall start at a position in the file given by the file offset associated with fildes. The file offset shall be incremented by the number of bytes actually read.
+
+Files that do not support seeking-for example, terminals-always read from the current position. The value of a file offset associated with such a file is undefined.
+
+No data transfer shall occur past the current end-of-file. If the starting position is at or after the end-of-file, 0 shall be returned. If the file refers to a device special file, the result of subsequent read() requests is implementation-defined.
+
+If the value of nbyte is greater than {SSIZE_MAX}, the result is implementation-defined.
+
+When attempting to read from an empty pipe or FIFO:
+
+If no process has the pipe open for writing, read() shall return 0 to indicate end-of-file.
+
+If some process has the pipe open for writing and O_NONBLOCK is set, read() shall return -1 and set errno to [EAGAIN].
+
+If some process has the pipe open for writing and O_NONBLOCK is clear, read() shall block the calling thread until some data is written or the pipe is closed by all processes that had the pipe open for writing.
+
+When attempting to read a file (other than a pipe or FIFO) that supports non-blocking reads and has no data currently available:
+
+If O_NONBLOCK is set, read() shall return -1 and set errno to [EAGAIN].
+
+If O_NONBLOCK is clear, read() shall block the calling thread until some data becomes available.
+
+The use of the O_NONBLOCK flag has no effect if there is some data available.
+
