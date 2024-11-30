@@ -6,7 +6,7 @@
 #    By: bduval <bduval@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/19 13:54:02 by bduval            #+#    #+#              #
-#    Updated: 2024/11/25 18:48:38 by bduval           ###   ########.fr        #
+#    Updated: 2024/11/30 14:07:56 by bduval           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ HEADER_DIR	=	-I ./includes
 OBJ_DIR		=	./obj/
 LIB			=
 
-MANDATORY = ft_printf  ft_atoi
+MANDATORY = ft_printf  ft_atoi ft_memset ft_strjoin
 MANDATORY_BONUS =
 
 SRC = $(MANDATORY:%=$(SRC_DIR)%.c)

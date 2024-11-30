@@ -1,0 +1,38 @@
+#ifndef FT_PRINTF_H
+# define FT_PRINTF_H
+#include <unistd.h>
+#include <stdio.h>
+
+typedef struct	s_atrib
+{
+	int	right_padding;
+	int	left_padding;
+	int	zero_padding;
+	int	precision;
+	int sign;
+	int space;
+	int sharp;
+}	t_atrib;
+
+size_t	ft_strlen(char *s);
+void	ft_initatrib(t_atrib *s);
+int	is_specifier(char c);
+int	is_flag(char c);
+int	is_digit(char c);
+void	get_value(char **s, t_atrib atrib);
+void	ft_get_atrib(char **s, t_atrib *atrib);
+char	*ft_init_buf(char **bf, size_t len);
+char	*ft_tobuffstr(char *s, t_atrib *atrib);
+char	*ft_tobuffchar( int c, t_atrib *atrib);
+size_t	ft_nbrlen(long n, int base);
+size_t	ft_unbrlen(unsigned long nb, int base);
+char	ft_get_hexa(char n, int lowcase);
+char	*ft_tobuffnbp(void *p, t_atrib *atrib);
+char	*ft_tobuffnbd(int n, t_atrib *atrib);
+char	*ft_tobuffnbu(unsigned nb, t_atrib *atrib);
+char	*ft_tobuffnbx(unsigned nb, t_atrib *atrib, char lowcase);
+void	ft_putstr(char *bf);
+size_t	ft_print_buff(char *buf, t_atrib *atrib);
+size_t	ft_print_arg(char c, va_list args, t_atrib *atrib);
+int	ft_printf(const char *s, ...);
+#endif
