@@ -277,7 +277,7 @@ size_t	ft_print_buff(char *buf, t_atrib *atrib)
 	}
 	ft_putstr(buf);
 	free(buf);
-	return (len);
+	return (len + len_pad);
 }
 
 size_t	ft_print_arg(char c, va_list args, t_atrib *atrib)
