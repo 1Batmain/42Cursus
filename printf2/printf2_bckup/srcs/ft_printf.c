@@ -18,24 +18,11 @@ void	ft_initatrib(t_atrib *s)
 	s->right_padding = 0;
 	s->left_padding = 0;
 	s->zero_padding = 0;
-	s->right_on = 0;
-	s->left_on = 0;
-	s->zero_on = 0;
 	s->precision = 0;
-	s->precision_on = 0;
 	s->sign = 0;
 	s->space = 0;
 	s->sharp = 0;
-	s->signing[2] = 0;
-	s->signing[1] = 0;
-	s->signing[0] = 0;
-	s->is_char = 0;
-	s->hex = 0;
-	s->c = 0;
-	s->padding = 0;
-	s->content = 0;
 }
-
 int	is_specifier(char c)
 {
 	if (c == 'c' || c == 's' || c == 'd' || c == 'p' || c == 'i' || c == 'u'
@@ -74,65 +61,70 @@ char	*ft_init_buf(char **bf, size_t len)
 	return (*bf);
 }
 
-char	to_buf_null(t_atrib *a)
+char	*to_buf_null(void)
 {
+	char	*res;
 
-	 a->content = malloc(7);
-	if (!a->content)
-		return (1);
-	a->content[0] = '(';
-	a->content[1] = 'n';
-	a->content[2] = 'u';
-	a->content[3] = 'l';
-	a->content[4] = 'l';
-	a->content[5] = ')';
-	a->content[6] = 0;
-	return (0);
+	res = malloc(7);
+	if (!res)
+		return (NULL);
+	res[0] = '(';
+	res[1] = 'n';
+	res[2] = 'u';
+	res[3] = 'l';
+	res[4] = 'l';
+	res[5] = ')';
+	res[6] = 0;
+	return (res);
 }
 
-char	to_buf_nil(t_atrib *a)
+char	*to_buf_nil(void)
 {
+	char	*res;
 
-	a->content = malloc(6);
-	if (!a->content)
-		return (1);
-	a->content[0] = '(';
-	a->content[1] = 'n';
-	a->content[2] = 'i';
-	a->content[3] = 'l';
-	a->content[4] = ')';
-	a->content[5] = 0;
-	return (0);
+	res = malloc(6);
+	if (!res)
+		return (NULL);
+	res[0] = '(';
+	res[1] = 'n';
+	res[2] = 'i';
+	res[3] = 'l';
+	res[4] = ')';
+	res[5] = 0;
+	return (res);
 }
 
-char	ft_tobuffstr(char *s, t_atrib *atrib)
+char	*ft_tobuffstr(char *s, t_atrib *atrib)
 {
+	char	*bf;
 	size_t	len;
 	size_t	i;
 
 	if (!s)
-		return (to_buf_null(atrib));
+		return (to_buf_null());
 	atrib->zero_padding = 0;
 	len = ft_strlen(s);
 	if (atrib->precision_on && atrib->precision < len)
 		len = atrib->precision;
-	if (!ft_init_buf(&(atrib->content), len + 1))
-		return (1);
+	if (!ft_init_buf(&bf, len + 1))
+		return (NULL);
 	i = 0;
 	while (i < len)
 	{
-		atrib->content[i] = s[i];
+		bf[i] = s[i];
 		i++;
 	}
-	return (0);
+	return (bf);
 }
 
-char	ft_tobuffchar( int c, t_atrib *atrib)
+char	*ft_tobuffchar( int c, t_atrib *atrib)
 {
+	char	*bf;
 	atrib->zero_padding = 0;
-	atrib->is_char++;
-	atrib->c = (char) c;
-	return (0);
+	if (!ft_init_buf(&bf, 2))
+		return (NULL);
+	bf[0] = (char) c;
+	return (bf);
 }
 
 size_t	ft_nbrlen(long nb, int base)
@@ -143,7 +135,10 @@ size_t	ft_nbrlen(long nb, int base)
 	if (nb == 0)
 		return(1);
 	if (nb < 0)
+	{
+		len++;
 		nb = -nb;
+	}
 	while (nb >= 1)
 	{
 		nb /= base;
@@ -176,91 +171,99 @@ char	ft_get_hexa(char n, int lowcase)
 		return (n - 10 + 'A');
 }
 
-char	ft_tobuffnbp(void *p, t_atrib *atrib)
+char	*ft_tobuffnbp(void *p, t_atrib *atrib)
 {
+	char			*bf;
 	unsigned long	nb;
 	size_t			nb_len;
 
 	if (!p)
-		return (to_buf_nil(atrib));
+		return (to_buf_nil());
 	nb = (unsigned long) p;
 	nb_len = ft_unbrlen(nb, 16);
-	atrib->hex = 1;
-	if (!ft_init_buf(&(atrib->content), nb_len + 1))
-		return (1);
+	atrib->zero_padding = 0;
+	if (!ft_init_buf(&bf, 2 + nb_len + 1))
+		return (NULL);
 	while (nb_len)
 	{
-		atrib->content[nb_len - 1] = ft_get_hexa(nb % 16, 1);
+		bf[nb_len + 1] = ft_get_hexa(nb % 16, 1);
 		nb /= 16;
 		nb_len--;
 	}
-	atrib->signing[0] = '0';
-	atrib->signing[1] = 'x';
-	return (0);
+	bf[0] = '0';
+	bf[1] = 'x';
+	return (bf);
 }
 
-char	ft_tobuffnbd(int n, t_atrib *atrib)
+char	*ft_tobuffnbd(int n, t_atrib *atrib)
 {
+	char	*bf;
 	size_t	nb_len;
 	long	nb;
 
 	nb = (long) n;
 	nb_len = ft_nbrlen(nb, 10);
-	if (!ft_init_buf(&(atrib->content), nb_len + 1))
-		return (1);
+	if ((atrib->space || atrib->sign) && nb >= 0)
+		nb_len++;
+	if (!ft_init_buf(&bf,nb_len + 1))
+		return (NULL);
 	if (nb < 0)
 	{
-		atrib->signing[0] = '-';
+		bf[0] = '-';
 		nb = -nb;
 	}
 	else if (atrib->sign)
-		atrib->signing[0] = '+';
+		bf[0] = '+';
 	else if (atrib->space)
-		atrib->signing[0] = ' ';
+		bf[0] = ' ';
 	while (nb_len && nb)
 	{
-		atrib->content[--nb_len] = nb % 10 + '0';
+		bf[--nb_len] = nb % 10 + '0';
 		nb /= 10;
 	}
-	return (0);
+	return (bf);
 }
 
-char	ft_tobuffnbu(unsigned nb, t_atrib *atrib)
+char	*ft_tobuffnbu(unsigned nb)
 {
+	char	*bf;
 	size_t	nb_len;
 
 	nb_len = ft_unbrlen(nb, 10);
-	if (!ft_init_buf(&(atrib->content),nb_len + 1))
-		return (1);
+	if (!ft_init_buf(&bf,nb_len + 1))
+		return (NULL);
 	while (nb_len--)
 	{
-		atrib->content[nb_len] = nb % 10 + '0';
+		bf[nb_len] = nb % 10 + '0';
 		nb /= 10;
 	}
-	return (0);
+	return (bf);
 }
 
-char	ft_tobuffnbx(unsigned nb, t_atrib *atrib, char lowcase)
+char	*ft_tobuffnbx(unsigned nb, t_atrib *atrib, char lowcase)
 {
+	char			*bf;
 	size_t			nb_len;
 
 	nb_len = ft_unbrlen(nb, 16);
-	if (!ft_init_buf(&(atrib->content),nb_len + 1))
-		return (1);
+	if (atrib->sharp)
+		nb_len += 2;
+	if (!ft_init_buf(&bf,nb_len + 1))
+		return (NULL);
 	while (nb_len-- && nb)
 	{
-		atrib->content[nb_len] = ft_get_hexa(nb % 16, lowcase);
+		bf[nb_len] = ft_get_hexa(nb % 16, lowcase);
 		nb /= 16;
 	}
 	if (atrib->sharp)
 	{
-		atrib->signing[0] = '0';
+		bf[0] = '0';
 		if (lowcase)
-			atrib->signing[1] = 'x';
+			bf[1] = 'x';
 		else
-			atrib->signing[1] = 'X';
+			bf[1] = 'X';
 	}
-	return (0);
+	return (bf);
 }
 int	ft_putchar(char c)
 {
@@ -279,67 +282,87 @@ void	ft_putstr(char *bf)
 		i++;
 	write(1, bf, i);
 }
-size_t	ft_print_buff(char err, t_atrib *a)
+size_t	ft_print_buff(char *buf, t_atrib *atrib, int is_char)
 {
 	size_t	len;
 	size_t	len_pad;
+	char	*padding;
+	char	tem0;
 
-	if (err)
-		return (1);
-	len = ft_strlen(a->content);
-	len += ft_strlen(a->signing);
-	if (a->is_char)
+	len = ft_strlen(buf);
+	if (is_char)
 		len = 1;
 	len_pad = 0;
-	if (a->right_padding > len && ++(a->right_on))
-		len_pad = a->right_padding - len;
-	else if (a->left_padding > len && ++(a->left_on))
-		len_pad = a->left_padding - len;
-	else if (a->zero_padding > len && ++(a->zero_on))
-		len_pad = a->zero_padding - len;
+	tem0 = 0;
+	if (atrib->right_padding > len)
+		len_pad = atrib->right_padding - len;
+	else if (atrib->left_padding > len)
+	{
+		tem0 = 2;
+		len_pad = atrib->left_padding - len;
+	}
+	else if (atrib->zero_padding > len)
+	{
+		len_pad = atrib->zero_padding - len;
+		tem0 = 1;
+	}
 	if (len_pad)
 	{
-		if (!(ft_init_buf(&(a->padding), len_pad + 1)))
-			return (1);
-		if (a->zero_on)
-			ft_memset(a->padding, '0', len_pad);
+		if (!(ft_init_buf(&padding, len_pad + 1)))
+			return (0);
+		if (tem0 == 1)
+			ft_memset(padding, '0', len_pad);
 		else
-			ft_memset(a->padding, ' ', len_pad);
+			ft_memset(padding, ' ', len_pad);
+		if (tem0)
+		{
+			ft_putstr(padding);
+			if (is_char)
+				ft_putchar(buf[0]);
+			else
+				ft_putstr(buf);
+		}
+		else
+		{
+			if (is_char)
+				ft_putchar(buf[0]);
+			else
+				ft_putstr(buf);
+			ft_putstr(padding);
+		}
+		free(padding);
 	}
-	ft_putstr(a->signing);
-	if (a->left_on || a->zero_on)
-		ft_putstr(a->padding);
-	if (a->is_char)
-		ft_putchar(a->c);
-	else
-		ft_putstr(a->content);
-	if (a->right_on)
-		ft_putstr(a->padding);
-	free(a->padding);
-	free(a->content);
+	else 
+	{
+		if (is_char)
+			ft_putchar(buf[0]);
+		else 
+			ft_putstr(buf);
+	}
+	free(buf);
 	return (len + len_pad);
 }
 
 size_t	ft_print_arg(char **c, va_list args, t_atrib *atrib)
 {
-	if (**c == '%' && (*c)++)
-		return (ft_putchar('%'));
-	else if (**c == 'c' && (*c)++)
-		return (ft_print_buff(ft_tobuffchar(va_arg(args, int), atrib), atrib));
+	if (**c == 'c' && (*c)++)
+		return (ft_print_buff(ft_tobuffchar(va_arg(args, int), atrib), atrib, 1));
 	else if (**c == 's' && (*c)++)
-		return (ft_print_buff(ft_tobuffstr(va_arg(args, char *), atrib), atrib));
+		return (ft_print_buff(ft_tobuffstr(va_arg(args, char *), atrib), atrib, 0));
 	else if (**c == 'p' && (*c)++)
-		return (ft_print_buff(ft_tobuffnbp(va_arg(args, void *), atrib), atrib));
+		return (ft_print_buff(ft_tobuffnbp(va_arg(args, void *), atrib), atrib, 0));
 	else if (**c == 'd' && (*c)++)
-		return (ft_print_buff(ft_tobuffnbd(va_arg(args, int), atrib), atrib));
+		return (ft_print_buff(ft_tobuffnbd(va_arg(args, int), atrib), atrib, 0));
 	else if (**c == 'i' && (*c)++)
-		return (ft_print_buff(ft_tobuffnbd(va_arg(args, int), atrib), atrib));
+		return (ft_print_buff(ft_tobuffnbd(va_arg(args, int), atrib), atrib, 0));
 	else if (**c == 'u' && (*c)++)
-		return (ft_print_buff(ft_tobuffnbu(va_arg(args, unsigned), atrib), atrib));
+		return (ft_print_buff(ft_tobuffnbu(va_arg(args, unsigned)), atrib, 0));
 	else if (**c == 'x' && (*c)++)
-		return (ft_print_buff(ft_tobuffnbx(va_arg(args, unsigned), atrib, 1), atrib));
+		return (ft_print_buff(ft_tobuffnbx(va_arg(args, unsigned), atrib, 1), atrib, 0));
 	else if (**c == 'X' && (*c)++)
-		return (ft_print_buff(ft_tobuffnbx(va_arg(args, unsigned), atrib, 0), atrib));
+		return (ft_print_buff(ft_tobuffnbx(va_arg(args, unsigned), atrib, 0), atrib, 0));
+	else if (**c == '%' && (*c)++)
+		return (ft_putchar('%'));
 	return (0);
 }
 

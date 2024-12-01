@@ -8,9 +8,8 @@
 int	main()
 {
 	ft_printf("\n\n");
-	int a = 96;
-	int ftp = ft_printf("FT :___%#010X___\n", a);
-	int p = 	 printf("OG :___%#010X___\n", a);
+	int ftp = ft_printf("FT :___% 020i___\n", -168);
+	int p = 	 printf("OG :___% 020i___\n", -168);
 	printf("ftp = %d\np = %d\n", ftp, p);
 	int fftp =ft_printf("FT :___%.s___\n", "168");
 	int pp =   	 printf("OG :___%.s___\n", "168");

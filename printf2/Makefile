@@ -33,7 +33,7 @@ TEST_MAIN = test/main2.c
 all : $(NAME)
 
 $(OBJ_DIR)%.o :$(SRC_DIR)%.c $(OBJ_DIR)
-	$(CC) $(CFLAGS) $(HEADER_DIR) -c $< -o $@ -g
+	@$(CC) $(CFLAGS) $(HEADER_DIR) -c $< -o $@ -g
 
 $(NAME) : $(OBJ)	
 	ar rcs $(NAME) $(OBJ)
@@ -52,7 +52,7 @@ clean :
 fclean : clean 
 	rm -f $(NAME) a.out
 
-test : $(TEST_FILE) $(TEST_MAIN) $(OBJ)
-	$(CC) $(CFLAGS) $(HEADER_DIR) -g $(OBJ) $(TEST_MAIN)
+test : $(OBJ)
+	@$(CC) $(CFLAGS) $(HEADER_DIR) -g $(OBJ) $(TEST_MAIN)
 
 .PHONY : re clean fclean test

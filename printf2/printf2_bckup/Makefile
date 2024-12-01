@@ -6,20 +6,20 @@
 #    By: bduval <bduval@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/19 13:54:02 by bduval            #+#    #+#              #
-#    Updated: 2024/11/25 18:48:38 by bduval           ###   ########.fr        #
+#    Updated: 2024/11/30 14:07:56 by bduval           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = cc
 CFLAGS 	= -Wall -Werror -Wextra
-NAME 	= get_next_line
+NAME 	= libftprintf.a
 
 SRC_DIR 	=	./srcs/
 HEADER_DIR	=	-I ./includes
 OBJ_DIR		=	./obj/
-LIB			=	libft.a
+LIB			=
 
-MANDATORY = ft_printf
+MANDATORY = ft_printf  ft_atoi ft_memset ft_strjoin
 MANDATORY_BONUS =
 
 SRC = $(MANDATORY:%=$(SRC_DIR)%.c)
@@ -28,12 +28,12 @@ OBJ = $(SRC:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
 SRC_BONUS = $(MANDATORY_BONUS:%=%.c)
 OBJ_BONUS = $(SRC_BONUS:%.c=$(OBJ_DIR)%.o)
 
-TEST_MAIN = test/main.c
+TEST_MAIN = test/main2.c
 
 all : $(NAME)
 
 $(OBJ_DIR)%.o :$(SRC_DIR)%.c $(OBJ_DIR)
-	$(CC) $(CFLAGS) -c $< -o $@
+	@$(CC) $(CFLAGS) $(HEADER_DIR) -c $< -o $@ -g
 
 $(NAME) : $(OBJ)	
 	ar rcs $(NAME) $(OBJ)
@@ -52,7 +52,7 @@ clean :
 fclean : clean 
 	rm -f $(NAME) a.out
 
-test : $(TEST_FILE) $(TEST_MAIN) $(OBJ)
-	$(CC) $(CFLAGS) $(HEADER_DIR) -g $(OBJ) $(TEST_MAIN)
+test : $(OBJ)
+	@$(CC) $(CFLAGS) $(HEADER_DIR) -g $(OBJ) $(TEST_MAIN)
 
 .PHONY : re clean fclean test

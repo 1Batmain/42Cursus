@@ -1,35 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*   ft_memset.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bduval <bduval@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/25 14:30:19 by bduval            #+#    #+#             */
-/*   Updated: 2024/11/25 18:49:24 by bduval           ###   ########.fr       */
+/*   Created: 2024/11/11 10:40:37 by bduval            #+#    #+#             */
+/*   Updated: 2024/11/30 14:06:38 by bduval           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libftprintf.h"
+#include "ft_printf.h"
 
-int	ft_put_special(char **bf)
+void	*ft_memset(void *mem, int fill, size_t bytes)
 {
-	
-}
+	unsigned int	i;
+	unsigned char	*p_mem;
 
-int	ft_printf(const char *bf, ...)
-{
-	size_t	coun
-
-	va_start();
-	count = 0;
-	while (*bf)
-	{
-		if (*bf == '%')
-			ft_put_special(&bf);
-		else 
-			ft_putchar(*bf);
-		bf++;
-	}
-	return (count);
+	i = 0;
+	p_mem = mem;
+	while (i < bytes)
+		p_mem[i++] = (unsigned char)fill;
+	return (mem);
 }
+/*fill & 0xFF = (unsigned char) fill*/
+/* It isolate the last byte of fill */
