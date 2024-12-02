@@ -1,11 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_printf.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bduval <bduval@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/02 15:50:50 by bduval            #+#    #+#             */
+/*   Updated: 2024/12/02 16:03:18 by bduval           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef FT_PRINTF_H
 # define FT_PRINTF_H
-#include <unistd.h>
-#include <stdlib.h>
-#include <stdarg.h>
+# include <unistd.h>
+# include <stdlib.h>
+# include <stdarg.h>
 
-
-typedef struct	s_atrib
+typedef struct s_atrib
 {
 	size_t	right_padding;
 	size_t	left_padding;
@@ -26,11 +37,12 @@ typedef struct	s_atrib
 	char	*content;
 }	t_atrib;
 
-size_t	ft_strlen(const char *s);
-void	ft_initatrib(t_atrib *s);
-int	is_specifier(char c);
-int	is_flag(char c);
-int	is_digit(char c);
+void	ft_put_atrib(t_atrib *a);
+size_t	ft_strlen(const char *a);
+void	ft_initatrib(t_atrib *a);
+int		is_specifier(char c);
+int		is_flag(char c);
+int		is_digit(char c);
 char	*ft_init_buf(char **bf, size_t len);
 char	to_buf_null(t_atrib *a);
 char	to_buf_nil(t_atrib *a);
@@ -43,14 +55,14 @@ char	ft_tobuffnbp(void *p, t_atrib *atrib);
 char	ft_tobuffnbd(int n, t_atrib *atrib);
 char	ft_tobuffnbu(unsigned nb, t_atrib *atrib);
 char	ft_tobuffnbx(unsigned nb, t_atrib *atrib, char lowcase);
-int	ft_putchar(char c);
+int		ft_putchar(char c);
 void	ft_putstr(char *bf);
 size_t	ft_print_buff(char err, t_atrib *a);
 size_t	ft_print_arg(char **c, va_list args, t_atrib *atrib);
 void	get_value(char **s, t_atrib *atrib);
 void	ft_get_atrib(char **s, t_atrib *atrib);
-int	ft_printf(const char *str, ...);
-int	ft_atoi(char **ptr);
+int		ft_printf(const char *str, ...);
+int		ft_atoi(char **ptr);
 char	*ft_strjoin(char *s1, char *s2);
 void	*ft_memset(void *mem, int fill, size_t bytes);
 #endif

@@ -1,5 +1,16 @@
-#include "ft_printf.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_atoi.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bduval <bduval@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/02 15:54:38 by bduval            #+#    #+#             */
+/*   Updated: 2024/12/02 15:54:49 by bduval           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
+#include "ft_printf.h"
 
 static int	ft_isdigit(int c)
 {
@@ -11,8 +22,8 @@ static int	ft_isdigit(int c)
 int	ft_atoi(char **ptr)
 {
 	char	*p_ptr;
-	int				sign;
-	int				result;
+	int		sign;
+	int		result;
 
 	p_ptr = (char *) *ptr;
 	sign = 1;

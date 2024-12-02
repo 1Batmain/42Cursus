@@ -6,7 +6,7 @@
 #    By: bduval <bduval@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/19 13:54:02 by bduval            #+#    #+#              #
-#    Updated: 2024/11/30 14:07:56 by bduval           ###   ########.fr        #
+#    Updated: 2024/12/02 17:19:44 by bduval           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,12 +14,14 @@ CC = cc
 CFLAGS 	= -Wall -Werror -Wextra
 NAME 	= libftprintf.a
 
-SRC_DIR 	=	./srcs/
-HEADER_DIR	=	-I ./includes
-OBJ_DIR		=	./obj/
+SRC_DIR 	=	srcs/
+HEADER_DIR	=	-I includes
+OBJ_DIR		=	obj/
 LIB			=
 
-MANDATORY = ft_printf  ft_atoi ft_memset ft_strjoin
+MANDATORY = ft_atoi ft_memset ft_printf_atrib_utils ft_printf_buf_utils \
+			ft_printf ft_printf_tobuf_nb ft_printf_tobuf_nb_utils \
+			ft_printf_tobuf_strchr ft_printf_utils
 MANDATORY_BONUS =
 
 SRC = $(MANDATORY:%=$(SRC_DIR)%.c)
@@ -39,7 +41,7 @@ $(NAME) : $(OBJ)
 	ar rcs $(NAME) $(OBJ)
 
 $(OBJ_DIR) :
-	mkdir -p obj
+	mkdir -p $(OBJ_DIR)
 
 bonus : $(OBJ) $(OBJ_BONUS)
 	ar rcs $(NAME) $(OBJ) $(OBJ_BONUS)
@@ -47,7 +49,7 @@ bonus : $(OBJ) $(OBJ_BONUS)
 re	: fclean all
 	
 clean :
-	rm -rf $(OBJ) $(OBJ_BONUS)
+	rm -rf $(OBJ_DIR)
 
 fclean : clean 
 	rm -f $(NAME) a.out
