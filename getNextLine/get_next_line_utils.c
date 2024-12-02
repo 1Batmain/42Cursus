@@ -5,59 +5,53 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: bduval <bduval@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/19 14:10:31 by bduval            #+#    #+#             */
-/*   Updated: 2024/11/24 19:16:05 by bduval           ###   ########.fr       */
+/*   Created: 2024/12/02 17:49:18 by bduval            #+#    #+#             */
+/*   Updated: 2024/12/02 17:49:35 by bduval           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-void	ft_bzero(char *mem, size_t bytes)
+void	ft_shift(char *buffer, size_t len)
 {
-	while (bytes--)
-		*mem++ = 0;
-}
+	size_t	i;
 
-size_t	ft_strlen(char *s)
-{
-	size_t	len;
-
-	if (!s || !*s)
-		return (0);
-	len = 0;
-	while (s[len])
+	i = 0;
+	while (len + i < BUFFER_SIZE && buffer[len + i])
 	{
-		len++;
-		if (len > 0 && s[len - 1] == '\n')
-			return (len);
+		buffer[i] = buffer[len + i];
+		i++;
 	}
-	return (len);
-}
-
-char	*ft_init_new(char *res, char *buff)
-{
-	size_t	lr;
-	size_t	lb;
-	char	*new;
-
-	lr = ft_strlen(res);
-	lb = ft_strlen(buff);
-	new = (char *) malloc(lr + lb + 1);
-	if (!new)
-	{
-		free(res);
-		return (NULL);
-	}
-	new[lr + lb] = '\0';
-	return (new);
-}
-
-void	ft_addchr(char *to, char *from)
-{
-	if (!to)
-		return ;
-	*to = *from;
-	*(++to) = 0;
-	*from = 0;
+	ft_bufzero(buffer, i);
 	return ;
+}
+
+size_t	ft_res_len(char *res, char *buffer, int	*on)
+{
+	size_t	len2;
+	size_t	len1;
+
+	len1 = 0;
+	if (res)
+	{
+		while (res[len1])
+			len1++;
+	}
+	len2 = 0;
+	while (buffer[len2])
+	{
+		len2++;
+		if (buffer[len2 - 1] == '\n')
+		{
+			*on = 0;
+			break ;
+		}
+	}
+	return (len1 + len2);
+}
+
+void	ft_bufzero(char *buffer, size_t start)
+{
+	while (start < BUFFER_SIZE)
+		buffer[start++] = 0;
 }
