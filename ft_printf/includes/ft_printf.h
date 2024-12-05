@@ -6,7 +6,7 @@
 /*   By: bduval <bduval@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 15:50:50 by bduval            #+#    #+#             */
-/*   Updated: 2024/12/02 16:03:18 by bduval           ###   ########.fr       */
+/*   Updated: 2024/12/05 18:34:26 by bduval           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,11 +58,11 @@ char	ft_tobuffnbx(unsigned nb, t_atrib *atrib, char lowcase);
 int		ft_putchar(char c);
 void	ft_putstr(char *bf);
 size_t	ft_print_buff(char err, t_atrib *a);
-size_t	ft_print_arg(char **c, va_list args, t_atrib *atrib);
-void	get_value(char **s, t_atrib *atrib);
-void	ft_get_atrib(char **s, t_atrib *atrib);
+size_t	ft_print_arg(const char **c, va_list args, t_atrib *atrib);
+void	get_value(const char **s, t_atrib *atrib);
+void	ft_get_atrib(const char **s, t_atrib *atrib);
 int		ft_printf(const char *str, ...);
-int		ft_atoi(char **ptr);
+int		ft_atoi(const char **ptr);
 char	*ft_strjoin(char *s1, char *s2);
 void	*ft_memset(void *mem, int fill, size_t bytes);
 #endif

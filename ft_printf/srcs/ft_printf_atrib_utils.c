@@ -6,7 +6,7 @@
 /*   By: bduval <bduval@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 15:18:07 by bduval            #+#    #+#             */
-/*   Updated: 2024/12/02 16:27:37 by bduval           ###   ########.fr       */
+/*   Updated: 2024/12/05 18:33:56 by bduval           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	is_digit(char c)
 	return (0);
 }
 
-void	ft_get_atrib(char **s, t_atrib *atrib)
+void	ft_get_atrib(const char **s, t_atrib *atrib)
 {
 	while (!is_specifier(**s) && **s)
 	{

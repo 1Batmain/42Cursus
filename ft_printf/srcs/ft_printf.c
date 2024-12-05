@@ -6,7 +6,7 @@
 /*   By: bduval <bduval@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 15:55:10 by bduval            #+#    #+#             */
-/*   Updated: 2024/12/02 17:08:37 by bduval           ###   ########.fr       */
+/*   Updated: 2024/12/05 18:45:32 by bduval           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ size_t	ft_print_buff(char err, t_atrib *a)
 	return (len + len_pad);
 }
 
-size_t	ft_print_arg(char **c, va_list args, t_atrib *atrib)
+size_t	ft_print_arg(const char **c, va_list args, t_atrib *atrib)
 {
 	if (**c == '%' && (*c)++)
 		return (ft_putchar('%'));
@@ -76,7 +76,7 @@ size_t	ft_print_arg(char **c, va_list args, t_atrib *atrib)
 	return (0);
 }
 
-void	get_value(char **s, t_atrib *atrib)
+void	get_value(const char **s, t_atrib *atrib)
 {
 	while (**s && !is_specifier(**s))
 	{
@@ -105,16 +105,16 @@ void	get_value(char **s, t_atrib *atrib)
 	}
 }
 
-int	ft_printf(const char *str, ...)
+int	ft_printf(const char *s, ...)
 {
 	va_list	args;
 	size_t	cnt;
 	t_atrib	atrib;
-	char	*s;
 
-	s = (char *) str;
-	va_start(args, str);
+	va_start(args, s);
 	cnt = 0;
+	if (!s)
+		return (-1);
 	while (*s)
 	{
 		if (*s == '%')

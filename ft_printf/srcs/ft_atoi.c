@@ -6,7 +6,7 @@
 /*   By: bduval <bduval@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 15:54:38 by bduval            #+#    #+#             */
-/*   Updated: 2024/12/02 15:54:49 by bduval           ###   ########.fr       */
+/*   Updated: 2024/12/05 18:34:15 by bduval           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static int	ft_isdigit(int c)
 	return (0);
 }
 
-int	ft_atoi(char **ptr)
+int	ft_atoi(const char **ptr)
 {
 	char	*p_ptr;
 	int		sign;
