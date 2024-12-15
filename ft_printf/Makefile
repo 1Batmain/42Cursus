@@ -1,28 +1,14 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: bduval <bduval@student.42.fr>              +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2024/11/19 13:54:02 by bduval            #+#    #+#              #
-#    Updated: 2024/12/02 17:19:44 by bduval           ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
-
 CC = cc
 CFLAGS 	= -Wall -Werror -Wextra
 NAME 	= libftprintf.a
 
 SRC_DIR 	=	srcs/
-HEADER_DIR	=	-I includes
+HEADER_DIR	=	-I includes/
 OBJ_DIR		=	obj/
-LIB			=
 
-MANDATORY = ft_atoi ft_memset ft_printf_atrib_utils ft_printf_buf_utils \
+MANDATORY = ft_special_atoi ft_memset ft_printf_atrib_utils ft_printf_buf_utils \
 			ft_printf ft_printf_tobuf_nb ft_printf_tobuf_nb_utils \
 			ft_printf_tobuf_strchr ft_printf_utils
-MANDATORY_BONUS =
 
 SRC = $(MANDATORY:%=$(SRC_DIR)%.c)
 OBJ = $(SRC:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
@@ -30,12 +16,10 @@ OBJ = $(SRC:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
 SRC_BONUS = $(MANDATORY_BONUS:%=%.c)
 OBJ_BONUS = $(SRC_BONUS:%.c=$(OBJ_DIR)%.o)
 
-TEST_MAIN = test/main2.c
-
 all : $(NAME)
 
 $(OBJ_DIR)%.o :$(SRC_DIR)%.c $(OBJ_DIR)
-	@$(CC) $(CFLAGS) $(HEADER_DIR) -c $< -o $@ -g
+	@$(CC) $(CFLAGS) $(HEADER_DIR) -c $< -o $@
 
 $(NAME) : $(OBJ)	
 	ar rcs $(NAME) $(OBJ)

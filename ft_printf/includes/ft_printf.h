@@ -38,7 +38,7 @@ typedef struct s_atrib
 }	t_atrib;
 
 void	ft_put_atrib(t_atrib *a);
-size_t	ft_strlen(const char *a);
+size_t	ft_special_strlen(const char *a);
 void	ft_initatrib(t_atrib *a);
 int		is_specifier(char c);
 int		is_flag(char c);
@@ -62,7 +62,6 @@ size_t	ft_print_arg(const char **c, va_list args, t_atrib *atrib);
 void	get_value(const char **s, t_atrib *atrib);
 void	ft_get_atrib(const char **s, t_atrib *atrib);
 int		ft_printf(const char *str, ...);
-int		ft_atoi(const char **ptr);
-char	*ft_strjoin(char *s1, char *s2);
+int		ft_special_atoi(const char **ptr);
 void	*ft_memset(void *mem, int fill, size_t bytes);
 #endif

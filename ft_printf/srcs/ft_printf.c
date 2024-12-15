@@ -14,8 +14,8 @@
 
 void	ft_get_lengths(t_atrib *a, size_t *len, size_t *len_pad)
 {
-	*len = ft_strlen(a->content);
-	*len += ft_strlen(a->signing);
+	*len = ft_special_strlen(a->content);
+	*len += ft_special_strlen(a->signing);
 	if (a->is_char)
 		*len = 1;
 	*len_pad = 0;
@@ -81,13 +81,13 @@ void	get_value(const char **s, t_atrib *atrib)
 	while (**s && !is_specifier(**s))
 	{
 		if (**s == '-' && (*s)++)
-			atrib->right_padding = ft_atoi(s);
+			atrib->right_padding = ft_special_atoi(s);
 		if (**s == '0' && (*s)++)
-			atrib->zero_padding = ft_atoi(s);
+			atrib->zero_padding = ft_special_atoi(s);
 		if (is_digit(**s))
-			atrib->left_padding = ft_atoi(s);
+			atrib->left_padding = ft_special_atoi(s);
 		if (**s == '.' && (*s)++ && ++(atrib->precision_on))
-			atrib->precision = ft_atoi(s);
+			atrib->precision = ft_special_atoi(s);
 		if (**s == '#')
 			atrib->sharp = 1;
 		if (**s == ' ' && !atrib->sign)

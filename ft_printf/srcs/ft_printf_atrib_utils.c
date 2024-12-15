@@ -43,7 +43,7 @@ void	ft_get_atrib(const char **s, t_atrib *atrib)
 		if (is_flag(**s))
 			get_value(s, atrib);
 		else if (is_digit(**s))
-			atrib->left_padding = ft_atoi(s);
+			atrib->left_padding = ft_special_atoi(s);
 	}
 }
 

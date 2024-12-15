@@ -20,7 +20,7 @@ char	ft_tobuffstr(char *s, t_atrib *atrib)
 	if (!s)
 		return (to_buf_null(atrib));
 	atrib->zero_padding = 0;
-	len = ft_strlen(s);
+	len = ft_special_strlen(s);
 	if (atrib->precision_on && atrib->precision < len)
 		len = atrib->precision;
 	if (!ft_init_buf(&(atrib->content), len + 1))

@@ -6,7 +6,7 @@
 #    By: bduval <bduval@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/08 10:56:02 by bduval            #+#    #+#              #
-#    Updated: 2024/11/19 12:54:52 by bduval           ###   ########.fr        #
+#    Updated: 2024/11/18 22:01:15 by bduval           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 CC = cc
@@ -17,7 +17,7 @@ SRC_DIR = ./
 LIB_DIR	= -I ./
 OBJ_DIR	= ./
 
-MANDATORY = ft_atoi ft_bzero ft_calloc ft_isalnum ft_isalpha ft_isascii \
+MANDATORY = ft_atoibase ft_atoi ft_bzero ft_calloc ft_isalnum ft_isalpha ft_isascii \
 			ft_isdigit ft_isprint ft_isspace ft_itoa \
 			ft_memchr ft_memcmp ft_memcpy \
 			ft_memmove ft_memset ft_putchar_fd ft_putendl_fd ft_putnbr_fd \
@@ -29,9 +29,9 @@ MANDATORY_BONUS = ft_lstadd_back ft_lstmap ft_lstnew ft_lstsize \
 				  ft_lstadd_front ft_lstclear ft_lstdelone ft_lstiter ft_lstlast
 
 SRC = $(MANDATORY:%=%.c)
-OBJ = $(SRC:%.c=$(OBJ_DIR)%.o)
+OBJ = $(SRC:%.c=%.o)
 SRC_BONUS = $(MANDATORY_BONUS:%=%.c)
-OBJ_BONUS = $(SRC_BONUS:%.c=$(OBJ_DIR)%.o)
+OBJ_BONUS = $(SRC_BONUS:%.c=%.o)
 TEST_MAIN = ../test/main.c
 
 
@@ -43,16 +43,13 @@ $(OBJ_DIR)%.o : $(SRC_DIR)%.c
 $(NAME) : $(OBJ)
 	ar rcs $@ $(OBJ)
 
-objdir : 
-	mkdir -p obj
 bonus : $(OBJ) $(OBJ_BONUS)
-	ar rcs $(NAME) $(OBJ) $(OBJ_BONUS)
+	ar rcs $@ $(OBJ) $(OBJ_BONUS)
 
 re	: fclean all
 	
 clean :
-	rm -rf $(OBJ) $(OBJ_BONUS)
-
+	rm -rf $(OBJ)
 
 fclean : clean 
 	rm -f $(NAME) a.out
