@@ -17,10 +17,6 @@
 #  define BUFFER_SIZE	42
 # endif
 
-# ifndef MAX_FD
-#  define MAX_FD	1024
-# endif
-
 # include <fcntl.h>
 # include <stdlib.h>
 # include <unistd.h>
