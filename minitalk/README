@@ -1,0 +1,4 @@
+Factoriser mmain server
+retirer qlqs printf
+securiser au max (kills, sigaction, malloc)
+Makefile relink
