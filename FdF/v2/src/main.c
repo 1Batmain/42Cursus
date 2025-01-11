@@ -5,7 +5,6 @@
 #define DEZOOM	0.8
 #define TRANSLATE	10
 
-
 void	center(t_map *map)
 {
 	int	p;
@@ -13,9 +12,9 @@ void	center(t_map *map)
 	p = 0;
 	while (p < map->height * map->width)
 	{
-		map->map[p][0] -= IM_WIDTH / 2;
-		map->map[p][1] -= IM_HEIGHT / 2;
-		map->map[p][2] -= IM_DEPTH / 2;
+		map->point[p].x -= IM_WIDTH / 2;
+		map->point[p].y -= IM_HEIGHT / 2;
+		map->point[p].z -= IM_DEPTH / 2;
 		p++;
 	}
 }
@@ -27,9 +26,9 @@ void	de_center(t_map *map)
 	p = 0;
 	while (p <  map->height *map->width)
 	{
-		map->map[p][0] += IM_WIDTH / 2;
-		map->map[p][1] += IM_HEIGHT / 2;
-		map->map[p][2] += IM_DEPTH / 2;
+		map->point[p].x += IM_WIDTH / 2;
+		map->point[p].y += IM_HEIGHT / 2;
+		map->point[p].z += IM_DEPTH / 2;
 		p++;
 	}
 }
@@ -42,9 +41,9 @@ void	zoom(t_map *map, float zoom)
 	center(map);
 	while (p <map->width *map->height)
 	{
-		map->map[p][0] *= zoom;
-		map->map[p][1] *= zoom;
-		map->map[p][2] *= zoom;
+		map->point[p].x *= zoom;
+		map->point[p].y *= zoom;
+		map->point[p].z *= zoom;
 		p++;
 	}
 	de_center(map);
@@ -57,7 +56,7 @@ void	x_translate(t_map *map, int direction)
 	p = 0;
 	while (p < map->height * map->width)
 	{
-		map->map[p][0] += direction;
+		map->point[p].x += direction;
 		p++;
 	}
 }
@@ -68,21 +67,11 @@ void	y_translate(t_map *map, int direction)
 	p = 0;
 	while (p < map->height * map->width)
 	{
-		map->map[p][1] += direction;
+		map->point[p].y += direction;
 		p++;
 	}
 }
-void	z_translate(t_map *map, int direction)
-{
-	int	p;
 
-	p = 0;
-	while (p < map->height * map->width)
-	{
-		map->map[p][2] += direction;
-		p++;
-	}
-}
 void	x_rotate(t_map *map, int direction)
 {
 	int	p;
@@ -94,10 +83,10 @@ void	x_rotate(t_map *map, int direction)
 	center(map);
 	while (p < map->height * map->width)
 	{
-		n[1] = map->map[p][1] * cos(teta) - map->map[p][2] * sin(teta);
-		n[2] = map->map[p][1] * sin(teta) + map->map[p][2] * cos(teta);
-		map->map[p][1] = n[1];
-		map->map[p][2] = n[2];
+		n[1] = map->point[p].y * cos(teta) - map->point[p].z * sin(teta);
+		n[2] = map->point[p].y * sin(teta) + map->point[p].z * cos(teta);
+		map->point[p].y = n[1];
+		map->point[p].z = n[2];
 		p++;
 	}
 	de_center(map);
@@ -116,10 +105,10 @@ void	z_rotate(t_map *map, int direction)
 	center(map);
 	while (p < map->height * map->width)
 	{
-		n[0] = map->map[p][0] * cos(teta) - map->map[p][1] * sin(teta);
-		n[1] = map->map[p][0] * sin(teta) + map->map[p][1] * cos(teta);
-		map->map[p][0] = n[0];
-		map->map[p][1] = n[1];
+		n[0] = map->point[p].x * cos(teta) - map->point[p].y * sin(teta);
+		n[1] = map->point[p].x * sin(teta) + map->point[p].y * cos(teta);
+		map->point[p].x = n[0];
+		map->point[p].y = n[1];
 		p++;
 	}
 	de_center(map);
@@ -136,10 +125,10 @@ void	y_rotate(t_map *map, int direction)
 	center(map);
 	while (p < map->height * map->width)
 	{
-		n[0] = map->map[p][0] * cos(teta) + map->map[p][2] * sin(teta);
-		n[2] = (-map->map[p][0] * sin(teta)) + map->map[p][2] * cos(teta);
-		map->map[p][0] = n[0];
-		map->map[p][2] = n[2];
+		n[0] = map->point[p].x * cos(teta) + map->point[p].z * sin(teta);
+		n[2] = (-map->point[p].x * sin(teta)) + map->point[p].z * cos(teta);
+		map->point[p].x = n[0];
+		map->point[p].z = n[2];
 		p++;
 	}
 	de_center(map);
@@ -152,12 +141,12 @@ void	normalize(t_map *map)
 	p = 0;
 	while (p < map->width * map->height)
 	{
-		map->map[p][0] *= (IM_WIDTH)/ map->width;
-		map->map[p][1] *= (IM_HEIGHT)/ map->height;
-		map->map[p][2] *= (IM_DEPTH)/ map->depth;
-		map->map[p][0] += (IM_WIDTH / map->width) / 2;
-		map->map[p][1] += (IM_HEIGHT / map->height) / 2;
-		map->map[p][2] += (IM_DEPTH / map->depth) / 2;
+		map->point[p].x *= (IM_WIDTH)/ map->width;
+		map->point[p].y *= (IM_HEIGHT)/ map->height;
+		map->point[p].z *= (IM_DEPTH)/ map->depth;
+		map->point[p].x += (IM_WIDTH / map->width) / 2;
+		map->point[p].y += (IM_HEIGHT / map->height) / 2;
+		map->point[p].z += (IM_DEPTH / map->depth) / 2;
 		p++;
 	}
 }
@@ -193,9 +182,10 @@ int	render(t_all *all)
 	while (i <  all->map.width * all->map.height)
 	{
 		if ((i + 1) % all->map.width != 0)
-			draw_line(&all->img, all->map.map[i], all->map.map[i + 1]);
+			draw_line(&all->img, &all->map.point[i], &all->map.point[i + 1]);
 		if (i < (all->map.height - 1) * all->map.width)
-			draw_line(&all->img, all->map.map[i], all->map.map[i + all->map.width]);
+			draw_line(&all->img, &all->map.point[i], \
+					&all->map.point[i + all->map.width]);
 		i++;
 	}
 	mlx_put_image_to_window(all->mlx.id, all->mlx.window, all->img.id,\
@@ -218,7 +208,7 @@ int	close_window(t_mlx *mlx)
 
 int	key_handle(int keycode, t_all *all)
 {
-	ft_printf("Event : %d\n", keycode);
+	//ft_printf("Event : %d\n", keycode);
 	if (keycode == 65307)
 	{
 		mlx_destroy_window(all->mlx.id, all->mlx.window);
@@ -232,21 +222,17 @@ int	key_handle(int keycode, t_all *all)
 		x_translate(&all->map, -TRANSLATE);
 	if (keycode == 65363)
 		x_translate(&all->map, TRANSLATE);
-	if (keycode == 65450)
-		z_translate(&all->map, TRANSLATE);
-	if (keycode == 65455)
-		z_translate(&all->map, -TRANSLATE);
-	if (keycode == 115 )
+	if (keycode == 119 )
 		x_rotate(&all->map, 1);
-	if (keycode == 122)
+	if (keycode == 115)
 		x_rotate(&all->map, -1);
-	if (keycode == 113)
-		y_rotate(&all->map, 1);
 	if (keycode == 100)
-		y_rotate(&all->map, -1);
+		y_rotate(&all->map, 1);
 	if (keycode == 97)
-		z_rotate(&all->map, 1);
+		y_rotate(&all->map, -1);
 	if (keycode == 101)
+		z_rotate(&all->map, 1);
+	if (keycode == 113)
 		z_rotate(&all->map, -1);
 	if (keycode == 65451)
 		zoom(&all->map, ZOOM);
@@ -261,9 +247,16 @@ int	main(int ac, char **av)
 
 	if (ac == 2)	
 		init(&all, av[1]);
+	int i = 0;
+	printf("MAX : (%d, %d, %d)\n", all.map.width, all.map.height, all.map.depth);
+	while (i < all.map.width * all.map.height)
+	{
+		printf("(%f, %f, %f), ", all.map.point[i].x, all.map.point[i].y, all.map.point[i].z);
+		if (i % all.map.width == 0)
+			printf("\n");
+		i++;
+	}
 	normalize(&all.map);
-	ft_printf("img w: %d, h: %d\nimg.bits_per_pix: %d\nimg.line_length : %d\nimg.endian : %d\n",\
-			IM_WIDTH, IM_HEIGHT, all.img.bits_per_pix, all.img.line_length, all.img.endian);
 	// mlx_hook(env.win, 4, 0, mouse_handler, &mlx);
     // mouse_handler will be called everytime a mouse down event is emitted
     mlx_hook(all.mlx.window, 2, 1L << 0, key_handle, &all);

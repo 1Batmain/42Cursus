@@ -15,14 +15,22 @@
 #define IM_HEIGHT	360
 #define IM_DEPTH	60
 
-#define ABS(x) (x) > 0 ? (x) : -(x)
+#define ABS(x) (x) >= 0 ? (x) : -(x)
 // STRUCT
+typedef struct	s_point
+{
+	double	x;
+	double	y;
+	double	z;
+	unsigned int	color;
+}	t_point;
+
 typedef struct	s_map
 {
-	int	width;
-	int	height;
-	int	depth;
-	double	**map;
+	int				width;
+	int				height;
+	int				depth;
+	t_point			*point;
 }	t_map;
 
 typedef struct	s_mlx
@@ -47,14 +55,9 @@ typedef struct	s_all
 	t_img	img;
 }	t_all;
 // MAP
-int	count_words(char *line);
-int	get_map_dim(char *path, t_map *map);
-int	init_map(t_map *map);
-int	extract_values(char *line, int y, t_map *map);
-int	fill_map(char  *path, t_map *map);
 int	extract_map(char *path, t_map *map);
 //Line
-void	draw_line(t_img *img, double *s, double *e);
+void	draw_line(t_img *img, t_point *s, t_point *e);
 //Utils
 void	swap(double *a, double *b);
 #endif

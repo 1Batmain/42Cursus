@@ -1,117 +1,88 @@
 #include "fdf.h"
 
-int	count_words(char *line)
+void	extract_values_to(t_map *map, char *data, int x, int y)
 {
-	int	tem;
-	int	words;
-
-	tem = 0;
-	words = 0;
-	while (ft_isspace(*line))
-		line++;
-	while (*line)
+	map->point[x + y * map->width].x = x;
+	map->point[x + y * map->width].y = y;
+	map->point[x + y * map->width].z = (double)ft_atoi(data);
+	if (map->point[x + y * map->width].z > map->depth)
+		map->depth = ABS(map->point[x + y * map->width].z);
+	while(is_digit(*data))
+		data++;
+	if (*data == ',')
 	{
-		while (!ft_isspace(*line) && *line)
-		{
-			tem = 1;
-			line++;
-		}
-		while (ft_isspace(*line) || *line == '\n')
-			line++;
-		if (tem)
-		{
-			words++;
-			tem = 0;
-		}
+		while (*data == '0' || *data == 'x')
+			data++;
+		map->point[x + y * map->width].color = ft_atoibase(data, 16);
 	}
-	return (words);
+	else
+		map->point[x + y * map->width].color = 0xFFFFFF;
+
+	return ;
 }
 
-int	get_map_dim(char *path, t_map *map)
+t_point	*add_points(t_point **og, int og_len, int add_len)
 {
-	int	fd;
-	char *line;
-	
-	map->height = 0;
-	map->width = 0;
-	map->depth = 0;
-	fd = open(path, O_RDONLY);
-	while ((line = get_next_line(fd)))
-	{
-		if (!map->width)
-			map->width = count_words(line);
-		map->height++;
-	}
-	close(fd);
-	return (0);
-}
-
-int	init_map(t_map *map)
-{
-	double	**m;
+	t_point	*temp;
 	int	i;
 
-	m = (double **)malloc(sizeof (int *) * map->height * map->width);
-	if  (!m)
-		return (ft_printf("Erreur malloc map\n"));
+	temp = (t_point *)malloc((og_len + add_len) * sizeof(t_point));
+	if (!temp)
+		return (ft_printf("Erreur Malloc t_point\n"), NULL);
 	i = 0;
-	while (i < map->height * map->width)
+	while(i < og_len)
 	{
-		m[i] = (double *)malloc(sizeof(int) * 3);
-		if (!m[i])
-		{
-			while (i--)
-				free(m[i]);
-			free(m);
-			return (ft_printf("Erreur malloc map[i]\n"));
-		}
+		temp[i].x = (*og)[i].x;
+		temp[i].y = (*og)[i].y;
+		temp[i].z = (*og)[i].z;
 		i++;
 	}
-	map->map = m;
-	return (0);
+	*og = temp;
+	return (temp);
 }
 
-int	extract_values(char *line, int y, t_map *map)
+int	update(t_map *map, char *line)
 {
-	int	x;
-	int p;
+	static int	y;
+	int			x;
+	char	**split;
 
-	x = 0;
-	p = y * map->width;
-	while (x < map->width)
+	split = ft_split((const char *)line, ' ');
+	x = -1;
+	while (split[++x]);
+	map->width = x;
+	if (!add_points(&map->point, y * x, x))
+		return (1);
+	x = -1;
+	while (split[++x])
 	{
-		map->map[p + x][0] = x;
-		map->map[p + x][1] = y;
-		map->map[p + x][2] = ft_atoi(line);
-		if (map->depth < (ABS(map->map[p + x][2])))
-			map->depth = ABS(map->map[p + x][2]);
-		x++;
-		while (!ft_isspace(*line) && *line)
-			line++;
-		while (ft_isspace(*line) || *line == '\n')
-			line++;
+		extract_values_to(map, split[x], x, y);
+		free(split[x]);
 	}
-	return (0);
-}
-
-int	fill_map(char  *path, t_map *map)
-{
-	int		fd;
-	int		y;
-	char	*line;
-
-	fd = open(path, O_RDONLY);
-	y = 0;
-	while ((line =  get_next_line(fd)))
-		extract_values(line, y++, map);
-	close(fd);
+	free(split);
+	y++;
+	map->height = y;
 	return (0);
 }
 
 int	extract_map(char *path, t_map *map)
 {
-	if (!get_map_dim(path, map))
-		if (!init_map(map) && !fill_map(path, map))
-			return (0);
-	return (1);
+	char	*line;
+	int		fd;
+
+	map->width = 0;
+	map->height = 0;
+	map->depth = 0;
+	fd = open(path, O_RDONLY);
+	if (fd > 0)
+	{
+		while ((line = get_next_line(fd)))
+		{
+			if (update(map, line))
+				return (free(line), 1);
+			free(line);
+		}
+		free(line);
+	}
+	return (0);
 }

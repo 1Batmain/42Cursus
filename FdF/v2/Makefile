@@ -9,6 +9,7 @@ SRC_DIR		= src/
 OBJ_DIR		= obj/
 HEADER		= -I header/ -I /usr/include -I mlx_linux -I biglibft/header
 LIB			= -L mlx_linux -lmlx_Linux -L /usr/lib -L biglibft -lXext -lX11 -lm -lz -lft
+
 #-Imlx_linux
 SRC		= $(MANDATORY:%=$(SRC_DIR)%.c)
 OBJ			= $(SRC:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)

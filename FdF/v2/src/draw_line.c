@@ -4,13 +4,13 @@ void	put_pixelto(t_img *img, int x, int y, int color)
 {
 	char *pix;
 	
-	if (x < 0 || x > IM_WIDTH || y < 0 || y > IM_HEIGHT)
+	if (x <= 0 || x >= IM_WIDTH || y <= 0 || y >= IM_HEIGHT)
 		return ;
 	pix  = img->data + (y * img->line_length + x * (img->bits_per_pix / 8));
 	*(int *)pix = color;
 }
 
-void	draw_verti_line(t_img *img, double *s, double *e)
+void	draw_verti_line(t_img *img, t_point *s, t_point *e)
 {
 	int	x;
 	int	y;
@@ -19,32 +19,29 @@ void	draw_verti_line(t_img *img, double *s, double *e)
 	int p;
 	int	dir;
 
-	dx = e[0] - s[0];
-	dy = e[1] - s[1];
+	dx = e->x - s->x;
+	dy = e->y - s->y;
 	if (dx >= 0)
 		dir = 1;
 	else 
 		dir = -1;
 	dx *= dir;
-	if (dy != 0)
+	p = 2 * dx - dy;
+	x = s->x;
+	y = s->y;
+	while (y <= e->y)
 	{
-		p = 2 * dx - dy;
-		x = s[0];
-		y = s[1];
-		while (y <= e[1])
+		put_pixelto(img, x, y, 0xFFFFFF);
+		if (p >= 0)
 		{
-			put_pixelto(img, x, y, 0xFFFFFF);
-			if (p >= 0)
-			{
-				x += dir;
-				p -= 2 * dy;
-			}
-			p += 2 * dx;
-			y++;
+			x += dir;
+			p -= 2 * dy;
 		}
+		p += 2 * dx;
+		y++;
 	}
 }
-void	draw_horiz_line(t_img *img, double *s, double *e)
+void	draw_horiz_line(t_img *img, t_point *s, t_point *e)
 {
 	int	x;
 	int	y;
@@ -53,41 +50,46 @@ void	draw_horiz_line(t_img *img, double *s, double *e)
 	int p;
 	int	dir;
 
-	dx = e[0] - s[0];
-	dy = e[1] - s[1];
+	dx = e->x - s->x;
+	dy = e->y - s->y;
 	if (dy >= 0)
 		dir = 1;
 	else 
 		dir = -1;
 	dy *= dir;
 	p = 2 * dy - dx;
-	x = s[0];
-	y = s[1];
-	while (x <= e[0])
+	x = s->x;
+	y = s->y;
+	while (x <= e->x)
 	{
 		put_pixelto(img, x, y, 0xFFFFFF);
 		if (p >= 0)
 		{
 			y += dir;
-			p -= 2 *dx;
+			p -= 2 * dx;
 		}
 		p += 2 * dy;
 		x++;
 	}
 }
 
-void	draw_line(t_img *img, double *s, double *e)
+void	draw_line(t_img *img, t_point *s, t_point *e)
 {
-	if ((ABS(e[0] - s[0]) > (ABS(e[1] - s[1]))))
+	double	dx;
+	double dy;
+
+	dx = ABS(e->x - s->x);
+	dy = ABS(e->y - s->y);
+	if (dx >= dy)
 	{
-		if (s[0] <= e[0])
+		if (s->x <= e->x)
 			draw_horiz_line(img, s, e);
 		else
 			draw_horiz_line(img, e, s);
 	}
 	else
 	{
-		if (s[1] <= e[1])
+		if (s->y <= e->y)
 			draw_verti_line(img, s, e);
 		else
 			draw_verti_line(img, e, s);

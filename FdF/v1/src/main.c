@@ -1,6 +1,78 @@
 #include "fdf.h"
 
-#define TETA	M_PI / 4
+#define TETA	M_PI / 180
+#define ZOOM	1.2
+#define DEZOOM	0.8
+#define TRANSLATE	10
+
+
+void	center(t_map *map)
+{
+	int	p;
+
+	p = 0;
+	while (p < map->height * map->width)
+	{
+		map->map[p][0] -= IM_WIDTH / 2;
+		map->map[p][1] -= IM_HEIGHT / 2;
+		map->map[p][2] -= IM_DEPTH / 2;
+		p++;
+	}
+}
+
+void	de_center(t_map *map)
+{
+	int	p;
+
+	p = 0;
+	while (p <  map->height *map->width)
+	{
+		map->map[p][0] += IM_WIDTH / 2;
+		map->map[p][1] += IM_HEIGHT / 2;
+		map->map[p][2] += IM_DEPTH / 2;
+		p++;
+	}
+}
+
+void	zoom(t_map *map, float zoom)
+{
+	int		p;
+
+	p  = 0;
+	center(map);
+	while (p <map->width *map->height)
+	{
+		map->map[p][0] *= zoom;
+		map->map[p][1] *= zoom;
+		map->map[p][2] *= zoom;
+		p++;
+	}
+	de_center(map);
+}
+
+void	x_translate(t_map *map, int direction)
+{
+	int	p;
+
+	p = 0;
+	while (p < map->height * map->width)
+	{
+		map->map[p][0] += direction;
+		p++;
+	}
+}
+void	y_translate(t_map *map, int direction)
+{
+	int	p;
+
+	p = 0;
+	while (p < map->height * map->width)
+	{
+		map->map[p][1] += direction;
+		p++;
+	}
+}
+
 void	x_rotate(t_map *map, int direction)
 {
 	int	p;
@@ -9,33 +81,38 @@ void	x_rotate(t_map *map, int direction)
 
 	teta = TETA * direction;
 	p = 0;
-	printf("\nMAP\n");
+	center(map);
 	while (p < map->height * map->width)
 	{
 		n[1] = map->map[p][1] * cos(teta) - map->map[p][2] * sin(teta);
 		n[2] = map->map[p][1] * sin(teta) + map->map[p][2] * cos(teta);
 		map->map[p][1] = n[1];
 		map->map[p][2] = n[2];
-		printf("teta = %lf, p1 = %lf p2 = %lf\n", teta, n[1], n[2]);
 		p++;
 	}
+	de_center(map);
 	
 }
+
 
 void	z_rotate(t_map *map, int direction)
 {
 	int	p;
-	float	teta;
+	double	teta;
+	double	n[3];
 
 	teta = TETA * direction;
 	p = 0;
+	center(map);
 	while (p < map->height * map->width)
 	{
-		map->map[p][0] = map->map[p][0] * cos(teta) - map->map[p][1] * sin(teta);
-		map->map[p][1] = map->map[p][0] * sin(teta) + map->map[p][1] * cos(teta);
+		n[0] = map->map[p][0] * cos(teta) - map->map[p][1] * sin(teta);
+		n[1] = map->map[p][0] * sin(teta) + map->map[p][1] * cos(teta);
+		map->map[p][0] = n[0];
+		map->map[p][1] = n[1];
 		p++;
 	}
-	
+	de_center(map);
 }
 
 void	y_rotate(t_map *map, int direction)
@@ -46,6 +123,7 @@ void	y_rotate(t_map *map, int direction)
 
 	teta = direction * TETA;
 	p = 0;
+	center(map);
 	while (p < map->height * map->width)
 	{
 		n[0] = map->map[p][0] * cos(teta) + map->map[p][2] * sin(teta);
@@ -54,7 +132,7 @@ void	y_rotate(t_map *map, int direction)
 		map->map[p][2] = n[2];
 		p++;
 	}
-	
+	de_center(map);
 }
 
 void	normalize(t_map *map)
@@ -66,8 +144,10 @@ void	normalize(t_map *map)
 	{
 		map->map[p][0] *= (IM_WIDTH)/ map->width;
 		map->map[p][1] *= (IM_HEIGHT)/ map->height;
+		map->map[p][2] *= (IM_DEPTH)/ map->depth;
 		map->map[p][0] += (IM_WIDTH / map->width) / 2;
 		map->map[p][1] += (IM_HEIGHT / map->height) / 2;
+		map->map[p][2] += (IM_DEPTH / map->depth) / 2;
 		p++;
 	}
 }
@@ -134,18 +214,30 @@ int	key_handle(int keycode, t_all *all)
 		mlx_destroy_window(all->mlx.id, all->mlx.window);
 		exit(0);
 	}
-	if (keycode == 115 || keycode == 65364)
+	if (keycode == 65364)
+		y_translate(&all->map, TRANSLATE);
+	if (keycode == 65362)
+		y_translate(&all->map, -TRANSLATE);
+	if(keycode == 65361)
+		x_translate(&all->map, -TRANSLATE);
+	if (keycode == 65363)
+		x_translate(&all->map, TRANSLATE);
+	if (keycode == 119 )
 		x_rotate(&all->map, 1);
-	if (keycode == 122 || keycode == 65362)
+	if (keycode == 115)
 		x_rotate(&all->map, -1);
-	if (keycode == 113 || keycode == 65361)
+	if (keycode == 100)
 		y_rotate(&all->map, 1);
-	if (keycode == 100 || keycode == 65363)
-		y_rotate(&all->map, -1);
 	if (keycode == 97)
-		z_rotate(&all->map, 1);
+		y_rotate(&all->map, -1);
 	if (keycode == 101)
+		z_rotate(&all->map, 1);
+	if (keycode == 113)
 		z_rotate(&all->map, -1);
+	if (keycode == 65451)
+		zoom(&all->map, ZOOM);
+	if (keycode == 65453)
+		zoom(&all->map, DEZOOM);
 	return (0);
 }
 

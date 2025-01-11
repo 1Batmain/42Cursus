@@ -13,8 +13,9 @@
 
 #define IM_WIDTH	540	
 #define IM_HEIGHT	360
+#define IM_DEPTH	60
 
-#define ABS(x) (x) > 0 ? (x) : -(x)
+#define ABS(x) (x) >= 0 ? (x) : -(x)
 // STRUCT
 typedef struct	s_map
 {
