@@ -1,0 +1,38 @@
+source $VIMRUNTIME/defaults.vim 
+
+set relativenumber
+set number
+
+set shiftwidth=4
+set tabstop=4
+set autoindent
+set colorcolumn=82
+
+highlight cursorline cterm=bold
+highlight cursorlineNr cterm=bold ctermfg=black ctermbg=darkgrey
+highlight lineNr ctermfg=darkgray
+highlight colorcolumn ctermbg=darkgray
+highlight NonText ctermfg=darkgray
+highlight SpecialKey ctermfg=darkgray
+
+set listchars=tab:\>\ ,trail:_,eol:$
+
+function! InsertMode()
+	set cursorline
+	set nolist
+	endfunction
+
+function DefaultMode()
+	set nocursorline
+	set list
+	endfunction
+
+call DefaultMode()
+autocmd InsertEnter * call InsertMode()
+autocmd InsertLeave * call DefaultMode()
+
+let g:user42 = 'bduval'
+let g:mail42 = 'bduval@student.42.fr'
+
+vnoremap < <gv
+vnoremap > >gv
