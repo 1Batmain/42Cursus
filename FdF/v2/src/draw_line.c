@@ -10,6 +10,33 @@ void	put_pixelto(t_img *img, int x, int y, int color)
 	*(int *)pix = color;
 }
 
+int	colorfade(t_point *s, t_point *e, int step, int length)
+{
+	int		start[3];
+	int		end[3];
+	float	factor;
+	int		i;
+
+	if (!length)
+		return (s->color);
+	factor = (float)step / length;
+	start[0] = (s->color >> 16) & 0xFF;
+	start[1] = (s->color >> 8) & 0xFF;
+	start[2] = s->color & 0xFF;
+	end[0] = (e->color >> 16) & 0xFF;
+	end[1] = (e->color >> 8) & 0xFF;
+	end[2] = e->color & 0xFF;
+	i = 0;
+	while (i < 3)
+	{
+		start[i] *= 1 - factor;
+		end[i] *= factor;
+		end[i] += start[i];
+		i++;
+	}
+	return (end[0] << 16 | end[1] << 8 | end[2]);
+}
+
 void	draw_verti_line(t_img *img, t_point *s, t_point *e)
 {
 	int	x;
@@ -21,9 +48,8 @@ void	draw_verti_line(t_img *img, t_point *s, t_point *e)
 
 	dx = e->x - s->x;
 	dy = e->y - s->y;
-	if (dx >= 0)
-		dir = 1;
-	else 
+	dir = 1;
+	if (dx < 0)
 		dir = -1;
 	dx *= dir;
 	p = 2 * dx - dy;
@@ -31,7 +57,7 @@ void	draw_verti_line(t_img *img, t_point *s, t_point *e)
 	y = s->y;
 	while (y <= e->y)
 	{
-		put_pixelto(img, x, y, 0xFFFFFF);
+		put_pixelto(img, x, y, colorfade(s, e, y - s->y, dy));
 		if (p >= 0)
 		{
 			x += dir;
@@ -52,9 +78,8 @@ void	draw_horiz_line(t_img *img, t_point *s, t_point *e)
 
 	dx = e->x - s->x;
 	dy = e->y - s->y;
-	if (dy >= 0)
-		dir = 1;
-	else 
+	dir = 1;
+	if (dy < 0)
 		dir = -1;
 	dy *= dir;
 	p = 2 * dy - dx;
@@ -62,7 +87,7 @@ void	draw_horiz_line(t_img *img, t_point *s, t_point *e)
 	y = s->y;
 	while (x <= e->x)
 	{
-		put_pixelto(img, x, y, 0xFFFFFF);
+		put_pixelto(img, x, y, colorfade(s, e, x - s->x, dx));
 		if (p >= 0)
 		{
 			y += dir;

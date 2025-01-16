@@ -1,5 +1,33 @@
 #include "fdf.h"
 
+unsigned int	value(char c)
+{
+	if (c >= '0' && c <= '9')
+		return (c - '0');
+	if (c >= 'a' && c <= 'f')
+		return (10 +  c - 'a');
+	if (c >= 'A' && c <= 'F')
+		return (10 +  c - 'A');
+	return (0);
+}
+
+unsigned int	ft_atoifromhex(char *data)
+{
+	unsigned int	nbr;
+	int				i;
+
+	i = 0;
+	nbr = 0;
+	while (data[i])
+	{
+		nbr += value(data[i]);
+		if (data[i + 1])
+			nbr *= 16;
+		i++;
+	}
+	return (nbr);
+}
+
 void	extract_values_to(t_map *map, char *data, int x, int y)
 {
 	map->point[x + y * map->width].x = x;
@@ -11,9 +39,8 @@ void	extract_values_to(t_map *map, char *data, int x, int y)
 		data++;
 	if (*data == ',')
 	{
-		while (*data == '0' || *data == 'x')
-			data++;
-		map->point[x + y * map->width].color = ft_atoibase(data, 16);
+		data += 3;
+		map->point[x + y * map->width].color = ft_atoifromhex(data);
 	}
 	else
 		map->point[x + y * map->width].color = 0xFFFFFF;
@@ -35,6 +62,7 @@ t_point	*add_points(t_point **og, int og_len, int add_len)
 		temp[i].x = (*og)[i].x;
 		temp[i].y = (*og)[i].y;
 		temp[i].z = (*og)[i].z;
+		temp[i].color =  (*og)[i].color;
 		i++;
 	}
 	*og = temp;

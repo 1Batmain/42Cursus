@@ -11,9 +11,9 @@
 #define WIDTH	1080
 #define HEIGHT	720
 
-#define IM_WIDTH	540	
+#define IM_WIDTH	720	
 #define IM_HEIGHT	360
-#define IM_DEPTH	60
+#define IM_DEPTH	30
 
 #define ABS(x) (x) >= 0 ? (x) : -(x)
 // STRUCT
@@ -22,7 +22,7 @@ typedef struct	s_point
 	double	x;
 	double	y;
 	double	z;
-	unsigned int	color;
+	int		color;
 }	t_point;
 
 typedef struct	s_map
