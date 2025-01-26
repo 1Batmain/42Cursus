@@ -19,7 +19,7 @@ HEADER_DIR	=	-I header/ -I biglibft/header
 TEST_DIR	=	src/
 OBJ_DIR		=	obj/
 LIB_DIR		= biglibft/
-LIB			= -L biglibft/ -lft
+LIB			= -L biglibft/ -lft -pie
 
 MANDATORY = main
 

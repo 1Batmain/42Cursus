@@ -1,5 +1,5 @@
 CC = cc
-CFLAGS 	= -Wall -Werror -Wextra
+CFLAGS 	= -Wall -Werror -Wextra -fPIE
 NAME 	= libftprintf.a
 
 SRC_DIR 	=	src/

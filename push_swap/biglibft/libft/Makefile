@@ -10,7 +10,7 @@
 #                                                                              #
 # **************************************************************************** #
 CC = cc
-CFLAGS 	= -Wall -Werror -Wextra
+CFLAGS 	= -Wall -Werror -Wextra -fPIE
 NAME 	= libft.a
 
 SRC_DIR = src/
