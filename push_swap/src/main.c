@@ -5,14 +5,12 @@
 #include "ft_printf.h"
 #include "push_swap.h"
 
-# define INTERACTIVE	1
+# define INTERACTIVE	0
 struct s_element
 {
 	int	value;
 	int	ideal;
-	int	*min;
-	int	*max;
-	int	*nb_element;
+	int	window;
 	struct s_element	*next;
 	struct s_element	*prev;
 };
@@ -22,7 +20,6 @@ typedef	struct	s_stack
 {
 	t_element	*start;
 	t_element	*end;
-	t_element	*moment;
 	int	nb_element;
 	int	min;
 	int	max;
@@ -122,68 +119,123 @@ int	get_lst(t_stack *l1, int ac, char **av)
 
 void	swap(t_stack *l)
 {
-	t_element *l1;
 	t_element *temp;
 	
-	l1 = l->start;
-	if (!l1 || !l1->next)
+	if (!l->start || !l->start->next)
 		return ;
-	temp = (l1)->next;
+	temp = (l->start)->next;
 	temp->prev = NULL;
-	l1->next = l1->next->next;
-	l1->prev = temp;
-	temp->next = l1;
-	l1 = temp;
+	l->start->next = l->start->next->next;
+	l->start->prev = temp;
+	temp->next = l->start;
+	l->start = temp;
 	ft_printf("s\n");
 	return ;
+}
+void	get_new_max(t_stack *a)
+{
+	t_element *i;
+
+	a->max = a->max - 1;
+	while (1)
+	{
+		i = a->start;
+		while (i)
+		{
+			if (i->ideal == a->max)
+				return ;
+			i = i->next;
+		}
+		a->max--;
+	}
+}
+
+void	get_new_min(t_stack *a)
+{
+	t_element *i;
+
+	a->min = a->min + 1;
+	while (1)
+	{
+		i = a->start;
+		while (i)
+		{
+			if (i->ideal == a->min)
+				return ;
+			i = i->next;
+		}
+		a->min++;
+	}
+}
+
+void	update_max_min(t_stack *a, t_stack *b)
+{
+	if (a->start->ideal == a->max)
+	{
+		if (b->max < a->start->ideal - 1)
+			a->max--;
+		else if (a->nb_element > 1)
+			get_new_max(a);
+	}
+	if (a->start->ideal == a->min)
+	{
+		if (b->min > a->start->ideal + 1)
+			a->min++;
+		else if (a->nb_element > 1)
+			get_new_min(a);
+	}
+	if (a->start->ideal > b->max)
+		b->max = a->start->ideal;
+	if (a->start->ideal < b->min)
+		b->min = a->start->ideal;
+	if (a->nb_element == 1)
+	{
+		a->min = 2147483647;
+		a->max = -2147483648;
+	}
 }
 
 void	push(t_stack *a, t_stack *b)
 {
 	t_element	*temp;
-	t_element	*l1;
-	t_element	*l2;
-	
-	l1 = a->start;
-	l2 = b->start;
-	if (!l1)
+
+	if (!a->start)
 		return ;
-	temp = l2;
-	l2 = l1;
-	l1 = l1->next;
-	if (l1)
+	update_max_min(a, b);
+	temp = b->start;
+	b->start = a->start;
+	a->start = a->start->next;
+	if (a->start)
 	{
-		l1->prev = NULL;
+		a->start->prev = NULL;
 		a->nb_element--;
 	}
-	l2->next = temp;
-	l2->prev = NULL;
+	else
+		a->nb_element = 0;
+	b->start->next = temp;
+	b->start->prev = NULL;
 	b->nb_element++;
 	if (temp)
-		temp->prev = l2;
-	ft_printf("p\n");
+		temp->prev = b->start;
 	return ;
 }
 
 void	rotate(t_stack *l)
 {
-	t_element	*l1;
 	t_element	*temp;
 	t_element	*indice;
 
-	l1 = l->start;
-	if (!l1 || !l1->next)
+	if (!l->start || !l->start->next)
 		return ;
-	temp = l1->next;
+	temp = l->start->next;
 	temp->prev = NULL;
-	indice = l1;
+	indice = l->start;
 	while (indice->next)
 		indice = indice->next;
-	indice->next = l1;
-	l1->prev = indice;
-	l1->next = NULL;
-	l1 = temp;
-	ft_printf("r\n");
+	indice->next = l->start;
+	l->start->prev = indice;
+	l->start->next = NULL;
+	l->start = temp;
 	return ;
 }
 
@@ -202,8 +254,7 @@ void	reverse_rotate(t_stack *l)
 	indice->prev->next = NULL;
 	indice->prev = NULL;
 	l1->prev = indice;
-	l1 = indice;
-	ft_printf("rr\n");
+	l->start = indice;
 	return ;
 }
 
@@ -226,73 +277,142 @@ void	print_results(t_stack *a, t_stack *b)
 	{
 		if (l1)
 		{
-			ft_printf("%d(%+d)", l1->value, l1->ideal);
+			ft_printf("%d(%+d)(%d)", l1->value, l1->ideal, l1->window);
 			l1 = l1->next;
 		}
 		ft_printf("\t\t");
 		if (l2)
 		{
-			ft_printf("%d(%+d)", l2->value, l2->ideal);
+			ft_printf("%d(%+d)(%d)", l2->value, l2->ideal, l2->window);
 			l2 = l2->next;
 		}
 		ft_printf("\n");
 	}
 	ft_printf(	"--------\n"\
-				"a(%d)\t\tb(%d)\n", nb_elem1, nb_elem2);
+				"a(%d)\t\tb(%d)\n"\
+				"min :\n"\
+				"%d\t\t%d\nmax :\n%d\t\t%d\n"\
+				, nb_elem1, nb_elem2, a->min, b->min, a->max, b->max);
 }
 
-int	get_min(t_element *l)
-{
-	int	min;
-
-	min = l->value;
-	while (l)
-	{
-		if (min > l->value)
-			min = l->value;
-		l = l->next;
-	}
-	return (min);
-}
-void	analyse(t_stack *l1)
+void	back_propagate(t_element *instant)
 {
 	t_element *outfielder;
+
+	outfielder = instant->prev;
+	while (outfielder)
+	{
+		if (instant->value <= outfielder->value)
+		{
+			if (instant->ideal > outfielder->ideal)
+				instant->ideal = outfielder->ideal;
+			outfielder->ideal++;
+		}
+		outfielder  = outfielder->prev;
+	}
+}
+
+void	get_window(t_stack *l1)
+{
+	t_element	*i;
+	t_element	*start;
+	t_element	*best;
+	int			count;
+	int			max;
+
+	i = l1->start;
+	max = 0;
+	while (i)
+	{
+
+		start = i;
+		count = 1;
+		while (i->next && i->next->ideal >= i->ideal)
+		{
+			count++;
+			i = i->next;
+			if (!i->next && l1->start->ideal >= i->ideal)
+			{
+				i = l1->start;
+				count++;
+			}
+		}
+		if (count > max)
+		{
+			best = start;
+			max = count;
+		}
+		i = start->next;
+	}
+	count = 0;
+	while (count < max)
+	{
+		best->window = 1;
+		if (best->next)
+			best = best->next;
+		else
+			best = l1->start;
+		count++;
+	}
+}
+
+void	analyse(t_stack *l1)
+{
 	t_element *instant;
 	int	pos;
 	int	max;
 
-	instant = l1->start;
 	pos = 1;
+	instant = l1->start;
 	max = instant->value;
 	while (instant)
 	{
 		instant->ideal = pos++;
 		if (instant->value < max)
-		{
-			outfielder = instant->prev;
-			while (outfielder)
-			{
-				if (instant->value <= outfielder->value)
-				{
-					if (instant->ideal > outfielder->ideal)
-						instant->ideal = outfielder->ideal;
-					outfielder->ideal++;
-				}
-				outfielder  = outfielder->prev;
-			}
-		}
+			back_propagate(instant);
 		else
 			max = instant->value;
 		instant = instant->next;
 	}
+	l1->min = 1;
+	l1->max = --pos;
+	get_window(l1);
 }
 
 void	sort_stack(t_stack *l1, t_stack *l2)
 {
+	int	on;
+	t_element	*i;
+
 	analyse(l1);
-	if (l2)
-		return ;
+	on = 42;
+	while (on)
+	{
+		i = l1->start;
+		if (!i->window)
+		{
+			push(l1, l2);
+		}
+		else
+			rotate(l1);
+		on--;
+	}
 	return ;	
+}
+
+
+void	init_stack(t_stack *l1, t_stack *l2)
+{
+	l1->start = NULL;
+	l2->start = NULL;
+	l1->end = NULL;
+	l2->end = NULL;
+	l1->max = -2147483648;
+	l2->max = -2147483648;
+	l1->min = 2147483647;
+	l2->min = 2147483647;
+	l1->nb_element = 0;
+	l2->nb_element = 0;
 }
 
 int	main(int ac, char **av)
@@ -300,10 +420,7 @@ int	main(int ac, char **av)
 	t_stack	l1;
 	t_stack	l2;
 
-	l1.start = NULL;
-	l2.start = NULL;
-	l1.end = NULL;
-	l2.end = NULL;
+	init_stack(&l1, &l2);
 	if (ac <= 1)
 		return (1);
 	if (get_lst(&l1, ac, av))

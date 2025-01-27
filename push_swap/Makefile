@@ -6,7 +6,7 @@
 #    By: bduval <bduval@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/19 13:54:02 by bduval            #+#    #+#              #
-#    Updated: 2024/12/22 18:06:13 by bduval           ###   ########.fr        #
+#    Updated: 2025/01/27 09:54:23 by bduval           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ HEADER_DIR	=	-I header/ -I biglibft/header
 TEST_DIR	=	src/
 OBJ_DIR		=	obj/
 LIB_DIR		= biglibft/
-LIB			= -L biglibft/ -lft -pie
+LIB			= -L biglibft/ -lft
 
 MANDATORY = main
 

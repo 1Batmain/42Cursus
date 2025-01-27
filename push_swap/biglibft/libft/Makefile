@@ -6,11 +6,11 @@
 #    By: bduval <bduval@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/08 10:56:02 by bduval            #+#    #+#              #
-#    Updated: 2024/12/22 19:44:56 by bduval           ###   ########.fr        #
+#    Updated: 2025/01/27 09:55:23 by bduval           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 CC = cc
-CFLAGS 	= -Wall -Werror -Wextra -fPIE
+CFLAGS 	= -Wall -Werror -Wextra
 NAME 	= libft.a
 
 SRC_DIR = src/
