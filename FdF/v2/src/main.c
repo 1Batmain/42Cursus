@@ -73,6 +73,7 @@ void	x_translate(t_map *map, int direction)
 		p++;
 	}
 }
+
 void	y_translate(t_map *map, int direction)
 {
 	int	p;

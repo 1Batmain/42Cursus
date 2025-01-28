@@ -14,8 +14,8 @@ struct s_element
 	struct s_element	*next;
 	struct s_element	*prev;
 };
-typedef struct	s_element	t_element;
 
+typedef struct	s_element	t_element;
 typedef	struct	s_stack
 {
 	t_element	*start;
@@ -56,12 +56,10 @@ int	element_addfront(t_stack *list, t_element *new)
 		return (1);
 	}
 	new->next = start;
-	if (start)
-		start->prev = new;
+	if (!start)
+		return (list->start = new, list->end = new, 0);
+	list->start->prev = new;
 	list->start = new;
-	temp = list->start;
-	while (temp->next)
-		temp = temp->next;
 	return (0);
 }
 
@@ -82,12 +80,10 @@ int	element_addback(t_stack *list, t_element *new)
 		return (1);
 	}
 	if (!start)
-		return (list->start = new, 0);
-	temp = start;
-	while (temp->next)
-		temp = temp->next;
-	temp->next = new;
-	new->prev = temp;
+		return (list->start = new, list->end = new, 0);
+	new->prev = list->end;
+	list->end->next = new;
+	list->end = new;
 	return (0);
 }
 
@@ -168,7 +164,7 @@ void	get_new_min(t_stack *a)
 	}
 }
 
-void	update_max_min(t_stack *a, t_stack *b)
+void	push_max_min(t_stack *a, t_stack *b)
 {
 	if (a->start->ideal == a->max)
 	{
@@ -201,60 +197,55 @@ void	push(t_stack *a, t_stack *b)
 
 	if (!a->start)
 		return ;
-	update_max_min(a, b);
-	temp = b->start;
-	b->start = a->start;
-	a->start = a->start->next;
-	if (a->start)
-	{
-		a->start->prev = NULL;
-		a->nb_element--;
-	}
-	else
-		a->nb_element = 0;
-	b->start->next = temp;
-	b->start->prev = NULL;
-	b->nb_element++;
+	push_max_min(a, b);
+	temp = a->start->next;
 	if (temp)
-		temp->prev = b->start;
+		temp->prev = NULL;
+	if (b->nb_element > 0)
+		b->start->prev = a->start;
+	a->start->next = b->start;
+	b->start = a->start;
+	b->start->prev = NULL;
+	a->start = temp;
+	b->nb_element++;
+	a->nb_element--;
+	if (b->nb_element == 1)
+		b->end = b->start;
+
 	return ;
 }
 
 void	rotate(t_stack *l)
 {
 	t_element	*temp;
-	t_element	*indice;
 
-	if (!l->start || !l->start->next)
+	if (l->nb_element < 2)
 		return ;
 	temp = l->start->next;
 	temp->prev = NULL;
-	indice = l->start;
-	while (indice->next)
-		indice = indice->next;
-	indice->next = l->start;
-	l->start->prev = indice;
+	l->end->next = l->start;
+	l->start->prev = l->end;
 	l->start->next = NULL;
+	l->end = l->start;
 	l->start = temp;
 	return ;
 }
 
 void	reverse_rotate(t_stack *l)
 {
-	t_element 	*l1;
-	t_element 	*indice;
+	t_element 	*temp;
 
-	l1 = l->start;
-	if (!l1 || !l1->next)
+	if (l->nb_element < 2)
 		return ;
-	indice = l1;
-	while (indice->next)
-		indice = indice->next;
-	indice->next = l1;
-	indice->prev->next = NULL;
-	indice->prev = NULL;
-	l1->prev = indice;
-	l->start = indice;
+	temp = l->end->prev;
+	l->end->prev = NULL;
+	l->end->next = l->start;
+	l->start->prev = l->end;
+	l->start = l->end;
+	l->end = temp;
+	l->end->next = NULL;
+
+
 	return ;
 }
 
@@ -356,14 +347,14 @@ void	get_window(t_stack *l1)
 	}
 }
 
-void	analyse(t_stack *l1)
+void	analyse(t_stack *l)
 {
 	t_element *instant;
 	int	pos;
 	int	max;
 
 	pos = 1;
-	instant = l1->start;
+	instant = l->start;
 	max = instant->value;
 	while (instant)
 	{
@@ -374,9 +365,9 @@ void	analyse(t_stack *l1)
 			max = instant->value;
 		instant = instant->next;
 	}
-	l1->min = 1;
-	l1->max = --pos;
-	get_window(l1);
+	l->min = 1;
+	l->max = --pos;
+	get_window(l);
 }
 
 void	sort_stack(t_stack *l1, t_stack *l2)
@@ -391,6 +382,11 @@ void	sort_stack(t_stack *l1, t_stack *l2)
 		i = l1->start;
 		if (!i->window)
 		{
+			while (l2->nb_element >= 2 &&\
+					!((i->ideal > l2->max && l2->max == l2->start->ideal) \
+					|| (i->ideal < l2->min && l2->min == l2->end->ideal) ||\
+					(i->ideal > l2->start->ideal && i->ideal < l2->end->ideal)))
+				rotate(l2);
 			push(l1, l2);
 		}
 		else
@@ -399,7 +395,6 @@ void	sort_stack(t_stack *l1, t_stack *l2)
 	}
 	return ;	
 }
-
 
 void	init_stack(t_stack *l1, t_stack *l2)
 {
@@ -425,7 +420,7 @@ int	main(int ac, char **av)
 		return (1);
 	if (get_lst(&l1, ac, av))
 		return (ft_printf("Erreur Parsing List\n"), 1);
-	
+
 	char	cmd[4];
 	if (INTERACTIVE)
 	{
