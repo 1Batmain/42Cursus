@@ -5,7 +5,7 @@
 #include "ft_printf.h"
 #include "push_swap.h"
 
-# define INTERACTIVE	0
+# define INTERACTIVE	1
 struct s_element
 {
 	int	value;
@@ -370,18 +370,21 @@ void	analyse(t_stack *l)
 	get_window(l);
 }
 
-void	sort_stack(t_stack *l1, t_stack *l2)
+void	to_b_sorted(t_stack *l1, t_stack *l2)
 {
 	int	on;
-	t_element	*i;
+	t_element *i;
+	t_element *start;
 
-	analyse(l1);
-	on = 42;
-	while (on)
+	start = l1->start;
+	on = 1;
+	i = l1->start;
+	while (on || i != start)
 	{
-		i = l1->start;
 		if (!i->window)
 		{
+			if (i == start)
+				start = i->next;
 			while (l2->nb_element >= 2 &&\
 					!((i->ideal > l2->max && l2->max == l2->start->ideal) \
 					|| (i->ideal < l2->min && l2->min == l2->end->ideal) ||\
@@ -391,8 +394,33 @@ void	sort_stack(t_stack *l1, t_stack *l2)
 		}
 		else
 			rotate(l1);
-		on--;
+		on = 0;
+		i = l1->start;
 	}
+}
+
+void	back_to_a(t_stack *l1, t_stack *l2)
+{
+	while (l2->nb_element > 0)
+	{
+		if ((l1->start->ideal == l1->end->ideal - 1) ||\
+			(l1->start->ideal == l1->min))
+			rotate(l1);
+		else
+		{
+			while (l1->start->ideal != l2->start->ideal + 1)
+				rotate(l2);
+			while (l1->start->ideal == l2->start->ideal + 1)
+				push(l2, l1);
+		}
+	}
+}
+
+void	sort_stack(t_stack *l1, t_stack *l2)
+{
+	analyse(l1);
+	to_b_sorted(l1, l2);
+	back_to_a(l1, l2);
 	return ;	
 }
 
