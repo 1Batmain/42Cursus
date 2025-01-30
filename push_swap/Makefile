@@ -6,7 +6,7 @@
 #    By: bduval <bduval@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/19 13:54:02 by bduval            #+#    #+#              #
-#    Updated: 2025/01/27 09:54:23 by bduval           ###   ########.fr        #
+#    Updated: 2025/01/30 12:21:36 by bduval           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,7 @@ OBJ_DIR		=	obj/
 LIB_DIR		= biglibft/
 LIB			= -L biglibft/ -lft
 
-MANDATORY = main
+MANDATORY = main brain list operations
 
 SRC = $(MANDATORY:%=$(SRC_DIR)%.c)
 OBJ = $(SRC:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
