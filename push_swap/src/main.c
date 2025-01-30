@@ -5,7 +5,7 @@
 #include "ft_printf.h"
 #include "push_swap.h"
 
-# define INTERACTIVE	1
+# define INTERACTIVE	0
 struct s_element
 {
 	int	value;
@@ -385,16 +385,17 @@ void	to_b_sorted(t_stack *l1, t_stack *l2)
 		{
 			if (i == start)
 				start = i->next;
+			else
+				on = 0;
 			while (l2->nb_element >= 2 &&\
-					!((i->ideal > l2->max && l2->max == l2->start->ideal) \
-					|| (i->ideal < l2->min && l2->min == l2->end->ideal) ||\
+					!((i->ideal > l2->max && l2->max == l2->start->ideal) ||\
+					(i->ideal < l2->min && l2->min == l2->end->ideal) ||\
 					(i->ideal > l2->start->ideal && i->ideal < l2->end->ideal)))
 				rotate(l2);
 			push(l1, l2);
 		}
 		else
 			rotate(l1);
-		on = 0;
 		i = l1->start;
 	}
 }
@@ -403,14 +404,19 @@ void	back_to_a(t_stack *l1, t_stack *l2)
 {
 	while (l2->nb_element > 0)
 	{
-		if ((l1->start->ideal == l1->end->ideal - 1) ||\
-			(l1->start->ideal == l1->min))
+		if ((l1->start->ideal == l1->end->ideal + 1) ||\
+			(l1->start->ideal == 1 && l2->start->ideal < l1->max + 1) ||\
+			(l2->nb_element == 1 && \
+			(l2->start->ideal != l1->start->ideal - 1 || \
+			(l2->start->ideal == l1->max + 1 && l1->start->ideal != l1->min))))
 			rotate(l1);
 		else
 		{
-			while (l1->start->ideal != l2->start->ideal + 1)
+			while (l2->nb_element > 1 && l1->start->ideal != l2->start->ideal + 1)
 				rotate(l2);
-			while (l1->start->ideal == l2->start->ideal + 1)
+			while (l2->nb_element &&\
+					(l1->start->ideal == l2->start->ideal + 1 ||\
+					l1->end->ideal == l2->start->ideal - 1))
 				push(l2, l1);
 		}
 	}
@@ -418,8 +424,11 @@ void	back_to_a(t_stack *l1, t_stack *l2)
 
 void	sort_stack(t_stack *l1, t_stack *l2)
 {
+	print_results(l1, l2);
 	analyse(l1);
+	print_results(l1, l2);
 	to_b_sorted(l1, l2);
+	print_results(l1, l2);
 	back_to_a(l1, l2);
 	return ;	
 }
