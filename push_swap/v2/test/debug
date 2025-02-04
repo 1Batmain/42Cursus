@@ -1,0 +1,5 @@
+display l1->start->ideal
+display l1->end->ideal
+display l2->start->ideal
+display l1->max
+display l2->max
