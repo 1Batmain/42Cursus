@@ -13,7 +13,7 @@ struct s_element
 	int	value;
 	int	ideal;
 	int	window;
-	struct s_element	*w_next;
+	struct s_element	*prev_window;
 	struct s_element	*next;
 	struct s_element	*prev;
 };
@@ -55,13 +55,14 @@ void	push(t_stack *a, t_stack *b);
 void	rotate(t_stack *l);
 void	reverse_rotate(t_stack *l);
 
+// WINDOW
+void	get_window(t_stack *l);
 // BRAIN
 void	get_new_max(t_stack *a);
 void	get_new_min(t_stack *a);
 void	push_max_min(t_stack *a, t_stack *b);
 void	to_b_sorted(t_stack *l1, t_stack *l2);
 void	back_propagate(t_element *instant);
-void	get_window(t_stack *l1);
 void	analyse(t_stack *l);
 void	back_to_a(t_stack *l1, t_stack *l2);
 void	sort_stack(t_stack *l1, t_stack *l2);

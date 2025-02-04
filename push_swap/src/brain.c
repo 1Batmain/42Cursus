@@ -139,7 +139,7 @@ void	back_to_a(t_stack *l1, t_stack *l2)
 		if ((l1->start->ideal == l1->end->ideal + 1) ||\
 			(l1->start->ideal == 1 && l2->start->ideal < l1->max + 1) ||\
 			(l2->nb_element == 1 && \
-			(l2->start->ideal != l1->start->ideal - 1 || \
+			((l2->start->ideal != l1->start->ideal - 1 && l2->start->ideal != l1->max + 1) || \
 			(l2->start->ideal == l1->max + 1 && l1->start->ideal != l1->min))))
 			rotate(l1);
 		else

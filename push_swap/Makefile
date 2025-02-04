@@ -21,7 +21,7 @@ OBJ_DIR		=	obj/
 LIB_DIR		= biglibft/
 LIB			= -L biglibft/ -lft
 
-MANDATORY = main brain list operations
+MANDATORY = main brain list operations window
 
 SRC = $(MANDATORY:%=$(SRC_DIR)%.c)
 OBJ = $(SRC:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)

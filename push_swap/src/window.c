@@ -1,74 +1,52 @@
 #include "push_swap.h"
 
-void	free_pile(t_pile *p)
+static void	put_on_stack(t_element **stack, t_element *e)
 {
-	t_pile	*temp;
+	int	i;
 
-	while (p->prev_pile)
-		p = p->prev_pile;
-	while (p->prev)
-		p = p->prev;
-	while (p)
-	{
-		temp = p;
-		if (p->next)
-			p = p->next;	
-		else
-			p = p->next_pile;
-		free(temp);
-	}
+	i = 0;
+	while (stack[i] && stack[i]->ideal < e->ideal)
+		i++;
+	stack[i] = e;
+	if (i)
+		e->prev_window = stack[i - 1]; 
+	else
+		e->prev_window = NULL;
 }
 
-int	new_pile(t_pile **p, t_element *e)
+static void	mark_window(t_element **stack)
 {
-	t_pile	*new;
-
-	new = (t_pile *)malloc(sizeof(t_pile));
-	if (!new)}
-		return (free_pile(*p), 1);
-	while (*p && *p->next_pile)
-		p = p->next_pile;
-	new->element = e;
-	new->next = NULL;
-	new->prev = *p;
-	if (*p)
+	t_element *e;
+	while (*stack)
+		stack++;
+	e = *--stack;
+	while (e)
 	{
-		new->next_pile = *p->next_pile;
-		new->prev_pile = *p->prev_pile;
-		*p->next = new;
-	}
-	else
-	{
-		new->next_pile = NULL;
-		new->prev_pile = NULL;
-		*p = new;
+		e->window = 1;
+		e = e->prev_window;
 	}
 }
 
 void	get_window(t_stack *l)
 {
-	t_pile		*p;
+	t_element	*stack[500];
 	t_element	*i;
-	int			on;
-
+	int	on;
+	
+	ft_bzero(stack, 500 * sizeof(t_element *));
+	on  = 1;
 	i = l->start;
 	while (i->ideal != 1)
 		i = i->next;
-	new_pile(&p, i);
-	on = 1;
 	while (on || i->ideal != 1)
 	{
-		while (p && p->next_pile && p->last->ideal <= i->ideal)
-			p = p->next_pile;
-		if (p->last->ideal > i->ideal)
-			add_to(p, i);
-		else
-			new_pile(&p, i);
-		on = 0;
+		put_on_stack(stack, i);
 		i = i->next;
+		on = 0;
 		if (!i)
 			i = l->start;
 	}
+	mark_window(stack);
 }
 
 /*

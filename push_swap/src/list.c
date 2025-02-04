@@ -24,7 +24,6 @@ t_element	*new_element(t_stack *list, int value)
 		return (NULL);
 	element->value = value;
 	element->next = NULL;
-	element->w_next = NULL;
 	element->prev = NULL;
 	element->ideal = 0;
 	list->nb_element++;
