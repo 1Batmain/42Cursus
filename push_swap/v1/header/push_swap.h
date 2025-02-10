@@ -56,6 +56,8 @@ void	swap(t_stack *l);
 void	push(t_stack *a, t_stack *b);
 void	rotate(t_stack *l);
 void	reverse_rotate(t_stack *l);
+void	double_reverse_rotate(t_stack *l1, t_stack *l2);
+void	double_rotate(t_stack *l1, t_stack *l2);
 
 // WINDOW
 void	get_window(t_stack *l);

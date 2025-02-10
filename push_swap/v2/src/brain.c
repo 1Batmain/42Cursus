@@ -1,79 +1,146 @@
-#include "push_swap.h"
+  #include "push_swap.h"
 
-void	get_new_max(t_stack *a)
+int	is_fillable(t_stack *from, t_stack *to)
 {
-	t_element *i;
+	if ((to->start->ideal != to->end->ideal - 1 && to->start->ideal != to->max) ||\
+		(to->start->ideal == to->max && to->max < from->max) ||\
+		(to->start->ideal == to->max && to->min > from->min))
+		return (1);
+	return (0);
+}
 
-	a->max = a->max - 1;
+int	is_element_fillable(t_stack *from, t_stack *to, t_element *e)
+{
+	if ((e->prev && e->ideal != e->prev->ideal - 1 && e->ideal != to->max) ||\
+		(e->ideal == to->max && to->max < from->max) ||\
+		(e->prev && e->prev->ideal == to->min && to->min > from->min))
+		return (1);
+	return (0);
+}
+
+int	is_pushable(t_element *e, t_stack *b)
+{
+	if (b->nb_element < 2 || (b->nb_element &&\
+		((e->ideal > b->start->ideal && e->ideal < b->end->ideal) ||\
+		(e->ideal < b->min && b->end->ideal == b->min) ||\
+		(e->ideal > b->max && b->start->ideal == b->max))))
+		return (1);
+	return (0);
+}
+
+int	is_pushable2(t_element *e_from, t_element *e_to,  t_stack *b)
+{
+	if (b->nb_element < 2 || (b->nb_element &&\
+		((e_to->prev && e_from->ideal > e_to->ideal && e_from->ideal < e_to->prev->ideal) ||\
+		(e_to->prev && e_from->ideal < b->min && e_to->prev->ideal == b->min) ||\
+		(e_from->ideal > b->max && e_to->ideal == b->max))))
+		return (1);
+	return (0);
+}
+
+void	get_nearest_rotation(t_stack *from, t_stack *to)
+{
+	t_element	*e_from_rotate;
+	t_element	*e_from_rev_rotate;
+	t_element	*e_to_rotate;
+	t_element	*e_to_rev_rotate;
+
+	e_from_rotate = from->start;
+	e_from_rev_rotate = from->start;
+	e_to_rotate = to->start;
+	e_to_rev_rotate = to->start;
 	while (1)
 	{
-		i = a->start;
-		while (i)
+		e_from_rotate = e_from_rotate->next;
+		if (!e_from_rev_rotate->prev)
+			e_from_rev_rotate = from->end;
+		else
+			e_from_rev_rotate = e_from_rev_rotate->prev;
+		if (e_to_rotate)
+			e_to_rotate = e_to_rotate->next;
+		if (!e_to_rev_rotate->prev)
+			e_to_rev_rotate = to->end;
+		else
+			e_to_rev_rotate = e_to_rev_rotate->prev;
+		if (e_to_rotate && e_to_rev_rotate)
 		{
-			if (i->ideal == a->max)
-				return ;
-			i = i->next;
+			if (is_pushable2(e_from_rotate, e_to_rotate, to))
+				return (double_rotate(from, to));
+			if (is_pushable2(e_from_rev_rotate, e_to_rev_rotate, to))
+				return (double_reverse_rotate(from, to));
 		}
-		a->max--;
+		if (is_pushable(e_from_rotate, to))
+			return (rotate(from));
+		if (is_pushable(e_from_rev_rotate, to))
+			return (reverse_rotate(from));
 	}
 }
 
-void	get_new_min(t_stack *a)
+void	get_nearest_fillable(t_stack *from, t_stack *to)
 {
-	t_element *i;
+	t_element	*e_rotate;
+	t_element	*e_rev_rotate;
 
-	a->min = a->min + 1;
+	e_rotate = to->start;
+	e_rev_rotate = to->start;
 	while (1)
 	{
-		i = a->start;
-		while (i)
-		{
-			if (i->ideal == a->min)
-				return ;
-			i = i->next;
-		}
-		a->min++;
+		e_rotate = e_rotate->next;
+		if (!e_rev_rotate->prev)
+			e_rev_rotate = to->end;
+		else
+			e_rev_rotate = e_rev_rotate->prev;
+		if (is_element_fillable(from, to, e_rotate))
+			return (rotate(to));
+		if (is_element_fillable(from, to, e_rev_rotate))
+			return (reverse_rotate(to));
 	}
 }
 
-void	push_max_min(t_stack *a, t_stack *b)
+void	get_best_rotation_to_b(t_stack *a, t_stack *b)
 {
-	if (a->start->ideal == a->max)
-	{
-		if (b->max < a->start->ideal - 1)
-			a->max--;
-		else if (a->nb_element > 1)
-			get_new_max(a);
-	}
-	if (a->start->ideal == a->min)
-	{
-		if (b->min > a->start->ideal + 1)
-			a->min++;
-		else if (a->nb_element > 1)
-			get_new_min(a);
-	}
-	if (a->start->ideal > b->max)
-		b->max = a->start->ideal;
-	if (a->start->ideal < b->min)
-		b->min = a->start->ideal;
-	if (a->nb_element == 1)
-	{
-		a->min = 2147483647;
-		a->max = -2147483648;
-	}
+	//if (is_fillable(a, b))
+		get_nearest_rotation(a, b);
+	//else
+	//	get_nearest_fillable(a, b);
 }
 
+void	get_best_move_to_b(t_stack *a, t_stack *b)
+{
+	if (a->start->ideal == a->start->next->ideal + 1)
+		swap(a);
+	if (is_pushable(a->start, b))
+		push(a, b);
+	else
+		get_best_rotation_to_b(a, b);
+}
+
+void	to_b_sorted(t_stack *a, t_stack *b)
+{
+	while (a->nb_element > 3)
+		get_best_move_to_b(a, b);
+}
+
+void	sort_stack(t_stack *l1, t_stack *l2)
+{
+	analyse(l1);
+	print_results(l1, l2);
+	to_b_sorted(l1, l2);
+	print_results(l1, l2);
+//	back_to_a(l1, l2);
+//	print_results(l1, l2);
+	return ;	
+}
+/*
 t_element	*get_best(int target, t_stack *l)
 {
 	t_element *e;
 	t_element *best;
 	int	best_gap;
 	int	curr_gap;
-	int	i;
 
 	e = l->start;
 	best_gap = 2147483647;
-	i = 0;
 	while (e)
 	{
 		if ((target < l->min && e->ideal == l->min) ||\
@@ -90,7 +157,7 @@ t_element	*get_best(int target, t_stack *l)
 	return (best);
 }
 
-void	rotate_to_value(int target, t_stack *l)
+void	rotate_to(int target, t_stack *l)
 {
 	t_element *best;
 	static int	mem;
@@ -107,15 +174,60 @@ void	rotate_to_value(int target, t_stack *l)
 			i++;
 		}
 		if (i >= l->nb_element / 2)
-			dir = 1;
-		else
 			dir = -1;
+		else
+			dir = 1;
 		mem = target;
 	}
 	if (dir == 1)
 		rotate(l);
 	else
 		reverse_rotate(l);
+}
+
+int	get_next_moveable(t_stack *a, int *ideal)
+{
+	int	res;
+	t_element *e_n;
+	t_element *e_p;
+
+	res = 1;
+	e_n = a->start->next;
+	e_p = a->end;
+	*ideal = e_n->ideal;
+	while (!e_n)
+	{
+		e_n = e_n->next;
+		e_p = e_p->prev;
+		res++;
+		if (!e_n->window)
+		{
+			*ideal = e_n->ideal;
+			return (res);
+		}
+		else if (!e_p->window)
+		{
+			*ideal = e_p->ideal;
+			return (-res);
+		}
+	}
+	return (res);
+}
+
+void	rotate_to_b(t_stack *a, t_stack *b)
+{
+	int	next_window;
+	int	ideal;
+
+	next_window = get_next_moveable(a, &ideal);
+	if (b->start && next_window > 0 && ideal < b->start->ideal)
+		double_rotate(a, b);
+	else if (b->end && next_window < 0 && ideal > b->end->ideal)
+		double_reverse_rotate(a, b);
+	else if (next_window < 0)
+		reverse_rotate(a);
+	else
+		rotate(a);
 }
 
 void	back_to_a(t_stack *l1, t_stack *l2)
@@ -127,15 +239,13 @@ void	back_to_a(t_stack *l1, t_stack *l2)
 			(l2->nb_element == 1 && \
 			((l2->start->ideal != l1->start->ideal - 1 && l2->start->ideal != l1->max + 1) || \
 			(l2->start->ideal == l1->max + 1 && l1->start->ideal != l1->min))))
-			rotate_to_gap(l1);
-			//rotate(l1);
+			rotate(l1);
 		else
 		{
 			while ((l2->nb_element > 1 && l1->start->ideal != 1 &&\
 						l1->start->ideal != l2->start->ideal + 1) ||\
 					(l2->max > l1->max && l1->start->ideal == 1 && l2->start->ideal != l2->max))
-				rotate_to_value(l1->start->ideal, l2);
-				//rotate(l2);
+				rotate(l2);
 			while (l2->nb_element &&\
 					(l1->start->ideal == l2->start->ideal + 1 ||\
 					l1->end->ideal == l2->start->ideal - 1 ||\
@@ -163,66 +273,19 @@ void	to_b_sorted(t_stack *l1, t_stack *l2)
 			else
 				on = 0;
 			while (l2->nb_element >= 2 &&\
-					!((i->ideal > l2->max && l2->max == l2->end->ideal) ||\
-					(i->ideal < l2->min && l2->min == l2->start->ideal) ||\
-					(i->ideal < l2->start->ideal && i->ideal > l2->end->ideal)))
-				rotate_to_value(i->ideal, l2);
+					!((i->ideal < l2->max && l2->max == l2->end->ideal) ||\
+					(i->ideal > l2->min && l2->min == l2->start->ideal) ||\
+					(i->ideal > l2->start->ideal && i->ideal < l2->end->ideal) ||\
+					(i->ideal < l2->min && l2->end->ideal == l2->min) ||\
+					(i->ideal > l2->max && l2->start->ideal == l2->max)))
+				rotate_to(i->ideal, l2);
 				//rotate(l2);
 			push(l1, l2);
 		}
 		else
-			rotate(l1);
+			rotate_to_b(l1, l2);
+			//rotate(l1);
 		i = l1->start;
 	}
 }
-
-void	back_propagate(t_element *instant)
-{
-	t_element *outfielder;
-
-	outfielder = instant->prev;
-	while (outfielder)
-	{
-		if (instant->value <= outfielder->value)
-		{
-			if (instant->ideal > outfielder->ideal)
-				instant->ideal = outfielder->ideal;
-			outfielder->ideal++;
-		}
-		outfielder  = outfielder->prev;
-	}
-}
-
-void	analyse(t_stack *l)
-{
-	t_element *instant;
-	int	pos;
-	int	max;
-
-	pos = 1;
-	instant = l->start;
-	max = instant->value;
-	while (instant)
-	{
-		instant->ideal = pos++;
-		if (instant->value < max)
-			back_propagate(instant);
-		else
-			max = instant->value;
-		instant = instant->next;
-	}
-	l->min = 1;
-	l->max = --pos;
-	get_window(l);
-}
-
-void	sort_stack(t_stack *l1, t_stack *l2)
-{
-	analyse(l1);
-	print_results(l1, l2);
-	to_b_sorted(l1, l2);
-	print_results(l1, l2);
-	back_to_a(l1, l2);
-	print_results(l1, l2);
-	return ;	
-}
+ */

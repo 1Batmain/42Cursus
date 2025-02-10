@@ -69,11 +69,9 @@ t_element	*get_best(int target, t_stack *l)
 	t_element *best;
 	int	best_gap;
 	int	curr_gap;
-	int	i;
 
 	e = l->start;
 	best_gap = 2147483647;
-	i = 0;
 	while (e)
 	{
 		if ((target < l->min && e->ideal == l->min) ||\
@@ -116,6 +114,51 @@ void	rotate_to(int target, t_stack *l)
 		rotate(l);
 	else
 		reverse_rotate(l);
+}
+
+int	get_next_moveable(t_stack *a, int *ideal)
+{
+	int	res;
+	t_element *e_n;
+	t_element *e_p;
+
+	res = 1;
+	e_n = a->start->next;
+	e_p = a->end;
+	*ideal = e_n->ideal;
+	while (!e_n)
+	{
+		e_n = e_n->next;
+		e_p = e_p->prev;
+		res++;
+		if (!e_n->window)
+		{
+			*ideal = e_n->ideal;
+			return (res);
+		}
+		else if (!e_p->window)
+		{
+			*ideal = e_p->ideal;
+			return (-res);
+		}
+	}
+	return (res);
+}
+
+void	rotate_to_b(t_stack *a, t_stack *b)
+{
+	int	next_window;
+	int	ideal;
+
+	next_window = get_next_moveable(a, &ideal);
+	if (b->start && next_window > 0 && ideal < b->start->ideal)
+		double_rotate(a, b);
+	else if (b->end && next_window < 0 && ideal > b->end->ideal)
+		double_reverse_rotate(a, b);
+	else if (next_window < 0)
+		reverse_rotate(a);
+	else
+		rotate(a);
 }
 
 void	back_to_a(t_stack *l1, t_stack *l2)
@@ -161,15 +204,18 @@ void	to_b_sorted(t_stack *l1, t_stack *l2)
 			else
 				on = 0;
 			while (l2->nb_element >= 2 &&\
-					!((i->ideal > l2->max && l2->max == l2->end->ideal) ||\
-					(i->ideal < l2->min && l2->min == l2->start->ideal) ||\
-					(i->ideal < l2->start->ideal && i->ideal > l2->end->ideal)))
+					!((i->ideal < l2->max && l2->max == l2->end->ideal) ||\
+					(i->ideal > l2->min && l2->min == l2->start->ideal) ||\
+					(i->ideal > l2->start->ideal && i->ideal < l2->end->ideal) ||\
+					(i->ideal < l2->min && l2->end->ideal == l2->min) ||\
+					(i->ideal > l2->max && l2->start->ideal == l2->max)))
 				rotate_to(i->ideal, l2);
 				//rotate(l2);
 			push(l1, l2);
 		}
 		else
-			rotate(l1);
+			rotate_to_b(l1, l2);
+			//rotate(l1);
 		i = l1->start;
 	}
 }
