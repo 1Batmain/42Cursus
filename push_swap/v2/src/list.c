@@ -1,21 +1,23 @@
 #include "push_swap.h"
 
-void	init_stack(t_stack *l1, t_stack *l2, int *nb_op)
+void	init_stack(t_all *all)
 {
-	l1->name = 'a';
-	l2->name = 'b';
-	l1->start = NULL;
-	l2->start = NULL;
-	l1->end = NULL;
-	l2->end = NULL;
-	l1->max = -2147483648;
-	l2->max = -2147483648;
-	l1->min = 2147483647;
-	l2->min = 2147483647;
-	l1->nb_element = 0;
-	l2->nb_element = 0;
-	l1->nb_op = nb_op;
-	l2->nb_op = nb_op;
+	all->a = &all->stack_a;
+	all->b = &all->stack_b;
+	all->a->name = 'a';
+	all->b->name = 'b';
+	all->a->start = NULL;
+	all->b->start = NULL;
+	all->a->end = NULL;
+	all->b->end = NULL;
+	all->a->max = -2147483648;
+	all->b->max = -2147483648;
+	all->a->min = 2147483647;
+	all->b->min = 2147483647;
+	all->a->nb_element = 0;
+	all->b->nb_element = 0;
+	all->a->nb_op = &all->nb_op;
+	all->b->nb_op = &all->nb_op;
 }
 
 t_element	*new_element(t_stack *list, int value)

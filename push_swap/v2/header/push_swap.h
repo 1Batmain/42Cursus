@@ -31,21 +31,20 @@ typedef	struct	s_stack
 	int	*nb_op;
 }	t_stack;
 
-struct	s_pile
+typedef struct	s_all
 {
-	t_element	*element;
-	struct s_pile	*next;
-	struct s_pile	*prev;
-	struct s_pile	*next_pile;
-	struct s_pile	*prev_pile;
-};
-typedef struct	s_pile	t_pile;
+	t_stack	stack_a;
+	t_stack	stack_b;
+	t_stack	*a;
+	t_stack	*b;
+	int	nb_op;
+}	t_all;
 
 // MAIN
-void	print_results(t_stack *a, t_stack *b);
+void	print_results(t_all *all);
 
 // LIST
-void	init_stack(t_stack *l1, t_stack *l2, int *nb_op);
+void	init_stack(t_all *a);
 t_element	*new_element(t_stack *list, int value);
 int	element_addfront(t_stack *list, t_element *new);
 int	element_addback(t_stack *list, t_element *new);
@@ -65,11 +64,11 @@ void	get_window(t_stack *l);
 void	get_new_max(t_stack *a);
 void	get_new_min(t_stack *a);
 void	push_max_min(t_stack *a, t_stack *b);
-void	to_b_sorted(t_stack *l1, t_stack *l2);
+void	to_b_sorted(t_all *all);
 void	back_propagate(t_element *instant);
 void	analyse(t_stack *l);
 void	back_to_a(t_stack *l1, t_stack *l2);
-void	sort_stack(t_stack *l1, t_stack *l2);
+void	sort_stack(t_all *all);
 // MAX_MIN
 void	get_new_max(t_stack *a);
 void	get_new_min(t_stack *a);

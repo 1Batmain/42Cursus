@@ -2,7 +2,7 @@
 
 # define INTERACTIVE	0
 
-void	print_results(t_stack *a, t_stack *b)
+void	print_results(t_all *all)
 {
 	int nb_elem1;
 	int nb_elem2;
@@ -11,12 +11,12 @@ void	print_results(t_stack *a, t_stack *b)
 
 	nb_elem1 = 0;
 	nb_elem2 = 0;
-	l1 = a->start;
-	l2 = b->start;
+	l1 = all->a->start;
+	l2 = all->b->start;
 	if (l1)
-		nb_elem1 = a->nb_element;
+		nb_elem1 = all->a->nb_element;
 	if (l2)
-		nb_elem2 = b->nb_element;
+		nb_elem2 = all->b->nb_element;
 	while (l1 || l2)
 	{
 		if (l1)
@@ -36,69 +36,66 @@ void	print_results(t_stack *a, t_stack *b)
 				"a(%d)\t\tb(%d)\n"\
 				"min :\n"\
 				"%d\t\t%d\nmax :\n%d\t\t%d\n"\
-				, nb_elem1, nb_elem2, a->min, b->min, a->max, b->max);
-	ft_printf("NB_OP : %d\n", *a->nb_op);
+				, nb_elem1, nb_elem2, all->a->min, all->b->min, all->a->max, all->b->max);
+	ft_printf("NB_OP : %d\n", all->nb_op);
 }
 
 int	main(int ac, char **av)
 {
-	t_stack	l1;
-	t_stack	l2;
-	int	nb_op;
+	t_all	all;
 
-	nb_op = 0;
-	init_stack(&l1, &l2, &nb_op);
+	init_stack(&all);
 	if (ac <= 1)
 		return (1);
-	if (get_lst(&l1, ac, av))
+	if (get_lst(all.a, ac, av))
 		return (ft_printf("Erreur Parsing List\n"), 1);
 
 	char	cmd[4];
 	if (INTERACTIVE)
 	{
-		sort_stack(&l1, &l2);
-		print_results(&l1, &l2);
+		sort_stack(&all);
+		print_results(&all);
 		while (1)
 		{
 			ft_printf("Command : ");
 			scanf("%s", cmd);
 			if (!ft_strcmp(cmd, "sa"))
-				swap(&l1);
+				swap(all.a);
 			if (!ft_strcmp(cmd, "sb"))
-				swap(&l2);
+				swap(all.b);
 			if (!ft_strcmp(cmd, "ss"))
 			{
-				swap(&l1);
-				swap(&l2);
+				swap(all.a);
+				swap(all.b);
 			}
 			if (!ft_strcmp(cmd, "pa"))
-				push(&l2, &l1);
+				push(all.b, all.a);
 			if (!ft_strcmp(cmd, "pb"))
-				push(&l1, &l2);
+				push(all.a, all.b);
 			if (!ft_strcmp(cmd, "ra"))
-				rotate(&l1);
+				rotate(all.a);
 			if (!ft_strcmp(cmd, "rb"))
-				rotate(&l2);
+				rotate(all.b);
 			if (!ft_strcmp(cmd, "rr"))
 			{
-				rotate(&l1);
-				rotate(&l2);
+				rotate(all.a);
+				rotate(all.b);
 			}
 			if (!ft_strcmp(cmd, "rra"))
-				reverse_rotate(&l1);
+				reverse_rotate(all.a);
 			if (!ft_strcmp(cmd, "rrb"))
-				reverse_rotate(&l2);
+				reverse_rotate(all.b);
 			if (!ft_strcmp(cmd, "rrr"))
 			{
-				reverse_rotate(&l1);
-				reverse_rotate(&l2);
+				reverse_rotate(all.a);
+				reverse_rotate(all.b);
 			}
-			print_results(&l1, &l2);
+			print_results(&all);
 		}
 	}
 	else 
-		sort_stack(&l1, &l2);
-	//print_results(&l1, &l2);
+		sort_stack(&all);
+	//print_results(&all);
 	return (0);
 }
 
