@@ -9,6 +9,7 @@
 #include <limits.h>
 
 #define ABS(x)	(x > 0) ? x : (-x)
+#define MAX(x, y)	(x > y) ? x : (y)
 struct s_element
 {
 	int	value;
@@ -31,12 +32,25 @@ typedef	struct	s_stack
 	int	*nb_op;
 }	t_stack;
 
+typedef	struct	s_voltigeur
+{
+	t_element	*a;
+	t_element	*a_rev;
+	t_element	*b;
+	t_element	*b_rev;
+	t_element	*a_mem;
+	t_element	*a_rev_mem;
+	t_element	*a_best;
+}	t_voltigeur;
+
 typedef struct	s_all
 {
 	t_stack	stack_a;
 	t_stack	stack_b;
+	t_voltigeur	voltigeur;
 	t_stack	*a;
 	t_stack	*b;
+	t_voltigeur	*e;
 	int	nb_op;
 }	t_all;
 

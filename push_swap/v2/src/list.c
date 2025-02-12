@@ -18,6 +18,8 @@ void	init_stack(t_all *all)
 	all->b->nb_element = 0;
 	all->a->nb_op = &all->nb_op;
 	all->b->nb_op = &all->nb_op;
+	all->nb_op = 0;
+	all->e = &all->voltigeur;
 }
 
 t_element	*new_element(t_stack *list, int value)
