@@ -6,7 +6,7 @@
 /*   By: bduval <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 13:52:28 by bduval            #+#    #+#             */
-/*   Updated: 2025/02/13 14:49:07 by bduval           ###   ########.fr       */
+/*   Updated: 2025/02/13 16:13:43 by bduval           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "push_swap.h"
@@ -53,6 +53,19 @@ static void	mark_window(t_element **stack)
 	}
 }
 
+void	init_window(t_stack *l)
+{
+	t_element	*e;
+
+	e = l->start;
+	while (e)
+	{
+		e->window = 0;
+		e->prev_window = NULL;
+		e = e->next;
+	}
+}
+
 void	get_window(t_stack *l)
 {
 	t_element	*stack[500];
@@ -60,6 +73,7 @@ void	get_window(t_stack *l)
 	int			on;
 
 	ft_bzero(stack, 500 * sizeof(t_element *));
+	init_window(l);
 	on = 1;
 	i = l->start;
 	while (i->ideal != 1)

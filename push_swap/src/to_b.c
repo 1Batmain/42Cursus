@@ -6,7 +6,7 @@
 /*   By: bduval <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 13:36:47 by bduval            #+#    #+#             */
-/*   Updated: 2025/02/13 14:47:56 by bduval           ###   ########.fr       */
+/*   Updated: 2025/02/13 16:08:48 by bduval           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "push_swap.h"
@@ -93,5 +93,6 @@ void	to_b_sorted(t_all *all)
 			check_rev_rotate_a(all);
 			apply_best_move_to_b(all);
 		}
+			get_window(all->a);
 	}
 }

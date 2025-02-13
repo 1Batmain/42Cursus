@@ -6,33 +6,10 @@
 /*   By: bduval <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 13:54:39 by bduval            #+#    #+#             */
-/*   Updated: 2025/02/13 14:44:06 by bduval           ###   ########.fr       */
+/*   Updated: 2025/02/13 16:29:03 by bduval           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "push_swap.h"
-
-void	sort_stack(t_all *all)
-{
-	analyse(all->a);
-	to_b_sorted(all);
-	back_to_a(all);
-	return ;
-}
-
-int	main(int ac, char **av)
-{
-	t_all	all;
-
-	init_stack(&all);
-	if (ac <= 1)
-		return (1);
-	if (get_lst(all.a, ac, av))
-		return (ft_printf("Erreur Parsing List\n"), 1);
-	sort_stack(&all);
-	return (0);
-}
-/*
-# define INTERACTIVE	0
 
 void	print_results(t_all *all)
 {
@@ -71,6 +48,57 @@ void	print_results(t_all *all)
 				, nb_elem1, nb_elem2, all->a->min, all->b->min, all->a->max, all->b->max);
 	ft_printf("NB_OP : %d\n", all->nb_op);
 }
+
+void	to_the_top(t_all *all)
+{
+	if (all->a->start->ideal > all->a->nb_element / 2)
+		while (all->a->start->ideal != 1)
+			rotate(all->a, 1);
+	else
+		while (all->a->start->ideal != 1)
+			reverse_rotate(all->a, 1);
+}
+
+void	sort_stack(t_all *all)
+{
+	analyse(all->a);
+	to_b_sorted(all);
+	back_to_a(all);
+	to_the_top(all);
+	print_results(all);
+	return ;
+}
+
+void	free_elements(t_all *all)
+{
+	t_element	*e;
+	t_element	*tmp;
+
+	e = all->a->start;
+	while (e)
+	{
+		tmp = e;
+		e = e->next;
+		free(tmp);
+	}
+}
+
+int	main(int ac, char **av)
+{
+	t_all	all;
+
+	init_stack(&all);
+	if (ac <= 1)
+		return (1);
+	if (get_lst(all.a, ac, av))
+		return (ft_printf("Erreur Parsing List\n"), 1);
+	sort_stack(&all);
+	free_elements(&all);
+	return (0);
+}
+/*
+# define INTERACTIVE	0
+
 
 int	main(int ac, char **av)
 {

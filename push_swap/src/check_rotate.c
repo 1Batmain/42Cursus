@@ -6,7 +6,7 @@
 /*   By: bduval <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 13:45:04 by bduval            #+#    #+#             */
-/*   Updated: 2025/02/13 13:45:50 by bduval           ###   ########.fr       */
+/*   Updated: 2025/02/13 16:23:53 by bduval           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "push_swap.h"
@@ -30,6 +30,8 @@ void	check_rotate_b(t_all *all)
 		if (all->e->b)
 			all->e->b_rev = all->e->b->prev;
 		all->e->nb_rotate++;
+		if (all->e->nb_rotate > all->e->best)
+			break ;
 	}
 }
 
@@ -56,6 +58,8 @@ void	check_rev_rotate_b(t_all *all)
 		if (all->e->b_rev)
 			all->e->b = all->e->b_rev->next;
 		all->e->nb_rotate++;
+		if (all->e->nb_rotate > all->e->best)
+			break ;
 	}
 }
 
@@ -78,6 +82,8 @@ void	check_rotate_a(t_all *all)
 		if (all->e->a)
 			all->e->a_rev = all->e->a->prev;
 		all->e->nb_rotate++;
+		if (all->e->nb_rotate > all->e->best)
+			break ;
 	}
 }
 
@@ -104,5 +110,7 @@ void	check_rev_rotate_a(t_all *all)
 		if (all->e->a_rev)
 			all->e->a = all->e->a_rev->next;
 		all->e->nb_rotate++;
+		if (all->e->nb_rotate > all->e->best)
+			break ;
 	}
 }

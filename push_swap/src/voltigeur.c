@@ -6,7 +6,7 @@
 /*   By: bduval <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 13:48:49 by bduval            #+#    #+#             */
-/*   Updated: 2025/02/13 14:47:11 by bduval           ###   ########.fr       */
+/*   Updated: 2025/02/13 16:21:15 by bduval           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "push_swap.h"
@@ -34,7 +34,7 @@ void	update_voltigeur(t_all *all)
 void	init_voltigeur(t_all *all)
 {
 	all->e->a_best = all->a->start;
-	all->e->b_best = all->a->start;
+	all->e->b_best = all->b->start;
 	all->e->a = all->a->start;
 	all->e->a_rev = all->a->end;
 	all->e->b = all->b->start;
