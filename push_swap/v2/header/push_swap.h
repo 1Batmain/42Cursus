@@ -39,8 +39,16 @@ typedef	struct	s_voltigeur
 	t_element	*b;
 	t_element	*b_rev;
 	t_element	*a_mem;
+	t_element	*b_mem;
 	t_element	*a_rev_mem;
+	t_element	*b_rev_mem;
 	t_element	*a_best;
+	t_element	*b_best;
+	int			best;
+	int			best_moment;
+	int			moment;
+	int			nb_rotate;
+	int			rev;
 }	t_voltigeur;
 
 typedef struct	s_all
@@ -81,7 +89,7 @@ void	push_max_min(t_stack *a, t_stack *b);
 void	to_b_sorted(t_all *all);
 void	back_propagate(t_element *instant);
 void	analyse(t_stack *l);
-void	back_to_a(t_stack *l1, t_stack *l2);
+void	back_to_a(t_all *all);
 void	sort_stack(t_all *all);
 // MAX_MIN
 void	get_new_max(t_stack *a);

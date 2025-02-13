@@ -18,7 +18,32 @@ int	is_element_fillable(t_stack *from, t_stack *to, t_element *e)
 	return (0);
 }
 
-int	is_pushable(t_element *e, t_stack *b)
+int	is_pushable_to_a(t_element *e, t_all *all)
+{
+	if (e)
+	{
+		if  (e->ideal == all->a->start->ideal - 1 ||\
+			(e->ideal == all->b->max &&\
+			all->b->max > all->a->max && \
+			all->a->start->ideal == all->a->min))
+			return (1);
+	}
+	return (0);
+}
+
+int	is_pushable_to_a2(t_element *e_from, t_element *e_to,  t_all *all)
+{
+	if (e_to && e_from)
+	{
+		if (e_from->ideal == e_to->ideal - 1 ||\
+			(e_from->ideal == all->b->max && all->b->max > all->a->max &&\
+			 e_to->ideal == all->a->min))
+			return (1);
+	}
+	return (0);
+}
+
+int	is_pushable_to_b(t_element *e, t_stack *b)
 {
 	if (e && !e->window)
 	{
@@ -31,7 +56,7 @@ int	is_pushable(t_element *e, t_stack *b)
 	return (0);
 }
 
-int	is_pushable2(t_element *e_from, t_element *e_to,  t_stack *b)
+int	is_pushable_to_b2(t_element *e_from, t_element *e_to,  t_stack *b)
 {
 	if (e_to && e_from && !e_from->window)
 	{
@@ -64,90 +89,92 @@ void	update_voltigeur(t_all *all)
 		all->e->b_rev = all->b->end;
 }
 
-int	get_nearest_rotation_value(t_all *all)
+int	get_nearest_rotation_value_to_b(t_all *all)
 {
 	int	i;
 
 	i = 0;
 	while (i++ < (MAX(all->a->nb_element, all->b->nb_element)))
 	{
-		if (is_pushable2(all->e->a, all->e->b, all->b))
+		if (is_pushable_to_b2(all->e->a, all->e->b, all->b))
 			return (i);
-		if (is_pushable2(all->e->a_rev, all->e->b_rev, all->b))
+		if (is_pushable_to_b2(all->e->a_rev, all->e->b_rev, all->b))
 			return (i);
-		if (is_pushable(all->e->a, all->b))
+		if (is_pushable_to_b(all->e->a, all->b))
 			return (i);
-		if (is_pushable(all->e->a_rev, all->b))
+		if (is_pushable_to_b(all->e->a_rev, all->b))
 			return (i);
-		if (is_pushable2(all->a->start, all->e->b, all->b))
+		if (is_pushable_to_b2(all->a->start, all->e->b, all->b))
 			return (i);
-		if (is_pushable2(all->a->start, all->e->b_rev, all->b))
+		if (is_pushable_to_b2(all->a->start, all->e->b_rev, all->b))
 			return (i);
 		update_voltigeur(all);
 	}
 	return (0);
 }
 
-int	do_nearest_rotation(t_all *all)
+int	do_nearest_rotation_to_b(t_all *all)
 {
 	int	i;
 
 	i = 0;
 	while (i++ < (MAX(all->a->nb_element, all->b->nb_element)))
 	{
-		if (is_pushable2(all->e->a, all->e->b, all->b))
+		if (is_pushable_to_b2(all->e->a, all->e->b, all->b))
 			return (double_rotate(all->a, all->b), i);
-		if (is_pushable2(all->e->a_rev, all->e->b_rev, all->b))
+		if (is_pushable_to_b2(all->e->a_rev, all->e->b_rev, all->b))
 			return (double_reverse_rotate(all->a, all->b), i);
-		if (is_pushable(all->e->a, all->b))
+		if (is_pushable_to_b(all->e->a, all->b))
 			return (rotate(all->a), i);
-		if (is_pushable(all->e->a_rev, all->b))
+		if (is_pushable_to_b(all->e->a_rev, all->b))
 			return (reverse_rotate(all->a), i);
-		if (is_pushable2(all->e->a_best, all->e->b, all->b))
+		if (is_pushable_to_b2(all->e->a_best, all->e->b, all->b))
 			return (rotate(all->b), i);
-		if (is_pushable2(all->e->a_best, all->e->b_rev, all->b))
+		if (is_pushable_to_b2(all->e->a_best, all->e->b_rev, all->b))
 			return (reverse_rotate(all->b), i);
 		update_voltigeur(all);
 	}
 	return (0);
 }
 
-void	get_rotation(t_all *all)
+void	init_voltigeur(t_all *all)
 {
-
 	all->e->a_best = all->a->start;
+	all->e->b_best = all->a->start;
 	all->e->a = all->a->start;
 	all->e->a_rev = all->a->end;
 	all->e->b = all->b->start;
 	all->e->b_rev = all->b->end;
-	int	best;
-	int	best_moment;
-	int	moment;
-	int	nb_rotate;
-	int	rev;
-	best = MAX(all->a->nb_element, all->b->nb_element);
-	rev = 0;
-	nb_rotate = 0;
-	best_moment = 1;
+	all->e->best = MAX(all->a->nb_element, all->b->nb_element);
+	all->e->rev = 0;
+	all->e->nb_rotate = 0;
+	all->e->best_moment = 1;
+}
+
+void	check_rotate_a(t_all *all)
+{
 	while (all->e->a != all->a->end)
 	{	
 		all->e->a_mem = all->e->a;
 		all->e->a_rev_mem = all->e->a_rev;
 		all->e->b = all->b->start;
 		all->e->b_rev = all->b->end;
-		moment = get_nearest_rotation_value(all);
-		if (moment && moment + nb_rotate < best)
+		all->e->moment = get_nearest_rotation_value_to_b(all);
+		if (all->e->moment && all->e->moment + all->e->nb_rotate < all->e->best)
 		{
-			best = moment + nb_rotate;
-			best_moment = moment;
+			all->e->best = all->e->moment + all->e->nb_rotate;
+			all->e->best_moment = all->e->moment;
 			all->e->a_best = all->e->a_mem;
 		}
 		all->e->a = all->e->a_mem->next;
 		if (all->e->a)
 			all->e->a_rev = all->e->a->prev;
-		nb_rotate++;
+		all->e->nb_rotate++;
 	}
-	nb_rotate = 0;
+}
+void	check_rev_rotate_a(t_all *all)
+{
+	all->e->nb_rotate = 0;
 	all->e->a = all->a->start;
 	all->e->a_rev = all->a->end;
 	while (all->e->a_rev != all->a->start)
@@ -156,20 +183,24 @@ void	get_rotation(t_all *all)
 		all->e->a_rev_mem = all->e->a_rev;
 		all->e->b = all->b->start;
 		all->e->b_rev = all->b->end;
-		moment = get_nearest_rotation_value(all);
-		if (moment && moment + nb_rotate < best)
+		all->e->moment = get_nearest_rotation_value_to_b(all);
+		if (all->e->moment && all->e->moment + all->e->nb_rotate < all->e->best)
 		{
-			best = moment + nb_rotate;
-			best_moment = moment;
+			all->e->best = all->e->moment + all->e->nb_rotate;
+			all->e->best_moment = all->e->moment;
 			all->e->a_best = all->e->a_rev_mem;
-			rev = 1;
+			all->e->rev = 1;
 		}
 		all->e->a_rev = all->e->a_rev_mem->prev;
 		if (all->e->a_rev)
 			all->e->a = all->e->a_rev->next;
-		nb_rotate++;
+		all->e->nb_rotate++;
 	}
-	if (rev)
+}
+
+void	apply_best_move_to_b(t_all *all)
+{
+	if (all->e->rev)
 		while (all->a->end != all->e->a_best)
 			reverse_rotate(all->a);
 	else
@@ -179,8 +210,16 @@ void	get_rotation(t_all *all)
 	all->e->a_rev = all->a->end;
 	all->e->b = all->b->start;
 	all->e->b_rev = all->b->end;
-	while (!is_pushable(all->a->start, all->b) && best_moment--)
-		do_nearest_rotation(all);
+	while (!is_pushable_to_b(all->a->start, all->b) && all->e->best_moment--)
+		do_nearest_rotation_to_b(all);
+}
+
+void	get_rotation_to_b(t_all *all)
+{
+	init_voltigeur(all);
+	check_rotate_a(all);
+	check_rev_rotate_a(all);
+	apply_best_move_to_b(all);
 }
 
 void	get_best_move_to_b(t_all *all)
@@ -190,10 +229,10 @@ void	get_best_move_to_b(t_all *all)
 		swap(all->a);
 		get_window(all->a);
 	}
-	if (is_pushable(all->a->start, all->b))
+	if (is_pushable_to_b(all->a->start, all->b))
 		push(all->a, all->b);
 	else
-		get_rotation(all);
+		get_rotation_to_b(all);
 }
 int	have_not_windowed(t_stack *a)
 {
@@ -216,13 +255,145 @@ void	to_b_sorted(t_all *all)
 		get_best_move_to_b(all);
 }
 
+int	get_nearest_rotation_value_to_a(t_all *all)
+{
+	int	i;
+
+	i = 0;
+	while (i++ < (MAX(all->b->nb_element, all->a->nb_element)))
+	{
+		if (is_pushable_to_a2(all->e->b, all->e->a, all))
+			return (i);
+		if (is_pushable_to_a2(all->e->b_rev, all->e->a_rev, all))
+			return (i);
+		if (is_pushable_to_a(all->e->b, all))
+			return (i);
+		if (is_pushable_to_a(all->e->b_rev, all))
+			return (i);
+		if (is_pushable_to_a2(all->b->start, all->e->a, all))
+			return (i);
+		if (is_pushable_to_a2(all->b->start, all->e->a_rev, all))
+			return (i);
+		update_voltigeur(all);
+	}
+	return (0);
+}
+
+int	do_nearest_rotation_to_a(t_all *all)
+{
+	int	i;
+
+	i = 0;
+	while (i++ < (MAX(all->b->nb_element, all->a->nb_element)))
+	{
+		if (is_pushable_to_a2(all->e->b, all->e->a, all))
+			return (double_rotate(all->b, all->a), i);
+		if (is_pushable_to_a2(all->e->b_rev, all->e->a_rev, all))
+			return (double_reverse_rotate(all->b, all->a), i);
+		if (is_pushable_to_a(all->e->b, all))
+			return (rotate(all->b), i);
+		if (is_pushable_to_a(all->e->b_rev, all))
+			return (reverse_rotate(all->b), i);
+		if (is_pushable_to_a2(all->e->b_best, all->e->a, all))
+			return (rotate(all->a), i);
+		if (is_pushable_to_a2(all->e->b_best, all->e->a_rev, all))
+			return (reverse_rotate(all->a), i);
+		update_voltigeur(all);
+	}
+	return (0);
+}
+void	check_rotate_b(t_all *all)
+{
+	while (all->e->b != all->b->end)
+	{	
+		all->e->b_mem = all->e->b;
+		all->e->b_rev_mem = all->e->b_rev;
+		all->e->a = all->a->start;
+		all->e->a_rev = all->a->end;
+		all->e->moment = get_nearest_rotation_value_to_a(all);
+		if (all->e->moment && all->e->moment + all->e->nb_rotate < all->e->best)
+		{
+			all->e->best = all->e->moment + all->e->nb_rotate;
+			all->e->best_moment = all->e->moment;
+			all->e->b_best = all->e->b_mem;
+		}
+		all->e->b = all->e->b_mem->next;
+		if (all->e->b)
+			all->e->b_rev = all->e->b->prev;
+		all->e->nb_rotate++;
+	}
+}
+void	check_rev_rotate_b(t_all *all)
+{
+	all->e->nb_rotate = 0;
+	all->e->b = all->b->start;
+	all->e->b_rev = all->b->end;
+	while (all->e->b_rev != all->b->start)
+	{	
+		all->e->b_mem = all->e->b;
+		all->e->b_rev_mem = all->e->b_rev;
+		all->e->a = all->a->start;
+		all->e->a_rev = all->a->end;
+		all->e->moment = get_nearest_rotation_value_to_a(all);
+		if (all->e->moment && all->e->moment + all->e->nb_rotate < all->e->best)
+		{
+			all->e->best = all->e->moment + all->e->nb_rotate;
+			all->e->best_moment = all->e->moment;
+			all->e->b_best = all->e->b_rev_mem;
+			all->e->rev = 1;
+		}
+		all->e->b_rev = all->e->b_rev_mem->prev;
+		if (all->e->b_rev)
+			all->e->b = all->e->b_rev->next;
+		all->e->nb_rotate++;
+	}
+}
+
+void	apply_best_move_to_a(t_all *all)
+{
+	if (all->e->rev)
+		while (all->b->end != all->e->b_best)
+			reverse_rotate(all->b);
+	else
+		while (all->b->start != all->e->b_best)
+			rotate(all->b);
+	all->e->b = all->b->start;
+	all->e->b_rev = all->b->end;
+	all->e->a = all->a->start;
+	all->e->a_rev = all->a->end;
+	while (!is_pushable_to_a(all->b->start, all) && all->e->best_moment--)
+		do_nearest_rotation_to_a(all);
+}
+void	get_rotation_to_a(t_all *all)
+{
+	init_voltigeur(all);
+	check_rotate_b(all);
+	check_rev_rotate_b(all);
+	apply_best_move_to_a(all);
+
+}
+
+void	get_best_move_to_a(t_all *all)
+{
+	if (is_pushable_to_a(all->b->start, all))
+		push(all->b, all->a);
+	else
+		get_rotation_to_a(all);
+}
+
+void	back_to_a(t_all *all)
+{
+	while (all->b->nb_element)
+		get_best_move_to_a(all);
+}
+
 void	sort_stack(t_all *all)
 {
 	analyse(all->a);
 //	print_results(all);
 	to_b_sorted(all);
 	print_results(all);
-//	back_to_a(all);
-//	print_results(all);
+	back_to_a(all);
+	print_results(all);
 	return ;	
 }
