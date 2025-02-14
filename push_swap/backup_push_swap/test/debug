@@ -1,0 +1,12 @@
+display l1->start->ideal
+display l1->end->ideal
+display l2->start->ideal
+display l2->end->ideal
+display l1->max
+display l2->max
+
+display a->ideal
+display b->ideal
+
+display e_n->ideal
+display e_p->ideal
