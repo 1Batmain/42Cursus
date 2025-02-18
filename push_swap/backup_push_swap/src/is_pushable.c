@@ -6,14 +6,14 @@
 /*   By: bduval <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 13:43:28 by bduval            #+#    #+#             */
-/*   Updated: 2025/02/13 14:46:54 by bduval           ###   ########.fr       */
+/*   Updated: 2025/02/18 08:54:41 by bduval           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "push_swap.h"
 
 int	is_pushable_to_b(t_element *e, t_stack *b)
 {
-	if (e && !e->window)
+	if (e)
 	{
 		if (b->nb_element < 2 || (b->nb_element && \
 			((e->ideal > b->start->ideal && e->ideal < b->end->ideal) || \
@@ -26,7 +26,7 @@ int	is_pushable_to_b(t_element *e, t_stack *b)
 
 int	is_pushable_to_b2(t_element *e_from, t_element *e_to, t_stack *b)
 {
-	if (e_to && e_from && !e_from->window)
+	if (e_to && e_from)
 	{
 		if (b->nb_element < 2 || (b->nb_element && \
 			((e_to->prev && e_from->ideal > e_to->ideal && \

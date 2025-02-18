@@ -141,6 +141,7 @@ void	apply_best_move_to_b(t_all *all)
 			take_that_train(all, 0);
 			rotate(all->a, 1);
 		}
+
 	init_voltigeur(all);
 	while (all->b->start->window)
 		push(all->b, all->a);

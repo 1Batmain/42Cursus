@@ -74,6 +74,7 @@ int	main(int ac, char **av)
 	pid = ft_atoi(av[1]);
 	if (pid < 0)
 		return (ft_printf("PID should be a positive integer\n"), 0);
+
 	len = ft_strlen(av[2]);
 	ft_printf("len : %d\n", len);
 	ft_sendint_bin(pid, len);
