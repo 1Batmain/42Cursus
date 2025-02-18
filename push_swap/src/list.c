@@ -6,7 +6,7 @@
 /*   By: bduval <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 13:54:08 by bduval            #+#    #+#             */
-/*   Updated: 2025/02/13 14:51:11 by bduval           ###   ########.fr       */
+/*   Updated: 2025/02/18 12:02:40 by bduval           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "push_swap.h"
@@ -44,6 +44,8 @@ t_element	*new_element(t_stack *list, int value)
 	element->next = NULL;
 	element->prev = NULL;
 	element->ideal = 0;
+	element->window = 0;
+	element->prev_window = NULL;
 	list->nb_element++;
 	return (element);
 }

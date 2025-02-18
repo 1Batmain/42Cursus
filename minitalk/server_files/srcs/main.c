@@ -1,14 +1,26 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bduval <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/18 15:12:30 by bduval            #+#    #+#             */
+/*   Updated: 2025/02/18 16:47:42 by bduval           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 #include "server.h"
 
-char	buff[33];
+char	g_buff[33];
 
 void	get_len(int sig)
 {
 	static int	i;
+
 	if (sig == SIGUSR1)
-		buff[31 - i] = 0 + '0';	
+		g_buff[31 - i] = 0 + '0';
 	else
-		buff[31 - i] = 1 + '0';	
+		g_buff[31 - i] = 1 + '0';
 	i++;
 	if (i == 32)
 	{
@@ -19,40 +31,38 @@ void	get_len(int sig)
 void	get_char(int sig)
 {
 	static int	i;
+
 	if (sig == SIGUSR1)
-		buff[31 - i] = 0 + '0';	
+		g_buff[31 - i] = 0 + '0';
 	else
-		buff[31 - i] = 1 + '0';	
+		g_buff[31 - i] = 1 + '0';
 	i++;
 	if (i == 8)
 	{
 		i = 0;
-		buff[0] = 0;
+		g_buff[0] = 0;
 	}
 }
 
-void	set_sigusr_len(void)
+char	*wait_for_len(int *len)
 {
-	struct sigaction	act1;
+	char	*res;
 
-	ft_bzero(&act1, sizeof(act1));
-	act1.sa_handler = &get_len;
-	sigaction(SIGUSR1, &act1, NULL);
-	sigaction(SIGUSR2, &act1, NULL);
+	set_sigusr_len();
+	ft_memset(g_buff, 2, 32);
+	g_buff[32] = 0;
+	while (*g_buff == 2)
+		;
+	*len = ft_atoibase(g_buff, 2);
+	res = malloc(*len + 1);
+	if (!res)
+		return (NULL);
+	res[*len] = 0;
+	ft_memset(g_buff, 2, 32);
+	return (res);
 }
 
-void	set_sigusr_str(void)
-{
-	struct sigaction	act1;
-
-	ft_bzero(&act1, sizeof(act1));
-	act1.sa_handler = &get_char;
-	sigaction(SIGUSR1, &act1, NULL);
-	sigaction(SIGUSR2, &act1, NULL);
-}
-
-
-int	main (void)
+int	main(void)
 {
 	int		len;
 	char	*res;
@@ -61,35 +71,33 @@ int	main (void)
 	ft_printf("PID : %d\n", getpid());
 	while (1)
 	{
-		set_sigusr_len();
-		ft_memset(buff, 2, 32);
-		buff[32] = 0;
-		while (*buff == 2);
-		len = ft_atoibase(buff, 2);
-		res = malloc(len + 1);
+		res = wait_for_len(&len);
 		if (!res)
-			return 0;
-		res[len] = 0;
-		ft_memset(buff, 2, 32);
+			return (ft_printf("malloc error in wait_for_len()\n"), 0);
 		set_sigusr_str();
 		i = 0;
 		while (i < len)
 		{
-			if (!buff[0])
+			if (!g_buff[0])
 			{
-				res[i++] = ft_atoibase(&buff[24], 2);
-				buff[0] = 2;
+				res[i++] = ft_atoibase(&g_buff[24], 2);
+				g_buff[0] = 2;
 			}
 		}
-		ft_printf("%s", res);
-//BONUS
-		set_sigusr_len();
-		ft_memset(buff, 2, 32);
-		buff[32] = 0;
-		while (*buff == 2);
-		usleep(5);
-		ft_printf("PID client : %d\n", ft_atoibase(buff, 2));
-		kill(ft_atoibase(buff, 2), SIGUSR1);
+		ft_printf("%s\n", res);
 	}
 	return (0);
 }
+/*
+//BONUS
+		set_sigusr_len();
+		ft_memset(g_buff, 2, 32);
+		g_buff[32] = 0;
+		while (*g_buff == 2);
+		usleep(5);
+		ft_printf("PID client : %d\n", ft_atoibase(g_buff, 2));
+		kill(ft_atoibase(g_buff, 2), SIGUSR1);
+	}
+	return (0);
+}
+*/

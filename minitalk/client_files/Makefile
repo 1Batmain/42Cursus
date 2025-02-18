@@ -21,7 +21,7 @@ all : $(NAME)
 $(NAME) : $(OBJ) 
 	 $(CC) $(HEADER_DIR) $(OBJ) $(LIB) -o $(NAME)
 
-$(OBJ_DIR)%.o :$(SRC_DIR)%.c $(OBJ_DIR) lib
+$(OBJ_DIR)%.o :$(SRC_DIR)%.c $(OBJ_DIR)
 	@$(CC) $(CFLAGS) $(HEADER_DIR) -c $< -o $@ -g
 
 lib :

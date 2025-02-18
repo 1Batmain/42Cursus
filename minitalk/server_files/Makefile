@@ -8,7 +8,7 @@ OBJ_DIR		=	objs/
 LIB			= -L ../biglibft -lft
 LIB_DIR		= ../biglibft
 
-MANDATORY = main
+MANDATORY = main utils
 
 MANDATORY_BONUS =
 
@@ -23,7 +23,7 @@ all : $(NAME)
 $(NAME) : $(OBJ)
 	 $(CC) $(HEADER_DIR) $(OBJ) $(LIB) -o $(NAME)
 
-$(OBJ_DIR)%.o :$(SRC_DIR)%.c $(OBJ_DIR) lib
+$(OBJ_DIR)%.o :$(SRC_DIR)%.c $(OBJ_DIR)
 	@$(CC) $(CFLAGS) $(HEADER_DIR) -c $< -o $@ -g
 
 lib :

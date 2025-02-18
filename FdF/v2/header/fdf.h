@@ -11,9 +11,9 @@
 #define WIDTH	1080
 #define HEIGHT	720
 
-#define IM_WIDTH	720	
-#define IM_HEIGHT	360
-#define IM_DEPTH	30
+#define IM_WIDTH	1080	
+#define IM_HEIGHT	720
+#define IM_DEPTH	60
 
 #define ABS(x) (x) >= 0 ? (x) : -(x)
 // STRUCT

@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bduval <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/18 14:37:54 by bduval            #+#    #+#             */
+/*   Updated: 2025/02/18 14:40:50 by bduval           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "client.h"
 
-void	ft_sendint_bin(int pid, unsigned nb)
+void	ft_sendint_bin(int pid, unsigned int nb)
 {	
 	int	i;
 
@@ -9,7 +21,7 @@ void	ft_sendint_bin(int pid, unsigned nb)
 	{
 		if (nb % 2)
 			kill(pid, SIGUSR2);
-		else 
+		else
 			kill(pid, SIGUSR1);
 		nb /= 2;
 		i++;
@@ -26,7 +38,7 @@ void	ft_sendchar_bin(int pid, unsigned char nb)
 	{
 		if (nb % 2)
 			kill(pid, SIGUSR2);
-		else 
+		else
 			kill(pid, SIGUSR1);
 		nb /= 2;
 		i++;
@@ -49,16 +61,19 @@ void	set_sigusr(void)
 	sigaction(SIGUSR1, &act, NULL);
 }
 
-int main (int ac, char **av)
+int	main(int ac, char **av)
 {
-	int	pid;
+	int		pid;
 	size_t	len;
 	size_t	i;
 
 	set_sigusr();
 	if (ac != 3)
-		return (0);
+		return (ft_printf("You should provide as arguments :\n"\
+					"1- PID of the server\n2- String to send\n"), 0);
 	pid = ft_atoi(av[1]);
+	if (pid < 0)
+		return (ft_printf("PID should be a positive integer\n"), 0);
 	len = ft_strlen(av[2]);
 	ft_printf("len : %d\n", len);
 	ft_sendint_bin(pid, len);
@@ -66,8 +81,10 @@ int main (int ac, char **av)
 	i = 0;
 	while (av[2][i])
 		ft_sendchar_bin(pid, av[2][i++]);
-//BONUS
+}
+/* BONUS
 	ft_sendint_bin(pid, getpid());
 	ft_printf("PID : %d\n", getpid());
 	pause();
 }
+*/

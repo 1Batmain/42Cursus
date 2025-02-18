@@ -6,7 +6,7 @@
 /*   By: bduval <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 13:36:47 by bduval            #+#    #+#             */
-/*   Updated: 2025/02/14 18:31:10 by bduval           ###   ########.fr       */
+/*   Updated: 2025/02/18 12:11:13 by bduval           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "push_swap.h"
@@ -59,26 +59,39 @@ int	do_nearest_rotation_to_b(t_all *all)
 	return (0);
 }
 
+int	is_within_window(t_all *all, t_element *window)
+{
+	t_element	*e;
+
+	e = window->next;
+	while (e != window)
+	{
+		if (e->window && all->a->start->ideal < e->ideal)
+			return (1);
+		if (e->next)
+			e = e->next;
+		else
+			e = all->a->start;
+	}
+	return (0);
+}
+
 int	is_on_road(t_all *all)
 {
 	t_element	*e;
-	int			within;
 
-	within = 0;
-	e = all->a->start;
-	while (e != all->e->a_best && e != all->e->train_target)
+	e = all->e->train_target;
+	while (e != all->a->start)
 	{
-		if (e->window && e->ideal < all->a->start->ideal)
-			within = 1;
-		if (within && (e->window && \
-			((!e->prev_window && all->a->start->ideal < e->ideal) || \
-			(e->prev_window && all->a->start->ideal < e->ideal && \
-			all->a->start->ideal > e->prev_window->ideal))))
+		if (e->window && e->ideal > all->a->start->ideal && \
+			((e->prev->window && \
+			e->prev_window->ideal < all->a->start->ideal) || \
+			!e->prev_window))
 		{
 			all->e->train_target = e;
 			return (1);
 		}
-		e = e->next;
+		e = e->prev;
 	}
 	return (0);
 }
@@ -86,20 +99,16 @@ int	is_on_road(t_all *all)
 int	is_on_rev_road(t_all *all)
 {
 	t_element	*e;
-	int			within;
 
-	within = 0;
 	e = all->a->start;
-	while (e != all->e->a_best && e != all->e->train_target)
+	while (e != all->e->train_target)
 	{
-		if ((within && e->window && e->ideal < all->a->start->ideal) || \
-			(!within && e->window && e->ideal < all->a->start->ideal))
+		if (e->window && e->ideal > all->a->start->ideal && \
+			e->prev_window->ideal < all->a->start->ideal)
 		{
 			all->e->train_target = e;
 			return (1);
 		}
-		if (e->window && e->ideal > all->a->start->ideal)
-			within = 1;
 		if (e->prev)
 			e = e->prev;
 		else
@@ -108,42 +117,14 @@ int	is_on_rev_road(t_all *all)
 	return (0);
 }
 
-int	is_pushable_to_window(t_all *all)
-{
-//	if ((all->a->start->window && !all->a->start->prev_window && \
-//		all->b->start->ideal < all->a->start->ideal) || \
-//		(all->a->start->window && all->a->start->prev_window && \
-//		all->b->start->ideal < all->a->start->ideal && \
-//		all->b->start->ideal > all->a->start->prev_window->ideal))
-	if (all->a->start == all->e->train_target)
-		return (1);
-	return (0);
-}
-
 void	take_that_train(t_all *all, int rev)
 {
-	if (rev)
-	{
-		if (!all->a->start->window && is_on_rev_road(all))
+	if ((rev && !all->a->start->window && is_on_rev_road(all)) || \
+		(!rev && !all->a->start->window && is_on_road(all)))
 		{
 			all->a->start->window = 1;
 			push(all->a, all->b);
 		}
-		while (is_pushable_to_window(all))
-			push(all->b, all->a);
-		get_window(all->a);
-	}
-	else
-	{
-		if (!all->a->start->window && is_on_road(all))
-		{
-			all->a->start->window = 1;
-			push(all->a, all->b);
-		}
-		while (is_pushable_to_window(all))
-			push(all->b, all->a);
-		get_window(all->a);
-	}
 }
 
 void	apply_best_move_to_b(t_all *all)
@@ -151,22 +132,21 @@ void	apply_best_move_to_b(t_all *all)
 	if (all->e->rev)
 		while (all->a->end != all->e->a_best)
 		{
-			//take_that_train(all, 1);
+			take_that_train(all, 1);
 			reverse_rotate(all->a, 1);
-			if (all->e->a_best->window)
-				return ;
 		}
 	else
 		while (all->a->start != all->e->a_best)
 		{
-			//take_that_train(all, 0);
+			take_that_train(all, 0);
 			rotate(all->a, 1);
-			if (all->e->a_best->window)
-				return ;
 		}
 	init_voltigeur(all);
+	while (all->b->start->window)
+		push(all->b, all->a);
 	while (!is_pushable_to_b(all->a->start, all->b) && all->e->best_moment--)
 		do_nearest_rotation_to_b(all);
+	get_window(all->a);
 }
 
 void	to_b_sorted(t_all *all)
@@ -185,6 +165,7 @@ void	to_b_sorted(t_all *all)
 			init_voltigeur(all);
 			check_rotate_a(all);
 			check_rev_rotate_a(all);
+			all->e->train_target = all->e->a_best;
 			apply_best_move_to_b(all);
 		}
 			get_window(all->a);
