@@ -59,6 +59,8 @@ int main (int ac, char **av)
 	if (ac != 3)
 		return (0);
 	pid = ft_atoi(av[1]);
+	if (pid < 0)
+		return (0);
 	len = ft_strlen(av[2]);
 	ft_printf("len : %d\n", len);
 	ft_sendint_bin(pid, len);

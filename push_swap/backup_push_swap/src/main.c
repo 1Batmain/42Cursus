@@ -6,7 +6,7 @@
 /*   By: bduval <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 13:54:39 by bduval            #+#    #+#             */
-/*   Updated: 2025/02/14 15:43:45 by bduval           ###   ########.fr       */
+/*   Updated: 2025/02/18 08:56:04 by bduval           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "push_swap.h"
@@ -63,9 +63,9 @@ void	sort_stack(t_all *all)
 {
 	analyse(all->a);
 	to_b_sorted(all);
+	back_to_a(all);
+	to_the_top(all);
 	print_results(all);
-	//back_to_a(all);
-	//to_the_top(all);
 	return ;
 }
 
