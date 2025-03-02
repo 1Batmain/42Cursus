@@ -5,9 +5,9 @@ unsigned int	value(char c)
 	if (c >= '0' && c <= '9')
 		return (c - '0');
 	if (c >= 'a' && c <= 'f')
-		return (10 +  c - 'a');
+		return (10 + c - 'a');
 	if (c >= 'A' && c <= 'F')
-		return (10 +  c - 'A');
+		return (10 + c - 'A');
 	return (0);
 }
 
@@ -35,7 +35,7 @@ void	extract_values_to(t_map *map, char *data, int x, int y)
 	map->point[x + y * map->width].z = (double)ft_atoi(data);
 	if (map->point[x + y * map->width].z > map->depth)
 		map->depth = ABS(map->point[x + y * map->width].z);
-	while(is_digit(*data))
+	while (is_digit(*data))
 		data++;
 	if (*data == ',')
 	{
@@ -44,25 +44,25 @@ void	extract_values_to(t_map *map, char *data, int x, int y)
 	}
 	else
 		map->point[x + y * map->width].color = 0xFFFFFF;
-
 	return ;
 }
 
 t_point	*add_points(t_point **og, int og_len, int add_len)
 {
 	t_point	*temp;
-	int	i;
+	int		i;
 
 	temp = (t_point *)malloc((og_len + add_len) * sizeof(t_point));
 	if (!temp)
 		return (ft_printf("Erreur Malloc t_point\n"), NULL);
+	ft_bzero(temp, og_len + add_len * sizeof(t_point));
 	i = 0;
-	while(i < og_len)
+	while (i < og_len)
 	{
 		temp[i].x = (*og)[i].x;
 		temp[i].y = (*og)[i].y;
 		temp[i].z = (*og)[i].z;
-		temp[i].color =  (*og)[i].color;
+		temp[i].color = (*og)[i].color;
 		i++;
 	}
 	*og = temp;
@@ -73,12 +73,16 @@ int	update(t_map *map, char *line)
 {
 	static int	y;
 	int			x;
-	char	**split;
+	char		**split;
 
 	split = ft_split((const char *)line, ' ');
 	x = -1;
-	while (split[++x]);
-	map->width = x;
+	while (split[++x])
+		;
+	if (!map->width)
+		map->width = x;
+	else
+		x = map->width;
 	if (!add_points(&map->point, y * x, x))
 		return (1);
 	x = -1;
@@ -104,11 +108,13 @@ int	extract_map(char *path, t_map *map)
 	fd = open(path, O_RDONLY);
 	if (fd > 0)
 	{
-		while ((line = get_next_line(fd)))
+		line = get_next_line(fd);
+		while (line)
 		{
 			if (update(map, line))
 				return (free(line), 1);
 			free(line);
+			line = get_next_line(fd);
 		}
 		free(line);
 	}

@@ -11,9 +11,15 @@
 #define WIDTH	1080
 #define HEIGHT	720
 
-#define IM_WIDTH	1080	
-#define IM_HEIGHT	720
+#define IM_WIDTH	540
+#define IM_HEIGHT	360
 #define IM_DEPTH	60
+
+
+#define TETA	M_PI / 180
+#define ZOOM	1.2
+#define DEZOOM	0.8
+#define TRANSLATE	10
 
 #define ABS(x) (x) >= 0 ? (x) : -(x)
 // STRUCT
