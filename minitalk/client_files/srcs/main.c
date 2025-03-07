@@ -6,7 +6,7 @@
 /*   By: bduval <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 14:37:54 by bduval            #+#    #+#             */
-/*   Updated: 2025/02/18 14:40:50 by bduval           ###   ########.fr       */
+/*   Updated: 2025/03/07 17:01:24 by bduval           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,6 @@ int	main(int ac, char **av)
 	pid = ft_atoi(av[1]);
 	if (pid < 0)
 		return (ft_printf("PID should be a positive integer\n"), 0);
-
 	len = ft_strlen(av[2]);
 	ft_printf("len : %d\n", len);
 	ft_sendint_bin(pid, len);

@@ -6,7 +6,7 @@
 /*   By: bduval <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 15:11:53 by bduval            #+#    #+#             */
-/*   Updated: 2025/02/18 16:48:38 by bduval           ###   ########.fr       */
+/*   Updated: 2025/03/07 17:02:26 by bduval           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 # include <stdlib.h>
 # include "libft.h"
 # include "ft_printf.h"
-
 
 void	set_sigusr_len(void);
 void	set_sigusr_str(void);
