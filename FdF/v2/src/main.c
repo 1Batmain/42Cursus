@@ -161,7 +161,8 @@ void	normalize(t_map *map)
 void	init(t_all *all, char *path)
 {
 	//TODO Secur extract
-	extract_map(path, &all->map);
+	if (extract_map(path, &all->map))
+		return (free_map(all), exit(0));
 	all->mlx.id = mlx_init();
 	all->mlx.window = mlx_new_window(all->mlx.id, WIDTH, HEIGHT, "Waou");
 	all->img.id = mlx_new_image(all->mlx.id, IM_WIDTH, IM_HEIGHT);

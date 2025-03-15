@@ -1,5 +1,0 @@
-AJOUTER UNE CONDITION POUR LES PID NEGATIFS (-1 fait cracher le system)
-Factoriser mmain server
-retirer qlqs printf
-securiser au max (kills, sigaction, malloc)
-Makefile relink

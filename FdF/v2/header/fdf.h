@@ -61,7 +61,8 @@ typedef struct	s_all
 	t_img	img;
 }	t_all;
 // MAP
-int	extract_map(char *path, t_map *map);
+void	free_map(t_all *all);
+int		extract_map(char *path, t_map *map);
 //Line
 void	draw_line(t_img *img, t_point *s, t_point *e);
 //Utils

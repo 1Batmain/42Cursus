@@ -1,5 +1,10 @@
 #include "fdf.h"
 
+void	free_map(t_all *all)
+{
+	free(all->map.point);
+}
+
 unsigned int	value(char c)
 {
 	if (c >= '0' && c <= '9')
@@ -65,6 +70,7 @@ t_point	*add_points(t_point **og, int og_len, int add_len)
 		temp[i].color = (*og)[i].color;
 		i++;
 	}
+	free(*og);
 	*og = temp;
 	return (temp);
 }
@@ -105,6 +111,7 @@ int	extract_map(char *path, t_map *map)
 	map->width = 0;
 	map->height = 0;
 	map->depth = 0;
+	map->point = NULL;
 	fd = open(path, O_RDONLY);
 	if (fd > 0)
 	{
