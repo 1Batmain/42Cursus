@@ -23,9 +23,9 @@ static size_t	ft_count_chains(const char *s, char c)
 	cnt = 0;
 	while (s[i])
 	{
-		while (s[i] == c && s[i])
+		while ((s[i] == c || s[i] == '\n') && s[i])
 			i++;
-		while (s[i] != c && s[i])
+		while (s[i] != c && s[i] != '\n' && s[i])
 		{
 			i++;
 			tem = 1;
@@ -42,7 +42,7 @@ static size_t	ft_get_chain_length(const char *s, const char c)
 	size_t	i;
 
 	i = 0;
-	while (s[i] && s[i] != c)
+	while (s[i] && s[i] != c && s[i] != '\n')
 		i++;
 	return (i);
 }
@@ -80,7 +80,7 @@ char	**ft_split(const char *s, char c)
 	chains[len] = NULL;
 	if (!len)
 		return (chains);
-	while (*s && *s == c)
+	while (*s && (*s == c || *s == '\n'))
 		s++;
 	idx = 0;
 	while (*s)
@@ -88,7 +88,7 @@ char	**ft_split(const char *s, char c)
 		len = ft_get_chain_length(s, c);
 		chains[idx] = ft_strndup(s, len);
 		s = &s[len];
-		while (*s && *s == c)
+		while (*s && (*s == c || *s == '\n'))
 			s++;
 		idx++;
 	}

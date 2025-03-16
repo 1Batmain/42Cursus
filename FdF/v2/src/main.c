@@ -158,16 +158,39 @@ void	normalize(t_map *map)
 	}
 }
 
-void	init(t_all *all, char *path)
+int	free_and_quit(t_all *all)
 {
-	//TODO Secur extract
+	if (all->img.id)
+		mlx_destroy_image(all->mlx.id, all->img.id);
+	if (all->mlx.window)
+		mlx_destroy_window(all->mlx.id, all->mlx.window);
+	if (all->mlx.id)
+	{
+		mlx_destroy_display(all->mlx.id);
+		free(all->mlx.id);
+	}
+	free(all->map.point);
+	exit(0);
+}
+
+int	init(t_all *all, char *path)
+{
+	all->mlx.id = NULL;
+	all->mlx.window = NULL;
+	all->img.id = NULL;
+	all->img.data = NULL;
 	if (extract_map(path, &all->map))
-		return (free_map(all), exit(0));
-	all->mlx.id = mlx_init();
-	all->mlx.window = mlx_new_window(all->mlx.id, WIDTH, HEIGHT, "Waou");
-	all->img.id = mlx_new_image(all->mlx.id, IM_WIDTH, IM_HEIGHT);
-	all->img.data = mlx_get_data_addr(all->img.id, &all->img.bits_per_pix, \
-			&all->img.line_length, &all->img.endian);
+		return (ft_printf("Erreur extract_map()\n"), free_and_quit(all));
+	if (!(all->mlx.id = mlx_init()))
+		return (ft_printf("Erreur mlx_init()\n"), free_and_quit(all));
+	if (!(all->mlx.window = mlx_new_window(all->mlx.id, WIDTH, HEIGHT, NULL)))
+		return (ft_printf("Erreur mlx_new_window()\n"), free_and_quit(all));
+	if (!(all->img.id = mlx_new_image(all->mlx.id, IM_WIDTH, IM_HEIGHT)))
+		return (ft_printf("Erreur mlx_new_image()\n"), free_and_quit(all));
+	if (!(all->img.data = mlx_get_data_addr(all->img.id, &all->img.bits_per_pix, \
+			&all->img.line_length, &all->img.endian)))
+		return (ft_printf("Erreur mlx_get_data_addr()\n"), free_and_quit(all));
+	return (0);
 }
 
 void	background_color(t_all *all)
@@ -202,20 +225,11 @@ int	render(t_all *all)
 	return (0);
 }
 
-int	close_window(t_mlx *mlx)
-{
-	mlx_destroy_window(mlx->id, mlx->window);
-	exit(0);
-}
 
 int	key_handle(int keycode, t_all *all)
 {
-	//ft_printf("Event : %d\n", keycode);
 	if (keycode == 65307)
-	{
-		mlx_destroy_window(all->mlx.id, all->mlx.window);
-		exit(0);
-	}
+		free_and_quit(all);
 	if (keycode == 65364)
 		y_translate(&all->map, TRANSLATE);
 	if (keycode == 65362)
@@ -249,12 +263,15 @@ void	debug(t_all *all)
 			"height : %d\n", all->map.width, all->map.height);
 }
 
+
 int	main(int ac, char **av)
 {
 	t_all	all;
 
-	if (ac == 2)
-		init(&all, av[1]);
+	if (ac != 2)
+		return (ft_printf("You should provide the path to the map you want to display as argument\n"));
+	if (init(&all, av[1]))
+		return (0);
 	normalize(&all.map);
 	x_rotate(&all.map, 40 * (M_PI / 180));
 	y_rotate(&all.map, -30 * (M_PI / 180));
@@ -264,13 +281,13 @@ int	main(int ac, char **av)
 	// mouse_handler will be called everytime a mouse down event is emitted
 	mlx_hook(all.mlx.window, 2, 1L << 0, key_handle, &all);
 	// key_handler will be called everytime a key is pressed
-	mlx_hook(all.mlx.window, 17, 1L << 0, close_window, &all.mlx);
+	mlx_hook(all.mlx.window, 17, 1L << 0, free_and_quit, &all);
 	// close_window is called when we click on the red cross to close the window
 	mlx_loop_hook(all.mlx.id, render, &all);
 	// Since MXL loops over and over again, we can use the mlx_loop_hook
 	// to execute a function everytime MLX loops over.
 	mlx_loop(all.mlx.id);
-	return (0);
+	return (free_and_quit(&all), 0);
 }
 /*
 int	mouse_handler(t_mlx *mlx)

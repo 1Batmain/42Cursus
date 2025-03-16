@@ -1,9 +1,5 @@
 #include "fdf.h"
 
-void	free_map(t_all *all)
-{
-	free(all->map.point);
-}
 
 unsigned int	value(char c)
 {
@@ -125,5 +121,7 @@ int	extract_map(char *path, t_map *map)
 		}
 		free(line);
 	}
+	else
+		return (ft_printf("Error while opening the file %s\n", path));
 	return (0);
 }

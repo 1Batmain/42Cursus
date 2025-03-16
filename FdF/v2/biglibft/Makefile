@@ -1,7 +1,7 @@
 NAME	= libft.a
 
 CC		= cc
-CFLAGS	= -Wall -Werror -Wextra
+CFLAGS	= -Wall -Werror -Wextra -g
 
 all : $(NAME)
 
