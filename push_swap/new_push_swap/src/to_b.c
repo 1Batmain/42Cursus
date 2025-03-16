@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 #include "push_swap.h"
-#define CHUNK_SIZE 3
 
 int	get_nearest_rotation_value_to_b(t_all *all)
 {
@@ -36,15 +35,36 @@ int	get_nearest_rotation_value_to_b(t_all *all)
 	return (0);
 }
 
+int	get_chunk_size(t_all *all)
+{
+	if (all->nb_element <= 100)
+		return (1);
+	else if (all->nb_element <= 300)
+		return (2);
+	else if (all->nb_element <= 500)
+		return (3);
+	else if (all->nb_element <= 800)
+		return (4);
+	else if (all->nb_element <= 1200)
+		return (5);
+	else if (all->nb_element <= 1500)
+		return (6);
+	else if (all->nb_element <= 1800)
+		return (6);
+	return (8);
+}
+
 void	to_b_sorted(t_all *all)
 {
 	int			chunk;
 	int			starter;
+	int			chunk_size;
 	t_element	*e;
 
+	chunk_size = get_chunk_size(all);
 	all->curr_chunk = 0;
-	all->nb_chunk = CHUNK_SIZE;
-	chunk = all->nb_element / CHUNK_SIZE;
+	all->nb_chunk = chunk_size;
+	chunk = all->nb_element / chunk_size;
 	e = NULL;
 	while (have_not_windowed(all->a))
 	{
