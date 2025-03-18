@@ -10,28 +10,37 @@
 #                                                                              #
 # **************************************************************************** #
 
-CC = cc
+CC 		= cc
 CFLAGS 	= -Wall -Werror -Wextra -g
 NAME 	= push_swap
 
-SRC_DIR 	=	src/
-HEADER_DIR	=	-I header/ -I biglibft/header
-TEST_DIR	=	src/
-OBJ_DIR		=	obj/
-BONUS_OBJ_DIR		=	bonus_obj/
-LIB_DIR		= biglibft/
-LIB			= -L biglibft/ -lft
+SRC_DIR 		= src/
+SRC_DIR_BONUS	= src/tester/
+HEADER_DIR		= -I header/ -I biglibft/header
+OBJ_DIR			= obj/
+OBJ_DIR_BONUS	= obj/tester/
+BONUS_OBJ_DIR	= bonus_obj/
+LIB_DIR			= biglibft/
+LIB				= -L biglibft/ -lft
 
-MANDATORY = main list operations double_operations window max_min to_a to_b \
+MANDATORY	= main list operations double_operations window max_min to_a to_b \
 			check_rotate is_pushable voltigeur utils
 
-SRC = $(MANDATORY:%=$(SRC_DIR)%.c)
-OBJ = $(SRC:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
+BONUS		= $(addprefix tester/, main operations double_operations utils is_pushable)
+
+SRC	= $(MANDATORY:%=$(SRC_DIR)%.c)
+OBJ	= $(SRC:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
+
+SRC_BONUS	= $(BONUS:%=$(SRC_DIR)%.c)
+OBJ_BONUS	= $(SRC_BONUS:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
 
 all : 		$(NAME)
 
 $(NAME):	$(OBJ) $(LIB)
 	$(CC) $(OBJ) $(LIB) -o $(NAME)
+
+bonus :	$(OBJ_BONUS) $(LIB)
+	$(CC) $(OBJ_BONUS) $(LIB) -o tester
 
 $(OBJ_DIR)%.o :	$(SRC_DIR)%.c $(OBJ_DIR) $(LIB)
 	$(CC) $(CFLAGS) $(HEADER_DIR) -c $< -o $@ -g
@@ -40,10 +49,10 @@ $(LIB) :
 	cd $(LIB_DIR); make; cd ..;
 
 $(OBJ_DIR) :
-	mkdir -p $(OBJ_DIR)
+	mkdir -p $(OBJ_DIR) $(OBJ_DIR_BONUS)
 
 init:
-	mkdir -p $(SRC_DIR) $(TEST_DIR) $(HEADER_DIR)
+	mkdir -p $(SRC_DIR) $(HEADER_DIR)
 
 re	: 		fclean all
 
