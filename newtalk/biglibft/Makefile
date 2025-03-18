@@ -21,3 +21,5 @@ fclean :
 	rm $(NAME)
 
 re : fclean all
+
+PHONY : $(NAME)

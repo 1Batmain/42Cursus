@@ -6,7 +6,7 @@
 /*   By: bduval <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 18:05:49 by bduval            #+#    #+#             */
-/*   Updated: 2025/03/18 19:13:33 by bduval           ###   ########.fr       */
+/*   Updated: 2025/03/18 20:45:30 by bduval           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minitalk.h"
@@ -28,13 +28,12 @@ int	send_char(int server, char c)
 			if (kill(server, SIGUSR1)) 
 				return (ft_printf("Kill return an error in send_char(%d, %c)\n", \
 							server, c));
-		if (i < 7)
-			usleep(TIME_SLEEP);
 		i++;
+//		write(1, "WAIT...", 7);
+		pause();
+//		write(1, "OK\n", 3);
+		usleep(TIME_SLEEP);
 	}
-	//ft_printf("WAIT FOR CHECK... ");
-	pause();
-	//ft_printf("DONE !\n");
 	return (0);
 }
 
@@ -62,8 +61,8 @@ int	send_str(int server, char *str)
 	len = ft_strlen(str);
 	while(*str)
 	{
-		if (len > 1000)
-			update_prog(len, str);
+//		if (len > 1000)
+//			update_prog(len, str);
 		if (send_char(server, *str))
 			return (1);
 		str++;
@@ -83,7 +82,6 @@ int	set_sigusr1(struct sigaction *s)
 {
 	ft_bzero(s, sizeof(struct sigaction));
 	s->sa_handler = get_valid;
-	s->sa_flags = SA_NODEFER;
 	if (sigaction(SIGUSR1, s, NULL))
 		return (1);
 	return (0);

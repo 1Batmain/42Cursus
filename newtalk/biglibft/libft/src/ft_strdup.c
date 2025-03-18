@@ -6,7 +6,7 @@
 /*   By: bduval <bduval@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 15:25:32 by bduval            #+#    #+#             */
-/*   Updated: 2024/11/16 16:11:46 by bduval           ###   ########.fr       */
+/*   Updated: 2025/03/18 20:56:41 by bduval           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,6 @@ char	*ft_strdup(const char src)
 {
 	char	*new;
 
-	if (!src)
-		return (NULL);
 	new = malloc(2);
 	if (!new)
 		return (NULL);
