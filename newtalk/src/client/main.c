@@ -1,27 +1,40 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bduval <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/18 18:05:49 by bduval            #+#    #+#             */
+/*   Updated: 2025/03/18 19:13:33 by bduval           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 #include "minitalk.h"
 
 int	send_char(int server, char c)
 {
 	int	i;
-	int	binary;
 
 	i = 0;
 	while (i < 8)
 	{
-		binary = (c >> i) & 1;
-		if (binary)
+		if ((c >> i) & 1)
 		{
 			if (kill(server, SIGUSR2)) 
-				return (ft_printf("Kill return an error in send_char(%d, %c)\n",  server, c));
+				return (ft_printf("Kill return an error in send_char(%d, %c)\n", \
+							server, c));
 		}
 		else
 			if (kill(server, SIGUSR1)) 
-				return (ft_printf("Kill return an error in send_char(%d, %c)\n",  server, c));
+				return (ft_printf("Kill return an error in send_char(%d, %c)\n", \
+							server, c));
 		if (i < 7)
 			usleep(TIME_SLEEP);
 		i++;
 	}
+	//ft_printf("WAIT FOR CHECK... ");
 	pause();
+	//ft_printf("DONE !\n");
 	return (0);
 }
 
@@ -49,11 +62,11 @@ int	send_str(int server, char *str)
 	len = ft_strlen(str);
 	while(*str)
 	{
+		if (len > 1000)
+			update_prog(len, str);
 		if (send_char(server, *str))
 			return (1);
 		str++;
-		if (len > 1000)
-			update_prog(len, str);
 	}
 	if (send_char(server, 0))
 		return (1);
@@ -70,6 +83,7 @@ int	set_sigusr1(struct sigaction *s)
 {
 	ft_bzero(s, sizeof(struct sigaction));
 	s->sa_handler = get_valid;
+	s->sa_flags = SA_NODEFER;
 	if (sigaction(SIGUSR1, s, NULL))
 		return (1);
 	return (0);

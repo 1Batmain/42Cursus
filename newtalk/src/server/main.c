@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bduval <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/18 18:05:56 by bduval            #+#    #+#             */
+/*   Updated: 2025/03/18 19:54:17 by bduval           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 #include "minitalk.h"
 
 char	*res;
@@ -27,7 +38,7 @@ void	get_char(int sig, siginfo_t *info, void *u_context)
 {
 	static int				i;
 	static unsigned char	c;
-
+	//ft_printf("RECEIPT %d ", i);
 	(void) u_context;
 	if (sig == SIGUSR1)
 		c |= (0 << i);
@@ -40,18 +51,26 @@ void	get_char(int sig, siginfo_t *info, void *u_context)
 		i = 0;
 		add_to_res(c);
 		c = 0;
+		usleep(TIME_SLEEP);
 		kill(info->si_pid, SIGUSR1);
+//		ft_printf("\nRECEIPT SEND\n");
 	}
 }
 
 int	set_sigusr(struct sigaction *s1, struct sigaction *s2)
 {
+	sigset_t	sigusr_group;
+	sigemptyset(&sigusr_group);
+	sigaddset(&sigusr_group, SIGUSR1);
+	sigaddset(&sigusr_group, SIGUSR2);
 	ft_bzero(s1, sizeof(struct sigaction));
 	ft_bzero(s2, sizeof(struct sigaction));
 	s1->sa_sigaction = get_char;
 	s1->sa_flags = SA_SIGINFO;
+	s1->sa_mask = sigusr_group;
 	s2->sa_sigaction = get_char;
 	s2->sa_flags = SA_SIGINFO;
+	s2->sa_mask = sigusr_group;
 	if (sigaction(SIGUSR1, s1, NULL))
 		return (1);
 	if (sigaction(SIGUSR2, s2, NULL))
