@@ -6,7 +6,7 @@
 /*   By: bduval <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 14:33:11 by bduval            #+#    #+#             */
-/*   Updated: 2025/02/13 14:35:04 by bduval           ###   ########.fr       */
+/*   Updated: 2025/03/19 19:02:33 by bduval           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "push_swap.h"
@@ -23,4 +23,10 @@ int	ft_max(int a, int b)
 	if (b > a)
 		return (b);
 	return (a);
+}
+
+int	is_valid_list(int ac, char **av)
+{
+	// TODO
+	// CHECK FOR NON NTEGER IN LIST, OVERFLOW INTEGER OR DUPPLICATES
 }
