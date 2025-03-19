@@ -16,7 +16,7 @@ SRC		= $(MANDATORY:%=$(SRC_DIR)%.c)
 OBJ		= $(SRC:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
 DEP		= $(SRC:$(SRC_DIR)%.c=$(OBJ_DIR).d)
 
-all : $(OBJ_DIR) lib $(NAME)
+all : $(OBJ_DIR) .lib $(NAME)
 
 $(OBJ_DIR)%.o : $(SRC_DIR)%.c
 	$(CC) $(CFLAGS) $(HEADER) -c $< -o $@ -g
@@ -29,9 +29,10 @@ $(NAME) : $(OBJ)
 $(OBJ_DIR) :
 	mkdir -p $@
 
-lib	:
+.lib	:
 	@cd biglibft; make; cd ..;
-	@cd mlx_linux; ./configure; cd ..
+	@cd mlx_linux; ./configure; cd ..;
+	@touch $@
 
 clean : 
 	rm -rf $(OBJ_DIR)
