@@ -6,12 +6,12 @@
 #    By: bduval <bduval@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/19 13:54:02 by bduval            #+#    #+#              #
-#    Updated: 2025/02/13 14:35:49 by bduval           ###   ########.fr        #
+#    Updated: 2025/03/19 16:11:32 by bduval           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC 		= cc
-CFLAGS 	= -Wall -Werror -Wextra -g
+CFLAGS 	= -Wall -Werror -Wextra -MMD -MP
 NAME 	= push_swap
 
 SRC_DIR 		= src/
@@ -24,9 +24,10 @@ LIB_DIR			= biglibft/
 LIB				= -L biglibft/ -lft
 
 MANDATORY	= main list operations double_operations window max_min to_a to_b \
-			check_rotate is_pushable voltigeur utils
+			check_rotate is_pushable voltigeur utils chunk
 
-BONUS		= $(addprefix tester/, main operations double_operations utils is_pushable)
+BONUS		= tester/main operations double_operations utils is_pushable list \
+			  max_min window
 
 SRC	= $(MANDATORY:%=$(SRC_DIR)%.c)
 OBJ	= $(SRC:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
@@ -34,25 +35,29 @@ OBJ	= $(SRC:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
 SRC_BONUS	= $(BONUS:%=$(SRC_DIR)%.c)
 OBJ_BONUS	= $(SRC_BONUS:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
 
-all : 		$(NAME)
+DEP			= $(MANDATORY:$(SRC_DIR)%.c=$(OBJ_DIR)%.d)
+DEP_BONUS	= $(BONUS:$(SRC_DIR)%.c=$(OBJ_DIR)%.d)
 
-$(NAME):	$(OBJ) $(LIB)
-	$(CC) $(OBJ) $(LIB) -o $(NAME)
 
-bonus :	$(OBJ_BONUS) $(LIB)
-	$(CC) $(OBJ_BONUS) $(LIB) -o tester
+all : $(OBJ_DIR) .lib $(NAME)
 
-$(OBJ_DIR)%.o :	$(SRC_DIR)%.c $(OBJ_DIR) $(LIB)
+$(NAME): $(OBJ)
+	$(CC) $(OBJ) $(LIB) -o $@
+
+$(OBJ_DIR)%.o :	$(SRC_DIR)%.c
 	$(CC) $(CFLAGS) $(HEADER_DIR) -c $< -o $@ -g
 
-$(LIB) :
-	cd $(LIB_DIR); make; cd ..;
+-include $(DEP) $(DEP_BONUS)
+
+bonus :	$(OBJ_BONUS) .lib
+	$(CC) $(OBJ_BONUS) $(LIB) -o tester
+
+.lib :
+	@cd $(LIB_DIR); make; cd ..;
+	touch .lib;
 
 $(OBJ_DIR) :
 	mkdir -p $(OBJ_DIR) $(OBJ_DIR_BONUS)
-
-init:
-	mkdir -p $(SRC_DIR) $(HEADER_DIR)
 
 re	: 		fclean all
 

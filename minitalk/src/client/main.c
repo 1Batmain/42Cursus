@@ -6,7 +6,7 @@
 /*   By: bduval <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 18:05:49 by bduval            #+#    #+#             */
-/*   Updated: 2025/03/18 20:45:30 by bduval           ###   ########.fr       */
+/*   Updated: 2025/03/19 17:48:17 by bduval           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minitalk.h"
@@ -29,9 +29,9 @@ int	send_char(int server, char c)
 				return (ft_printf("Kill return an error in send_char(%d, %c)\n", \
 							server, c));
 		i++;
-//		write(1, "WAIT...", 7);
+		write(1, "WAIT...", 7);
 		pause();
-//		write(1, "OK\n", 3);
+		write(1, "OK\n", 3);
 		usleep(TIME_SLEEP);
 	}
 	return (0);
@@ -76,6 +76,7 @@ int	send_str(int server, char *str)
 void	get_valid(int sig)
 {
 	(void) sig;
+	ft_printf("%d\n", sig);
 }
 
 int	set_sigusr1(struct sigaction *s)

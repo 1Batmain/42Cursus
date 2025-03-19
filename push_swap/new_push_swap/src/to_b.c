@@ -6,7 +6,7 @@
 /*   By: bduval <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 13:36:47 by bduval            #+#    #+#             */
-/*   Updated: 2025/02/18 12:11:13 by bduval           ###   ########.fr       */
+/*   Updated: 2025/03/19 15:52:12 by bduval           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "push_swap.h"
@@ -35,23 +35,16 @@ int	get_nearest_rotation_value_to_b(t_all *all)
 	return (0);
 }
 
-int	get_chunk_size(t_all *all)
+static void	choose_action(int chunk, t_element **e, t_all *all)
 {
-	if (all->nb_element <= 100)
-		return (1);
-	else if (all->nb_element <= 300)
-		return (2);
-	else if (all->nb_element <= 500)
-		return (3);
-	else if (all->nb_element <= 800)
-		return (4);
-	else if (all->nb_element <= 1200)
-		return (5);
-	else if (all->nb_element <= 1500)
-		return (6);
-	else if (all->nb_element <= 1800)
-		return (6);
-	return (8);
+	if ((!*e || !(*e)->window) && all->a->start->window)
+		*e = all->a->start;
+	if (!all->a->start->window && \
+		(all->a->start->ideal <= chunk * all->curr_chunk || \
+		all->curr_chunk == all->nb_chunk))
+		push(all->a, all->b, 1);
+	else
+		rotate(all->a, 1);
 }
 
 void	to_b_sorted(t_all *all)
@@ -73,14 +66,8 @@ void	to_b_sorted(t_all *all)
 		starter = 1;
 		while (all->a->start != e || starter)
 		{
-			if((!e || !e->window) && all->a->start->window)
-				e = all->a->start;
-			if (!all->a->start->window && (all->a->start->ideal <= chunk * all->curr_chunk || all->curr_chunk == all->nb_chunk))
-				push(all->a, all->b);
-			else
-				rotate(all->a, 1);
+			choose_action(chunk, &e, all);
 			starter = 0;
 		}
 	}
 }
-

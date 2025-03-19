@@ -6,7 +6,7 @@
 /*   By: bduval <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 18:05:56 by bduval            #+#    #+#             */
-/*   Updated: 2025/03/18 20:45:15 by bduval           ###   ########.fr       */
+/*   Updated: 2025/03/19 17:49:05 by bduval           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minitalk.h"
@@ -38,7 +38,8 @@ void	get_char(int sig, siginfo_t *info, void *u_context)
 	static int				i;
 	static unsigned char	c;
 	(void) u_context;
-//	write(1, "RECEIPT...", 10);
+	write(1, "RECEIPT...", 10);
+	ft_printf("%d (%c)", i, c);
 	if (sig == SIGUSR1)
 		c |= (0 << i);
 	else if (sig == SIGUSR2)
@@ -47,12 +48,12 @@ void	get_char(int sig, siginfo_t *info, void *u_context)
 	if (i == 8)
 	{
 		i = 0;
-		add_to_res(c);
+		//add_to_res(c);
 		c = 0;
 	}
 	usleep(TIME_SLEEP);
 	kill(info->si_pid, SIGUSR1);
-//	write(1, "COMFIRMED\n", 10);
+	write(1, "COMFIRMED\n", 10);
 	return ;
 }
 

@@ -6,12 +6,12 @@
 /*   By: bduval <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 14:09:36 by bduval            #+#    #+#             */
-/*   Updated: 2025/02/13 14:54:06 by bduval           ###   ########.fr       */
+/*   Updated: 2025/03/19 15:27:49 by bduval           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "push_swap.h"
 
-void	swap(t_stack *l)
+void	swap(t_stack *l, int print)
 {
 	t_element	*temp;
 
@@ -27,11 +27,12 @@ void	swap(t_stack *l)
 	l->start->next = temp;
 	if (l->nb_element == 2)
 		l->end = l->start->next;
-	ft_printf("s%c\n", l->name);
+	if (print)
+		ft_printf("s%c\n", l->name);
 	return ;
 }
 
-void	push(t_stack *a, t_stack *b)
+void	push(t_stack *a, t_stack *b, int print)
 {
 	t_element	*temp;
 
@@ -52,7 +53,8 @@ void	push(t_stack *a, t_stack *b)
 	a->nb_element--;
 	if (b->nb_element == 1)
 		b->end = b->start;
-	ft_printf("p%c\n", b->name);
+	if (print)
+		ft_printf("p%c\n", b->name);
 	return ;
 }
 

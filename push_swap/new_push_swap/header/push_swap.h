@@ -6,7 +6,7 @@
 /*   By: bduval <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 14:31:23 by bduval            #+#    #+#             */
-/*   Updated: 2025/02/14 10:37:33 by bduval           ###   ########.fr       */
+/*   Updated: 2025/03/19 16:06:38 by bduval           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include "libft.h"
 # include "ft_printf.h"
+# include "get_next_line.h"
 # include <unistd.h>
 # include <stdio.h>
 # include <stdlib.h>
@@ -84,12 +85,12 @@ void	push_max_min(t_stack *a, t_stack *b);
 void	analyse(t_stack *l);
 
 //OPERATION
-void	swap(t_stack *l);
-void	push(t_stack *a, t_stack *b);
+void	swap(t_stack *l, int print);
+void	push(t_stack *a, t_stack *b, int print);
 void	rotate(t_stack *l, int print);
 void	reverse_rotate(t_stack *l, int print);
-void	double_rotate(t_stack *l1, t_stack *l2);
-void	double_reverse_rotate(t_stack *l1, t_stack *l2);
+void	double_rotate(t_stack *l1, t_stack *l2, int print);
+void	double_reverse_rotate(t_stack *l1, t_stack *l2, int print);
 
 //CHECK_ROTATE
 void	check_rotate_b(t_all *all);
@@ -120,11 +121,13 @@ void	to_b_sorted(t_all *all);
 //VOLTIGEUR
 void	update_voltigeur(t_all *all);
 void	init_voltigeur(t_all *all);
-
 //WINDOW
 int		have_not_windowed(t_stack *a);
 void	get_window(t_stack *l);
-
+//CHUNK
+int		chunk_is_done(t_all *all);
+int		get_chunk_size(t_all *all);
+void	go_to_current_chunk(t_all *all);
 //LIST
 void	init_stack(t_all *all);
 int		get_lst(t_stack *l1, int ac, char **av);

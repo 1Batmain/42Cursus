@@ -9,7 +9,7 @@ $(NAME) :
 	cd libft; make; cd ..;\
 	cd ft_printf; make; cd ..;\
 	cp -r libft/header ft_printf/header .;\
-	ar -rcT $(NAME) libft/libft.a ft_printf/libftprintf.a 
+	ar -rcT $@ libft/libft.a ft_printf/libftprintf.a
 
 clean :
 	cd libft; make clean; cd ..;\

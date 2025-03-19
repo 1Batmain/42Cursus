@@ -6,7 +6,7 @@
 /*   By: bduval <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 13:54:08 by bduval            #+#    #+#             */
-/*   Updated: 2025/02/18 12:02:40 by bduval           ###   ########.fr       */
+/*   Updated: 2025/03/19 18:52:48 by bduval           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "push_swap.h"
@@ -106,6 +106,8 @@ int	get_lst(t_stack *l1, int ac, char **av)
 	if (ac == 2)
 	{
 		numbers = av[1];
+		if (!is_valid_list(ac, av))
+			return (1);
 		while (*numbers)
 		{
 			while (!ft_isdigit(*numbers) && *numbers != '-' && *numbers != '+')
