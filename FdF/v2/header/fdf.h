@@ -1,29 +1,38 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   fdf.h                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bduval <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/19 09:52:44 by bduval            #+#    #+#             */
+/*   Updated: 2025/03/19 11:18:28 by bduval           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef FDF_H
 # define FDF_H
 
-#include <mlx.h>
-#include <math.h>
-#include <stdio.h>
-#include "libft.h"
-#include "ft_printf.h"
-#include "get_next_line.h"
+# include <mlx.h>
+# include <math.h>
+# include <stdio.h>
+# include "libft.h"
+# include "ft_printf.h"
+# include "get_next_line.h"
 
-#define WIDTH	1080
-#define HEIGHT	720
+# define WIDTH	1080
+# define HEIGHT	720
 
-#define IM_WIDTH	540
-#define IM_HEIGHT	360
-#define IM_DEPTH	60
+# define IM_WIDTH	540
+# define IM_HEIGHT	360
+# define IM_DEPTH	60
 
+# define ZOOM	1.2
+# define DEZOOM	0.8
+# define TRANSLATE	10
 
-#define TETA	M_PI / 180
-#define ZOOM	1.2
-#define DEZOOM	0.8
-#define TRANSLATE	10
-
-#define ABS(x) (x) >= 0 ? (x) : -(x)
 // STRUCT
-typedef struct	s_point
+typedef struct s_point
 {
 	double	x;
 	double	y;
@@ -31,7 +40,7 @@ typedef struct	s_point
 	int		color;
 }	t_point;
 
-typedef struct	s_map
+typedef struct s_map
 {
 	int				width;
 	int				height;
@@ -39,13 +48,13 @@ typedef struct	s_map
 	t_point			*point;
 }	t_map;
 
-typedef struct	s_mlx
+typedef struct s_mlx
 {
 	void	*id;
 	void	*window;
 }	t_mlx;
 
-typedef struct	s_img
+typedef struct s_img
 {
 	void	*id;
 	char	*data;
@@ -54,17 +63,31 @@ typedef struct	s_img
 	int		endian;
 }	t_img;
 
-typedef struct	s_all
+typedef struct s_all
 {
 	t_map	map;
 	t_mlx	mlx;
 	t_img	img;
 }	t_all;
+// KEY_HANDLE
+int				key_handle(int keycode, t_all *all);
+// CENTER_NORMALIZE
+void			center(t_map *map);
+void			de_center(t_map *map);
+void			zoom(t_map *map, float zoom);
+void			normalize(t_map *map);
+// ROTATE_TRANSLATE
+void			x_translate(t_map *map, int direction);
+void			y_translate(t_map *map, int direction);
+void			x_rotate(t_map *map, double teta);
+void			z_rotate(t_map *map, double teta);
+void			y_rotate(t_map *map, double teta);
 // MAP
-void	free_map(t_all *all);
-int		extract_map(char *path, t_map *map);
+void			free_map(t_all *all);
+int				extract_map(char *path, t_map *map);
 //Line
-void	draw_line(t_img *img, t_point *s, t_point *e);
+void			draw_line(t_img *img, t_point *s, t_point *e);
 //Utils
-void	swap(double *a, double *b);
+unsigned int	ft_value(char c);
+int				free_and_quit(t_all *all);
 #endif

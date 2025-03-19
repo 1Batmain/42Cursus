@@ -1,16 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   map.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bduval <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/19 10:15:08 by bduval            #+#    #+#             */
+/*   Updated: 2025/03/19 11:19:16 by bduval           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "fdf.h"
-
-
-unsigned int	value(char c)
-{
-	if (c >= '0' && c <= '9')
-		return (c - '0');
-	if (c >= 'a' && c <= 'f')
-		return (10 + c - 'a');
-	if (c >= 'A' && c <= 'F')
-		return (10 + c - 'A');
-	return (0);
-}
 
 unsigned int	ft_atoifromhex(char *data)
 {
@@ -21,7 +21,7 @@ unsigned int	ft_atoifromhex(char *data)
 	nbr = 0;
 	while (data[i])
 	{
-		nbr += value(data[i]);
+		nbr += ft_value(data[i]);
 		if (data[i + 1])
 			nbr *= 16;
 		i++;
@@ -35,7 +35,7 @@ void	extract_values_to(t_map *map, char *data, int x, int y)
 	map->point[x + y * map->width].y = y;
 	map->point[x + y * map->width].z = (double)ft_atoi(data);
 	if (map->point[x + y * map->width].z > map->depth)
-		map->depth = ABS(map->point[x + y * map->width].z);
+		map->depth = fabs(map->point[x + y * map->width].z);
 	while (is_digit(*data))
 		data++;
 	if (*data == ',')
