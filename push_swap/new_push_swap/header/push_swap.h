@@ -6,7 +6,7 @@
 /*   By: bduval <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 14:31:23 by bduval            #+#    #+#             */
-/*   Updated: 2025/03/19 16:06:38 by bduval           ###   ########.fr       */
+/*   Updated: 2025/03/20 16:01:55 by bduval           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,11 +79,14 @@ typedef struct s_all
 //UTILS
 int		ft_abs(int a);
 int		ft_max(int a, int b);
-
+int		is_space(char c);
+int		is_sign(char c);
+int		is_doublon(t_stack *l, t_element *new);
+//VALID_LIST
+int		is_valid_list(int ac, char **av);
 //MAX_MIN
 void	push_max_min(t_stack *a, t_stack *b);
 void	analyse(t_stack *l);
-
 //OPERATION
 void	swap(t_stack *l, int print);
 void	push(t_stack *a, t_stack *b, int print);
@@ -91,33 +94,28 @@ void	rotate(t_stack *l, int print);
 void	reverse_rotate(t_stack *l, int print);
 void	double_rotate(t_stack *l1, t_stack *l2, int print);
 void	double_reverse_rotate(t_stack *l1, t_stack *l2, int print);
-
 //CHECK_ROTATE
 void	check_rotate_b(t_all *all);
 void	check_rev_rotate_b(t_all *all);
 void	check_rotate_a(t_all *all);
 void	check_rev_rotate_a(t_all *all);
-
 //IS_PUSHABLE
 int		is_within_current_chunk(t_all *all, t_element *e);
 int		is_pushable_to_b(t_element *e_from, t_all *all);
 int		is_pushable_to_b2(t_element *e_from, t_element *e_to, t_all *all);
 int		is_pushable_to_a(t_element *e, t_all *all);
 int		is_pushable_to_a2(t_element *e_from, t_element *e_to, t_all *all);
-
 //TO_A
 int		get_nearest_rotation_value_to_a(t_all *all);
 int		do_nearest_rotation_to_a(t_all *all);
 void	apply_best_move_to_a(t_all *all);
 void	back_to_a(t_all *all);
 void	to_a_sorted(t_all *all);
-
 //TO_B
 int		get_nearest_rotation_value_to_b(t_all *all);
 int		do_nearest_rotation_to_b(t_all *all);
 void	apply_best_move_to_b(t_all *all);
 void	to_b_sorted(t_all *all);
-
 //VOLTIGEUR
 void	update_voltigeur(t_all *all);
 void	init_voltigeur(t_all *all);
@@ -131,4 +129,9 @@ void	go_to_current_chunk(t_all *all);
 //LIST
 void	init_stack(t_all *all);
 int		get_lst(t_stack *l1, int ac, char **av);
+//CHECKER_UTILS
+void	do_rotation(char *order, t_all *all);
+void	do_swap(char *order, t_all *all);
+void	do_push(char *order, t_all *all);
+void	do_operation(char *order, t_all *all);
 #endif

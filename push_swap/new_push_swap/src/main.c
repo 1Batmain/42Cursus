@@ -6,7 +6,7 @@
 /*   By: bduval <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 13:54:39 by bduval            #+#    #+#             */
-/*   Updated: 2025/03/19 13:50:17 by bduval           ###   ########.fr       */
+/*   Updated: 2025/03/20 15:12:43 by bduval           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "push_swap.h"
@@ -52,7 +52,7 @@ int	main(int ac, char **av)
 	if (ac <= 1)
 		return (1);
 	if (get_lst(all.a, ac, av))
-		return (ft_printf("Erreur Parsing List\n"), 1);
+		return (ft_printf("Error\n"), 1);
 	all.nb_element = all.a->nb_element;
 	sort_stack(&all);
 	free_elements(&all);

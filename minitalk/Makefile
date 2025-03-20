@@ -17,8 +17,8 @@ HEADER_DIR		= -I header -I biglibft/header
 
 LIB				= -L biglibft -lft
 
-CLIENT			= main
-SERVER			= main
+CLIENT			= main send
+SERVER			= main get
 
 CLIENT_SRC		= $(CLIENT:%=$(CLIENT_SRC_DIR)/%.c)
 SERVER_SRC		= $(SERVER:%=$(SERVER_SRC_DIR)/%.c)

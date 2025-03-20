@@ -6,7 +6,7 @@
 /*   By: bduval <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 13:54:08 by bduval            #+#    #+#             */
-/*   Updated: 2025/03/19 18:52:48 by bduval           ###   ########.fr       */
+/*   Updated: 2025/03/20 18:19:18 by bduval           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "push_swap.h"
@@ -57,9 +57,9 @@ int	element_addfront(t_stack *list, t_element *new)
 	t_element	*start;
 
 	start = list->start;
-	if (!new)
+	if (!new || is_doublon(list, new))
 	{
-		while (start->next)
+		while (start)
 		{
 			temp = start;
 			start = start->next;
@@ -81,9 +81,9 @@ int	element_addback(t_stack *list, t_element *new)
 	t_element	*start;
 
 	start = list->start;
-	if (!new)
+	if (!new || is_doublon(list, new))
 	{
-		while (start->next)
+		while (start)
 		{
 			temp = start;
 			start = start->next;
@@ -103,18 +103,21 @@ int	get_lst(t_stack *l1, int ac, char **av)
 {
 	char	*numbers;
 
+	if (!is_valid_list(ac, av))
+		return (1);
 	if (ac == 2)
 	{
 		numbers = av[1];
-		if (!is_valid_list(ac, av))
-			return (1);
 		while (*numbers)
 		{
-			while (!ft_isdigit(*numbers) && *numbers != '-' && *numbers != '+')
+			while (*numbers && \
+					!ft_isdigit(*numbers) && *numbers != '-' && *numbers != '+')
 				numbers++;
-			if (element_addback(l1, new_element(l1, ft_atoi(numbers))))
+			if (*numbers && \
+					element_addback(l1, new_element(l1, ft_atoi(numbers))))
 				return (1);
-			while (ft_isdigit(*numbers) || *numbers == '-' || *numbers == '+')
+			while (*numbers && \
+				(ft_isdigit(*numbers) || *numbers == '-' || *numbers == '+'))
 				numbers++;
 		}
 	}

@@ -6,28 +6,28 @@
 #    By: bduval <bduval@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/19 13:54:02 by bduval            #+#    #+#              #
-#    Updated: 2025/03/19 16:11:32 by bduval           ###   ########.fr        #
+#    Updated: 2025/03/20 16:27:38 by bduval           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC 		= cc
-CFLAGS 	= -Wall -Werror -Wextra -MMD -MP
+CFLAGS 	= -Wall -Werror -Wextra -MMD -MP -g
 NAME 	= push_swap
 
 SRC_DIR 		= src/
-SRC_DIR_BONUS	= src/tester/
+SRC_DIR_BONUS	= src/checker/
 HEADER_DIR		= -I header/ -I biglibft/header
 OBJ_DIR			= obj/
-OBJ_DIR_BONUS	= obj/tester/
+OBJ_DIR_BONUS	= obj/checker/
 BONUS_OBJ_DIR	= bonus_obj/
 LIB_DIR			= biglibft/
 LIB				= -L biglibft/ -lft
 
 MANDATORY	= main list operations double_operations window max_min to_a to_b \
-			check_rotate is_pushable voltigeur utils chunk
+			check_rotate is_pushable voltigeur utils chunk valid_list
 
-BONUS		= tester/main operations double_operations utils is_pushable list \
-			  max_min window
+BONUS		= checker/main operations double_operations utils is_pushable list \
+			  max_min window valid_list checker/checker_utils
 
 SRC	= $(MANDATORY:%=$(SRC_DIR)%.c)
 OBJ	= $(SRC:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
@@ -49,8 +49,10 @@ $(OBJ_DIR)%.o :	$(SRC_DIR)%.c
 
 -include $(DEP) $(DEP_BONUS)
 
-bonus :	$(OBJ_BONUS) .lib
-	$(CC) $(OBJ_BONUS) $(LIB) -o tester
+bonus	: all checker
+
+checker :	$(OBJ_BONUS) .lib
+	$(CC) $(OBJ_BONUS) $(LIB) -o $@
 
 .lib :
 	@cd $(LIB_DIR); make; cd ..;
@@ -65,6 +67,6 @@ clean :
 	rm -rf $(OBJ_DIR) 
 
 fclean : clean 
-	rm -f $(NAME) a.out
+	rm -f $(NAME) checker
 
 .PHONY : re clean fclean test
