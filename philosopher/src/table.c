@@ -11,7 +11,7 @@ time_to_sleep
 void	print_table(t_table *table)
 {
 	printf("TABLE :\n"\
-			"\tforks = %p\n"\
+			"\tfork = %p\n"\
 			"\tnb_total_philo = %d\n"\
 			"\tnb_seated_philo = %d\n"\
 			"\tdead = %d\n"\
@@ -19,17 +19,18 @@ void	print_table(t_table *table)
 			"\ttime_to_eat = %d\n"\
 			"\ttime_to_sleep = %d\n"\
 			"\tphilo_must_eat = %d\n"\
-			, table->forks, table->nb_total_philo, table->nb_seated_philo, \
+			, table->fork, table->nb_total_philo, table->nb_seated_philo, \
 			table->dead, table->time_to_die \
 			, table->time_to_eat , table->time_to_sleep , table->philo_must_eat);
 	return ;
 }
 
-int	init_forks(t_table *table)
+int	init_fork(t_table *table)
 {
-	table->forks = malloc(table->nb_total_philo);
-	if (!table->forks)
+	table->fork = malloc(table->nb_total_philo);
+	if (!table->fork)
 		return (1);
+	return (0);
 }
 
 int	set_table(int ac, char **av, t_table *table)
@@ -49,8 +50,8 @@ int	set_table(int ac, char **av, t_table *table)
 		return (printf("Error mutex_init()\n"), 1);
 	if (pthread_mutex_init(&table->lock2, NULL))
 		return (printf("Error mutex_init()\n"), 1);
-	if (init_forks(table))
-		return (printf("Error allocating forks\n"), 1);
+	if (init_fork(table))
+		return (printf("Error allocating fork\n"), 1);
 	//print_table(table);
 	return (0);
 }

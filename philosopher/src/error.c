@@ -25,3 +25,17 @@ int	ft_error_creating_thread(t_table *table)
 	printf("Error creating threads\n");
 	return (1);
 }
+
+int	ft_error(t_table *table, char *str)
+{
+	int	i;
+
+	i = -1;
+	while (++i < table->nb_seated_philo)
+		if (pthread_join(table->philo[i], NULL))
+			printf("Erreur pthread_join\n");
+	free(table->philo);
+	free(table->forks);
+	printf("%s", str);
+	return (1);
+}

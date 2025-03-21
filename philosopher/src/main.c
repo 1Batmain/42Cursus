@@ -14,7 +14,7 @@ int	make_theses_gentlemens_seat(t_table *table)
 
 	if (init_philo_threads(table))
 		return (1);
-	pthread_mutex_lock(&table.lock2);
+	pthread_mutex_lock(&table->lock2);
 	i = 0;
 	while (i < table->nb_total_philo)
 	{
@@ -37,24 +37,22 @@ int	wait_for_end(t_table *table)
 	}
 	return (0);
 }
+
 int	start_festivities(t_table *table)
 {
-	pthread_mutex_unlock(&table.lock2);
+	pthread_mutex_unlock(&table->lock2);
 	gettimeofday(&table->start_festivities, NULL);
-	while (!table->dead);
-
 	return (0);
 }
 int	main(int ac, char **av)
 {
 	t_table			table;
-	
 	if (set_table(ac, av, &table))
 		return (ft_error_args());
 	if (make_theses_gentlemens_seat(&table))
 		return (printf("Error make_theses_gentlemens_seat()\n"));
 	if (start_festivities(&table))
-		return (ft_error("Error during festivities\n", &table));
+		return (ft_error(&table, "Error during festivities\n"));
 	wait_for_end(&table);
 
 	return (0);

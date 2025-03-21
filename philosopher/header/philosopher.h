@@ -7,14 +7,14 @@
 # include <stdlib.h>
 # include <unistd.h>
 
-# define EAT	1
-# define THINK	2
-# define SLEEP	3
+# define EAT	0
+# define THINK	1
+# define SLEEP	2
 
 typedef struct	s_philo
 {
 	int				id;
-	char			state;
+	int				state;
 	struct timeval	last_meal;
 	int				nb_eat;
 }	t_philo;
@@ -25,7 +25,7 @@ typedef struct s_table
 	pthread_mutex_t	lock2;
 	pthread_t		*philo;
 	struct timeval	start_festivities;
-	char			*forks;
+	char			*fork;
 	int				nb_total_philo;
 	int				nb_seated_philo;
 	char			dead;
@@ -49,7 +49,11 @@ int	args_not_valid(int ac, char **av);
 //PHILO
 void	*philosopher(void *arg);
 
+//ACTION
+void	take_action(t_table *table, t_philo *philo);
+
 //ERROR
 int	ft_error_args();
 int	ft_error_creating_thread(t_table *table);
+int	ft_error(t_table *table, char *str);
 #endif
