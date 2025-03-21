@@ -1,0 +1,34 @@
+CC			= cc
+CFLAGS		= -Wall -Werror -Wextra -g
+
+NAME		= philosopher
+HEADER		= -I header/
+LIB			= -pthread
+
+SRC_DIR		= src/
+OBJ_DIR		= obj/
+
+MANDATORY	= main table philosopher error utils args
+
+SRC			= $(MANDATORY:%=$(SRC_DIR)%.c)
+OBJ			= $(MANDATORY:%=$(OBJ_DIR)%.o)
+DEP			= $(MANDATORY:%=$(OBJ_DIR)%.d)
+
+all	: clear $(NAME)
+
+$(OBJ_DIR)%.o	: $(SRC_DIR)%.c
+	mkdir -p $(OBJ_DIR)
+	$(CC) $(CFLAGS) $(HEADER) -c $< -o $@
+
+-include $(DEP)
+
+$(NAME)	: $(OBJ)
+	$(CC) $(LIB) $^ -o $@
+
+clear	:
+	clear
+clean	:
+	rm $(NAME)
+
+fclean	: clean
+	rm -rf $(OBJ)
