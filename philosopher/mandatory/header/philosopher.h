@@ -6,7 +6,7 @@
 /*   By: bduval <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 22:22:22 by bduval            #+#    #+#             */
-/*   Updated: 2025/03/22 22:29:17 by bduval           ###   ########.fr       */
+/*   Updated: 2025/03/24 15:18:29 by bduval           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ void	philo_can_eat(t_table *table, t_philo *philo);
 //ACTION
 void	print_action(t_table *table, t_philo *philo, char *action);
 void	take_action(t_table *table, t_philo *philo);
-int	game_is_on(t_table *table, t_philo *philo);
+int		game_is_on(t_table *table, t_philo *philo);
 
 //PRINT_ACTION
 void	print_action(t_table *table, t_philo *philo, char *action);

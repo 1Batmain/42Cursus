@@ -6,7 +6,7 @@
 /*   By: bduval <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 22:21:35 by bduval            #+#    #+#             */
-/*   Updated: 2025/03/22 22:35:58 by bduval           ###   ########.fr       */
+/*   Updated: 2025/03/24 15:16:08 by bduval           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,13 @@ void	print_action(t_table *table, t_philo *philo, char *action)
 	struct timeval	current;
 	long			delta;
 
-	if (table->dead || table->eat_enough)
+	if (!game_is_on(table, philo))
 		return ;
 	gettimeofday(&current, NULL);
 	delta = ((current.tv_sec - table->start_festivities.tv_sec) * 1000) \
 			+ ((current.tv_usec - table->start_festivities.tv_usec) / 1000);
 	pthread_mutex_lock(&table->lock[2]);
-	if (!(table->dead || table->eat_enough))
-		printf("[%ldms] %d %s", delta, philo->id, action);
+	printf("[%ldms] %d %s", delta, philo->id, action);
 	pthread_mutex_unlock(&table->lock[2]);
 }
 
