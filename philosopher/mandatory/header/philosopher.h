@@ -6,7 +6,7 @@
 /*   By: bduval <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 22:22:22 by bduval            #+#    #+#             */
-/*   Updated: 2025/03/24 16:31:51 by bduval           ###   ########.fr       */
+/*   Updated: 2025/03/24 20:22:55 by bduval           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@
 # include <stdlib.h>
 # include <unistd.h>
 
-# define EAT	0
-# define THINK	1
+# define THINK	0
+# define EAT	1
 # define SLEEP	2
 # define NB_LOCK	3
 
