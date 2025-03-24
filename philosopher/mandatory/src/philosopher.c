@@ -36,12 +36,24 @@ int	make_theses_gentlemens_seat(t_table *table)
 	return (0);
 }
 
-int	init_philosopher(t_table *table, t_philo *philo)
+int	init_watcher(t_table *table, t_philo *philo, t_watcher *watcher)
+{
+	watcher->table = table;
+	watcher->philo = philo;
+	if (pthread_create(&watcher->watcher, NULL, ft_watcher, watcher))
+		return (ft_error_creating_thread(table));
+	return (0);
+}
+
+int	init_philosopher(t_table *table, t_philo *philo, t_watcher *watcher)
 {
 	memset(philo, 0, sizeof(t_philo));
 	pthread_mutex_lock(&table->lock[0]);
 	philo->id = ++table->nb_seated_philo;
 	pthread_mutex_unlock(&table->lock[0]);
+	if (pthread_mutex_init(&philo->lock, NULL))
+		return (printf("Error mutex_init()\n"), 1);
+	init_watcher(table, philo, watcher);
 	gettimeofday(&philo->last_meal, NULL);
 	return (0);
 }
@@ -50,9 +62,11 @@ void	*philosopher(void *arg)
 {
 	t_table	*table;
 	t_philo	philo;
+	t_watcher	watcher;
 
 	table = (t_table *)arg;
-	init_philosopher(table, &philo);
+	init_philosopher(table, &philo, &watcher);
 	take_action(table, &philo);
+	pthread_join(watcher.watcher, NULL);
 	return (NULL);
 }

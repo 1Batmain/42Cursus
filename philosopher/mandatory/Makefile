@@ -8,7 +8,7 @@ LIB			= -pthread
 SRC_DIR		= src/
 OBJ_DIR		= obj/
 
-MANDATORY	= main table philosopher error utils args action print_action eat
+MANDATORY	= main table philosopher error utils args action print_action eat watcher
 
 SRC			= $(MANDATORY:%=$(SRC_DIR)%.c)
 OBJ			= $(MANDATORY:%=$(OBJ_DIR)%.o)
@@ -31,7 +31,7 @@ clean	:
 	rm $(NAME)
 
 fclean	: clean
-	rm -rf $(OBJ)
+	rm -rf $(OBJ_DIR)
 
 re	: fclean all
 

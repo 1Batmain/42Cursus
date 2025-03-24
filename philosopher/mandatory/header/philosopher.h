@@ -30,6 +30,7 @@ typedef struct s_philo
 	int				state;
 	struct timeval	last_meal;
 	int				nb_eat;
+	pthread_mutex_t	lock;
 }	t_philo;
 
 typedef struct s_table
@@ -48,6 +49,13 @@ typedef struct s_table
 	int				philo_must_eat;
 }	t_table;
 
+typedef struct s_watcher
+{
+	t_table	*table;
+	t_philo	*philo;
+	pthread_t		watcher;
+}	t_watcher;
+
 //UTILS
 int		is_digit(char c);
 int		ft_strlen(char *str);
@@ -65,12 +73,16 @@ void	*philosopher(void *arg);
 int		make_theses_gentlemens_seat(t_table *table);
 int		init_philo_threads(t_table *table);
 
+//WATCHER
+void	*ft_watcher(void *arg);
+
 //EAT
 void	philo_can_eat(t_table *table, t_philo *philo);
 
 //ACTION
 void	print_action(t_table *table, t_philo *philo, char *action);
 void	take_action(t_table *table, t_philo *philo);
+int	game_is_on(t_table *table, t_philo *philo);
 
 //PRINT_ACTION
 void	print_action(t_table *table, t_philo *philo, char *action);

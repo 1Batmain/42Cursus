@@ -35,9 +35,13 @@ static void	eat(t_table *table, t_philo *philo)
 	right = philo->id - 1;
 	if (philo->id == 1)
 		left = table->nb_total_philo - 1;
+	if (!game_is_on(table, philo))
+		return ;
 	print_action(table, philo, "is eating\n");
-	usleep(table->time_to_eat);
+	pthread_mutex_lock(&philo->lock);
 	gettimeofday(&philo->last_meal, NULL);
+	pthread_mutex_unlock(&philo->lock);
+	usleep(table->time_to_eat * 1000);
 	pthread_mutex_lock(&table->lock[0]);
 	table->fork[left] = 0;
 	table->fork[right] = 0;
@@ -57,7 +61,7 @@ void	philo_can_eat(t_table *table, t_philo *philo)
 	int	left;
 	int	right;
 
-	if (philo->state != EAT || table->dead || table->eat_enough)
+	if (philo->state != EAT)
 		return ;
 	left = philo->id - 2;
 	right = philo->id - 1;
