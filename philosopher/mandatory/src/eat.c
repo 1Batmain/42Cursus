@@ -6,7 +6,7 @@
 /*   By: bduval <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 22:21:40 by bduval            #+#    #+#             */
-/*   Updated: 2025/03/22 22:32:08 by bduval           ###   ########.fr       */
+/*   Updated: 2025/03/24 16:39:36 by bduval           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,13 @@ static int	take_fork(t_table *table, t_philo *philo, int pos)
 	return (0);
 }
 
+static void	philo_is_sustented(t_table *table, t_philo *philo)
+{
+	pthread_mutex_lock(&table->lock[1]);
+	table->eat_enough = philo->id;
+	pthread_mutex_unlock(&table->lock[1]);
+}
+
 static void	eat(t_table *table, t_philo *philo)
 {
 	int	left;
@@ -38,10 +45,10 @@ static void	eat(t_table *table, t_philo *philo)
 	if (!game_is_on(table, philo))
 		return ;
 	print_action(table, philo, "is eating\n");
+	usleep(table->time_to_eat * 1000);
 	pthread_mutex_lock(&philo->lock);
 	gettimeofday(&philo->last_meal, NULL);
 	pthread_mutex_unlock(&philo->lock);
-	usleep(table->time_to_eat * 1000);
 	pthread_mutex_lock(&table->lock[0]);
 	table->fork[left] = 0;
 	table->fork[right] = 0;
@@ -49,11 +56,7 @@ static void	eat(t_table *table, t_philo *philo)
 	philo->state = THINK;
 	philo->nb_eat++;
 	if (philo->nb_eat == table->philo_must_eat)
-	{
-		pthread_mutex_lock(&table->lock[1]);
-		table->eat_enough = philo->id;
-		pthread_mutex_unlock(&table->lock[1]);
-	}
+		philo_is_sustented(table, philo);
 }
 
 void	philo_can_eat(t_table *table, t_philo *philo)

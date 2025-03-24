@@ -6,7 +6,7 @@
 /*   By: bduval <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 22:21:49 by bduval            #+#    #+#             */
-/*   Updated: 2025/03/22 22:21:50 by bduval           ###   ########.fr       */
+/*   Updated: 2025/03/24 16:32:08 by bduval           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,5 @@ void	take_action(t_table *table, t_philo *philo)
 		philo_can_eat(table, philo);
 		philo_can_think(table, philo);
 		philo_can_sleep(table, philo);
-//		am_i_dead(table, philo);
 	}
 }
