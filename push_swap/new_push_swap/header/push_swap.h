@@ -6,7 +6,7 @@
 /*   By: bduval <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 14:31:23 by bduval            #+#    #+#             */
-/*   Updated: 2025/03/20 16:01:55 by bduval           ###   ########.fr       */
+/*   Updated: 2025/03/24 19:29:42 by bduval           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,11 +111,11 @@ int		do_nearest_rotation_to_a(t_all *all);
 void	apply_best_move_to_a(t_all *all);
 void	back_to_a(t_all *all);
 void	to_a_sorted(t_all *all);
-//TO_B
+//TO_B_REVERS
 int		get_nearest_rotation_value_to_b(t_all *all);
-int		do_nearest_rotation_to_b(t_all *all);
-void	apply_best_move_to_b(t_all *all);
 void	to_b_sorted(t_all *all);
+//TO_B
+void	to_b(t_all *all);
 //VOLTIGEUR
 void	update_voltigeur(t_all *all);
 void	init_voltigeur(t_all *all);

@@ -6,34 +6,10 @@
 /*   By: bduval <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 13:36:47 by bduval            #+#    #+#             */
-/*   Updated: 2025/03/19 15:52:12 by bduval           ###   ########.fr       */
+/*   Updated: 2025/03/24 19:29:54 by bduval           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "push_swap.h"
-
-int	get_nearest_rotation_value_to_b(t_all *all)
-{
-	int	i;
-
-	i = 0;
-	while (i++ < (ft_max(all->a->nb_element, all->b->nb_element)))
-	{
-		if (is_pushable_to_b2(all->e->a, all->e->b, all))
-			return (i);
-		if (is_pushable_to_b2(all->e->a_rev, all->e->b_rev, all))
-			return (i);
-		if (is_pushable_to_b(all->e->a, all))
-			return (i);
-		if (is_pushable_to_b(all->e->a_rev, all))
-			return (i);
-		if (is_pushable_to_b2(all->a->start, all->e->b, all))
-			return (i);
-		if (is_pushable_to_b2(all->a->start, all->e->b_rev, all))
-			return (i);
-		update_voltigeur(all);
-	}
-	return (0);
-}
 
 static void	choose_action(int chunk, t_element **e, t_all *all)
 {
@@ -47,7 +23,7 @@ static void	choose_action(int chunk, t_element **e, t_all *all)
 		rotate(all->a, 1);
 }
 
-void	to_b_sorted(t_all *all)
+void	to_b(t_all *all)
 {
 	int			chunk;
 	int			starter;

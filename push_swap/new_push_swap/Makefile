@@ -6,7 +6,7 @@
 #    By: bduval <bduval@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/19 13:54:02 by bduval            #+#    #+#              #
-#    Updated: 2025/03/20 16:27:38 by bduval           ###   ########.fr        #
+#    Updated: 2025/03/24 19:22:32 by bduval           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,7 @@ LIB_DIR			= biglibft/
 LIB				= -L biglibft/ -lft
 
 MANDATORY	= main list operations double_operations window max_min to_a to_b \
-			check_rotate is_pushable voltigeur utils chunk valid_list
+			check_rotate is_pushable voltigeur utils chunk valid_list to_b_reverse
 
 BONUS		= checker/main operations double_operations utils is_pushable list \
 			  max_min window valid_list checker/checker_utils

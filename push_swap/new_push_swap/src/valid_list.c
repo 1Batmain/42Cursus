@@ -6,7 +6,7 @@
 /*   By: bduval <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 15:51:25 by bduval            #+#    #+#             */
-/*   Updated: 2025/03/20 15:56:37 by bduval           ###   ########.fr       */
+/*   Updated: 2025/03/24 16:58:21 by bduval           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,19 +25,13 @@ static int	contains_only_digits(char *str)
 	return (1);
 }
 
-static int	is_overflow(char *str, int len)
+static int	is_overflow(char *str, int len, int sign)
 {
 	int	max;
 	int	divider;
-	int	neg;
 
 	if (len > 10)
 		return (1);
-	neg = 0;
-	if (*str == '-')
-		neg = -1;
-	if (is_sign(*str))
-		str++;
 	max = 2147483647;
 	divider = 1000000000;
 	while (is_digit(*str))
@@ -47,7 +41,7 @@ static int	is_overflow(char *str, int len)
 		str++;
 		max %= divider;
 		divider /= 10;
-		if (neg && divider == 1)
+		if (sign == -1 && divider == 1)
 			max = 8;
 	}
 	return (0);
@@ -56,27 +50,25 @@ static int	is_overflow(char *str, int len)
 int	contains_overflows(char *str)
 {
 	int		len;
-	char	*str_mem;
+	int		sign;
 
 	while (*str)
 	{
+		sign = 1;
 		len = 0;
 		while (is_space(*str) || is_sign(*str))
+			if (*str++ == '-')
+				sign *= -1;
+		while (*str == '0')
 			str++;
 		while (is_digit(*str))
 		{
 			str++;
 			len++;
 		}
-		str_mem = str--;
 		if (len >= 10)
-		{
-			while (is_digit(*str) || is_sign(*str))
-				str--;
-			if (is_overflow(++str, len))
+			if (is_overflow(str - len, len, sign))
 				return (1);
-		}
-		str = str_mem;
 	}
 	return (0);
 }
