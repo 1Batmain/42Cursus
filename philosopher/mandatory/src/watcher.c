@@ -31,6 +31,7 @@ void	*ft_watcher(void *arg)
 	long		delta_time;
 
 	watcher = (t_watcher *)arg;
+	usleep(1000);
 	while (game_is_on(watcher->table, watcher->philo))
 	{
 		delta_time = gettime(watcher);

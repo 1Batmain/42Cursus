@@ -58,7 +58,7 @@ typedef struct s_watcher
 
 //UTILS
 int		is_digit(char c);
-int		ft_strlen(char *str);
+int		ft_nbrlen(char *str);
 int		ft_atoi(char *str);
 void	free_ressources(t_table *table);
 

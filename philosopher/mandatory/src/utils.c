@@ -19,12 +19,14 @@ int	is_digit(char c)
 	return (0);
 }
 
-int	ft_strlen(char *str)
+int	ft_nbrlen(char *str)
 {
 	int	i;
 
 	i = 0;
-	while (str[i])
+	while (*str == '0')
+		str++;
+	while (is_digit(str[i]))
 		i++;
 	return (i);
 }

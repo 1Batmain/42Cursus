@@ -19,7 +19,7 @@ static int	args_contain_not_numbers(int ac, char **av)
 	while (--ac)
 	{
 		i = 0;
-		if (!ft_strlen(av[ac]))
+		if (!ft_nbrlen(av[ac]))
 			return (1);
 		while (av[ac][i])
 		{
@@ -39,9 +39,9 @@ static int	args_is_overflowed(int ac, char **av)
 
 	while (--ac)
 	{
-		if (ft_strlen(av[ac]) > 10)
+		if (ft_nbrlen(av[ac]) > 10)
 			return (1);
-		if (ft_strlen(av[ac]) == 10)
+		if (ft_nbrlen(av[ac]) == 10)
 		{
 			i = 0;
 			max = 2147483647;
