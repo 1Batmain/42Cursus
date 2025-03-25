@@ -22,13 +22,21 @@ int	is_digit(char c)
 int	ft_nbrlen(char *str)
 {
 	int	i;
+	int	zero;
 
 	i = 0;
+	zero = 0;
 	while (*str == '0')
+	{
+		zero = 1;
 		str++;
+	}
 	while (is_digit(str[i]))
+	{
+		zero = 0;
 		i++;
-	return (i);
+	}
+	return (i + zero);
 }
 
 int	ft_atoi(char *str)

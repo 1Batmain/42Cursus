@@ -27,6 +27,7 @@ void	print_fork(t_table *table, t_philo *philo)
 		pthread_mutex_unlock(&table->lock[2]);
 	}
 }
+
 void	print_eat(t_table *table, t_philo *philo)
 {
 	struct timeval	current;
@@ -42,6 +43,7 @@ void	print_eat(t_table *table, t_philo *philo)
 		pthread_mutex_unlock(&table->lock[2]);
 	}
 }
+
 void	print_sleep(t_table *table, t_philo *philo)
 {
 	struct timeval	current;
@@ -57,6 +59,7 @@ void	print_sleep(t_table *table, t_philo *philo)
 		pthread_mutex_unlock(&table->lock[2]);
 	}
 }
+
 void	print_think(t_table *table, t_philo *philo)
 {
 	struct timeval	current;

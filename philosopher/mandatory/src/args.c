@@ -46,6 +46,8 @@ static int	args_is_overflowed(int ac, char **av)
 			i = 0;
 			max = 2147483647;
 			divider = 1000000000;
+			while (*av[ac] == '0')
+				av[ac]++;
 			while (av[ac][i])
 			{
 				if (av[ac][i] - '0' > max / divider)
