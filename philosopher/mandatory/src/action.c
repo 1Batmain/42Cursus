@@ -16,17 +16,17 @@ static void	philo_can_think(t_table *table, t_philo *philo)
 {
 	if (philo->state != THINK || !game_is_on(table, philo))
 		return ;
-	print_action(table, philo, "is thinking\n");
-	philo->state = SLEEP;
+	print_think(table, philo);
+	philo->state = EAT;
 }
 
 static void	philo_can_sleep(t_table *table, t_philo *philo)
 {
 	if (philo->state != SLEEP || !game_is_on(table, philo))
 		return ;
-	print_action(table, philo, "is sleeping\n");
+	print_sleep(table, philo);
 	usleep(table->time_to_sleep * 1000);
-	philo->state = EAT;
+	philo->state = THINK;
 }
 
 int	game_is_on(t_table *table, t_philo *philo)

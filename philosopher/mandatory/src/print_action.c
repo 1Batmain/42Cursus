@@ -12,7 +12,7 @@
 
 #include "philosopher.h"
 
-void	print_action(t_table *table, t_philo *philo, char *action)
+void	print_fork(t_table *table, t_philo *philo)
 {
 	struct timeval	current;
 	long			delta;
@@ -23,7 +23,52 @@ void	print_action(t_table *table, t_philo *philo, char *action)
 	if (game_is_on(table, philo))
 	{
 		pthread_mutex_lock(&table->lock[2]);
-		printf("[%ldms] %d %s", delta, philo->id, action);
+		printf(BLUE "[%ldms] %d has taken a fork\n" RESET, delta, philo->id);
+		pthread_mutex_unlock(&table->lock[2]);
+	}
+}
+void	print_eat(t_table *table, t_philo *philo)
+{
+	struct timeval	current;
+	long			delta;
+
+	gettimeofday(&current, NULL);
+	delta = ((current.tv_sec - table->start_festivities.tv_sec) * 1000) \
+			+ ((current.tv_usec - table->start_festivities.tv_usec) / 1000);
+	if (game_is_on(table, philo))
+	{
+		pthread_mutex_lock(&table->lock[2]);
+		printf(CYAN "[%ldms] %d is eating\n" RESET, delta, philo->id);
+		pthread_mutex_unlock(&table->lock[2]);
+	}
+}
+void	print_sleep(t_table *table, t_philo *philo)
+{
+	struct timeval	current;
+	long			delta;
+
+	gettimeofday(&current, NULL);
+	delta = ((current.tv_sec - table->start_festivities.tv_sec) * 1000) \
+			+ ((current.tv_usec - table->start_festivities.tv_usec) / 1000);
+	if (game_is_on(table, philo))
+	{
+		pthread_mutex_lock(&table->lock[2]);
+		printf(GREEN "[%ldms] %d is sleeping\n" RESET, delta, philo->id);
+		pthread_mutex_unlock(&table->lock[2]);
+	}
+}
+void	print_think(t_table *table, t_philo *philo)
+{
+	struct timeval	current;
+	long			delta;
+
+	gettimeofday(&current, NULL);
+	delta = ((current.tv_sec - table->start_festivities.tv_sec) * 1000) \
+			+ ((current.tv_usec - table->start_festivities.tv_usec) / 1000);
+	if (game_is_on(table, philo))
+	{
+		pthread_mutex_lock(&table->lock[2]);
+		printf(YELLOW "[%ldms] %d is thinking\n" RESET, delta, philo->id);
 		pthread_mutex_unlock(&table->lock[2]);
 	}
 }
@@ -37,6 +82,6 @@ void	print_death(t_table *table, t_philo *philo, char *action)
 	delta = ((current.tv_sec - table->start_festivities.tv_sec) * 1000) \
 			+ ((current.tv_usec - table->start_festivities.tv_usec) / 1000);
 	pthread_mutex_lock(&table->lock[2]);
-	printf("[%ldms] %d %s", delta, philo->id, action);
+	printf(RED "[%ldms] %d %s" RESET, delta, philo->id, action);
 	pthread_mutex_unlock(&table->lock[2]);
 }

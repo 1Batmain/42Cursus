@@ -19,7 +19,7 @@ static int	take_fork(t_table *table, t_philo *philo, int pos)
 	{
 		table->fork[pos] = 1;
 		pthread_mutex_unlock(&table->lock[0]);
-		print_action(table, philo, "has taken a fork\n");
+		print_fork(table, philo);
 		return (1);
 	}
 	pthread_mutex_unlock(&table->lock[0]);
@@ -44,7 +44,7 @@ static void	eat(t_table *table, t_philo *philo)
 		left = table->nb_total_philo - 1;
 	if (!game_is_on(table, philo))
 		return ;
-	print_action(table, philo, "is eating\n");
+	print_eat(table, philo);
 	usleep(table->time_to_eat * 1000);
 	pthread_mutex_lock(&philo->lock);
 	gettimeofday(&philo->last_meal, NULL);
@@ -53,7 +53,7 @@ static void	eat(t_table *table, t_philo *philo)
 	table->fork[left] = 0;
 	table->fork[right] = 0;
 	pthread_mutex_unlock(&table->lock[0]);
-	philo->state = THINK;
+	philo->state = SLEEP;
 	philo->nb_eat++;
 	if (philo->nb_eat == table->philo_must_eat)
 		philo_is_sustented(table, philo);

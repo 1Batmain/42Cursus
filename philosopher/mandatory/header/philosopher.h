@@ -24,6 +24,15 @@
 # define SLEEP	2
 # define NB_LOCK	3
 
+#define RESET   "\033[0m"
+#define RED     "\033[1m\033[31m" 
+#define GREEN   "\033[1m\033[32m" 
+#define YELLOW  "\033[1m\033[33m" 
+#define BLUE    "\033[1m\033[34m" 
+#define MAGENTA "\033[1m\033[35m" 
+#define CYAN    "\033[1m\033[36m" 
+#define WHITE   "\033[1m\033[37m" 
+
 typedef struct s_philo
 {
 	int				id;
@@ -80,12 +89,14 @@ void	*ft_watcher(void *arg);
 void	philo_can_eat(t_table *table, t_philo *philo);
 
 //ACTION
-void	print_action(t_table *table, t_philo *philo, char *action);
 void	take_action(t_table *table, t_philo *philo);
 int		game_is_on(t_table *table, t_philo *philo);
 
 //PRINT_ACTION
-void	print_action(t_table *table, t_philo *philo, char *action);
+void	print_fork(t_table *table, t_philo *philo);
+void	print_eat(t_table *table, t_philo *philo);
+void	print_sleep(t_table *table, t_philo *philo);
+void	print_think(t_table *table, t_philo *philo);
 void	print_death(t_table *table, t_philo *philo, char *action);
 
 //ERROR
