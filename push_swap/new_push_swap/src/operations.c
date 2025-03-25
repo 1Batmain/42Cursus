@@ -6,7 +6,7 @@
 /*   By: bduval <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 14:09:36 by bduval            #+#    #+#             */
-/*   Updated: 2025/03/19 15:27:49 by bduval           ###   ########.fr       */
+/*   Updated: 2025/03/25 18:56:15 by bduval           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "push_swap.h"
@@ -23,7 +23,8 @@ void	swap(t_stack *l, int print)
 	l->start->prev = NULL;
 	temp->next = l->start->next;
 	temp->prev = l->start;
-	temp->next->prev = temp;
+	if (l->nb_element > 2)
+		temp->next->prev = temp;
 	l->start->next = temp;
 	if (l->nb_element == 2)
 		l->end = l->start->next;

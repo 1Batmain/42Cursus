@@ -6,14 +6,16 @@
 /*   By: bduval <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 13:54:39 by bduval            #+#    #+#             */
-/*   Updated: 2025/03/24 19:43:16 by bduval           ###   ########.fr       */
+/*   Updated: 2025/03/25 19:33:53 by bduval           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "push_swap.h"
 
 void	to_the_top(t_all *all)
 {
-	if (all->a->start->ideal > all->a->nb_element / 2)
+	if (all->a->start->ideal == all->a->min)
+		return ;
+	if (all->a->start->ideal > all->a->nb_element / 2 + 1)
 		while (all->a->start->ideal != 1)
 			rotate(all->a, 1);
 	else
@@ -25,9 +27,6 @@ void	sort_stack(t_all *all)
 {
 	analyse(all->a);
 	to_b(all);
-//	if (all->nb_element > 5)
-//	else
-//		to_b_sorted(all);
 	back_to_a(all);
 	to_the_top(all);
 	return ;

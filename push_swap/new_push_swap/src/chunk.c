@@ -6,28 +6,32 @@
 /*   By: bduval <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 13:46:47 by bduval            #+#    #+#             */
-/*   Updated: 2025/03/19 13:51:16 by bduval           ###   ########.fr       */
+/*   Updated: 2025/03/25 23:59:51 by bduval           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "push_swap.h"
 
 int	get_chunk_size(t_all *all)
 {
-	if (all->nb_element <= 100)
+	if (all->nb_element <= 20)
 		return (1);
-	else if (all->nb_element <= 300)
+	if (all->nb_element <= 50)
+		return (1);
+	if (all->nb_element <= 100)
 		return (2);
-	else if (all->nb_element <= 500)
-		return (3);
-	else if (all->nb_element <= 800)
+	else if (all->nb_element <= 300)
 		return (4);
-	else if (all->nb_element <= 1200)
+	else if (all->nb_element <= 500)
 		return (5);
+	else if (all->nb_element <= 800)
+		return (5);
+	else if (all->nb_element <= 1200)
+		return (6);
 	else if (all->nb_element <= 1500)
-		return (6);
+		return (7);
 	else if (all->nb_element <= 1800)
-		return (6);
-	return (8);
+		return (8);
+	return (9);
 }
 
 int	chunk_is_done(t_all *all)
