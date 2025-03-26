@@ -6,7 +6,7 @@
 /*   By: bduval <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 13:43:28 by bduval            #+#    #+#             */
-/*   Updated: 2025/03/19 13:34:12 by bduval           ###   ########.fr       */
+/*   Updated: 2025/03/26 21:53:16 by bduval           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,12 +176,16 @@ int	is_pushable_to_a(t_element *e, t_all *all)
 {
 	if (e)
 	{
-		if (is_within_current_chunk(all, e) && \
-				((e->ideal < all->a->start->ideal && \
+		if (((e->ideal < all->a->start->ideal && \
 				e->ideal > all->a->end->ideal) || \
 			(e->ideal > all->a->max && all->a->end->ideal == all->a->max) || \
 			(e->ideal < all->a->min && all->a->start->ideal == all->a->min)))
 			return (1);
+	//	if (is_within_current_chunk(all, e) && \
+	//			((e->ideal < all->a->start->ideal && \
+	//			e->ideal > all->a->end->ideal) || \
+	//		(e->ideal > all->a->max && all->a->end->ideal == all->a->max) || \
+	//		(e->ideal < all->a->min && all->a->start->ideal == all->a->min)))
 	}
 	return (0);
 }
@@ -196,8 +200,13 @@ int	is_pushable_to_a2(t_element *e_from, t_element *e_to, t_all *all)
 		e_to_prev = all->a->end;
 	if (e_to && e_from)
 	{
-		if (is_within_current_chunk(all, e_from) && \
-			((e_from->ideal < e_to->ideal && \
+	//	if (is_within_current_chunk(all, e_from) && \
+	//		((e_from->ideal < e_to->ideal && \
+	//		e_from->ideal > e_to_prev->ideal) || \
+	//		(e_from->ideal > all->a->max && e_to->ideal == all->a->min) || \
+	//		(e_from->ideal < all->a->min && e_to->ideal == all->a->min)))
+	//		return (1);
+		if (((e_from->ideal < e_to->ideal && \
 			e_from->ideal > e_to_prev->ideal) || \
 			(e_from->ideal > all->a->max && e_to->ideal == all->a->min) || \
 			(e_from->ideal < all->a->min && e_to->ideal == all->a->min)))

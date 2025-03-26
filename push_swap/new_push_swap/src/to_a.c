@@ -6,7 +6,7 @@
 /*   By: bduval <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 13:40:57 by bduval            #+#    #+#             */
-/*   Updated: 2025/03/19 15:51:50 by bduval           ###   ########.fr       */
+/*   Updated: 2025/03/26 21:52:07 by bduval           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "push_swap.h"
@@ -88,10 +88,10 @@ void	back_to_a(t_all *all)
 			if (!all->b->nb_element)
 				return ;
 		}
-		if (chunk_is_done(all))
-			all->curr_chunk--;
-		if (!is_within_current_chunk(all, all->b->start))
-			go_to_current_chunk(all);
+//		if (chunk_is_done(all))
+//			all->curr_chunk--;
+//		if (!is_within_current_chunk(all, all->b->start))
+//			go_to_current_chunk(all);
 		if (!is_pushable_to_a(all->b->start, all))
 		{
 			init_voltigeur(all);
