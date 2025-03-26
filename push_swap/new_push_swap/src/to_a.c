@@ -6,7 +6,7 @@
 /*   By: bduval <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 13:40:57 by bduval            #+#    #+#             */
-/*   Updated: 2025/03/26 21:52:07 by bduval           ###   ########.fr       */
+/*   Updated: 2025/03/26 23:25:54 by bduval           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "push_swap.h"
@@ -16,7 +16,7 @@ int	get_nearest_rotation_value_to_a(t_all *all)
 	int	i;
 
 	i = 0;
-	while (i++ < (ft_max(all->b->nb_element, all->a->nb_element)))
+	while (i < (ft_max(all->b->nb_element, all->a->nb_element)))
 	{
 		if (is_pushable_to_a2(all->e->b, all->e->a, all))
 			return (i);
@@ -26,11 +26,12 @@ int	get_nearest_rotation_value_to_a(t_all *all)
 			return (i);
 		if (is_pushable_to_a(all->e->b_rev, all))
 			return (i);
-		if (is_pushable_to_a2(all->b->start, all->e->a, all))
+		if (is_pushable_to_a2(all->e->b_best, all->e->a, all))
 			return (i);
-		if (is_pushable_to_a2(all->b->start, all->e->a_rev, all))
+		if (is_pushable_to_a2(all->e->b_best, all->e->a_rev, all))
 			return (i);
 		update_voltigeur(all);
+		i++;
 	}
 	return (0);
 }
@@ -40,7 +41,7 @@ int	do_nearest_rotation_to_a(t_all *all)
 	int	i;
 
 	i = 0;
-	while (i++ < (ft_max(all->b->nb_element, all->a->nb_element)))
+	while (i < (ft_max(all->b->nb_element, all->a->nb_element)))
 	{
 		if (is_pushable_to_a2(all->e->b, all->e->a, all))
 			return (double_rotate(all->b, all->a, 1), i);
@@ -55,6 +56,7 @@ int	do_nearest_rotation_to_a(t_all *all)
 		if (is_pushable_to_a2(all->e->b_best, all->e->a_rev, all))
 			return (reverse_rotate(all->a, 1), i);
 		update_voltigeur(all);
+		i++;
 	}
 	return (0);
 }
@@ -79,19 +81,15 @@ void	back_to_a(t_all *all)
 {
 	while (all->b->nb_element)
 	{
-		if (all->b->nb_element > 2 && all->b->start->next && \
-			all->b->start->ideal == all->b->start->next->ideal + 1)
-			swap(all->b, 1);
+//		if (all->b->nb_element > 2 && all->b->start->next && \
+//			all->b->start->ideal == all->b->start->next->ideal + 1)
+//			swap(all->b, 1);
 		if (is_pushable_to_a(all->b->start, all))
 		{
 			push(all->b, all->a, 1);
 			if (!all->b->nb_element)
 				return ;
 		}
-//		if (chunk_is_done(all))
-//			all->curr_chunk--;
-//		if (!is_within_current_chunk(all, all->b->start))
-//			go_to_current_chunk(all);
 		if (!is_pushable_to_a(all->b->start, all))
 		{
 			init_voltigeur(all);

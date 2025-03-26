@@ -6,7 +6,7 @@
 /*   By: bduval <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 13:36:47 by bduval            #+#    #+#             */
-/*   Updated: 2025/03/26 21:57:57 by bduval           ###   ########.fr       */
+/*   Updated: 2025/03/26 22:43:54 by bduval           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "push_swap.h"
@@ -39,8 +39,8 @@ void	to_b(t_all *all)
 	{
 		if (!all->a->start->window && all->a->start->ideal <= moyenne_a(all))
 			push(all->a, all->b, 1);
-		else if (is_swapable(all->a))
-			swap(all->a, 1);
+	//	else if (is_swapable(all->a))
+	//		swap(all->a, 1);
 		else
 			rotate(all->a, 1);
 	}

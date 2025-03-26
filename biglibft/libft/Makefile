@@ -6,7 +6,7 @@
 #    By: bduval <bduval@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/08 10:56:02 by bduval            #+#    #+#              #
-#    Updated: 2024/11/18 22:01:15 by bduval           ###   ########.fr        #
+#    Updated: 2025/03/26 22:01:34 by bduval           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 CC = cc
@@ -31,6 +31,8 @@ SRC = $(MANDATORY:%=$(SRC_DIR)%.c)
 OBJ = $(SRC:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)
 
 all : $(NAME)
+
+bonus : 
 
 $(OBJ_DIR)%.o : $(SRC_DIR)%.c $(OBJ_DIR)
 	$(CC) $(CFLAGS) -c $(LIB_DIR) $< -o $@
