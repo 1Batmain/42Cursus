@@ -6,7 +6,7 @@
 /*   By: bduval <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 13:40:57 by bduval            #+#    #+#             */
-/*   Updated: 2025/03/26 23:25:54 by bduval           ###   ########.fr       */
+/*   Updated: 2025/03/27 00:21:01 by bduval           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "push_swap.h"
@@ -15,7 +15,7 @@ int	get_nearest_rotation_value_to_a(t_all *all)
 {
 	int	i;
 
-	i = 0;
+	i = 1;
 	while (i < (ft_max(all->b->nb_element, all->a->nb_element)))
 	{
 		if (is_pushable_to_a2(all->e->b, all->e->a, all))
@@ -26,9 +26,9 @@ int	get_nearest_rotation_value_to_a(t_all *all)
 			return (i);
 		if (is_pushable_to_a(all->e->b_rev, all))
 			return (i);
-		if (is_pushable_to_a2(all->e->b_best, all->e->a, all))
+		if (is_pushable_to_a2(all->e->b_mem, all->e->a, all))
 			return (i);
-		if (is_pushable_to_a2(all->e->b_best, all->e->a_rev, all))
+		if (is_pushable_to_a2(all->e->b_mem, all->e->a_rev, all))
 			return (i);
 		update_voltigeur(all);
 		i++;
@@ -40,7 +40,7 @@ int	do_nearest_rotation_to_a(t_all *all)
 {
 	int	i;
 
-	i = 0;
+	i = 1;
 	while (i < (ft_max(all->b->nb_element, all->a->nb_element)))
 	{
 		if (is_pushable_to_a2(all->e->b, all->e->a, all))
