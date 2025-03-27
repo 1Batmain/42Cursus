@@ -181,11 +181,6 @@ int	is_pushable_to_a(t_element *e, t_all *all)
 			(e->ideal > all->a->max && all->a->end->ideal == all->a->max) || \
 			(e->ideal < all->a->min && all->a->start->ideal == all->a->min)))
 			return (1);
-	//	if (is_within_current_chunk(all, e) && \
-	//			((e->ideal < all->a->start->ideal && \
-	//			e->ideal > all->a->end->ideal) || \
-	//		(e->ideal > all->a->max && all->a->end->ideal == all->a->max) || \
-	//		(e->ideal < all->a->min && all->a->start->ideal == all->a->min)))
 	}
 	return (0);
 }
@@ -200,12 +195,6 @@ int	is_pushable_to_a2(t_element *e_from, t_element *e_to, t_all *all)
 		e_to_prev = all->a->end;
 	if (e_to && e_from)
 	{
-	//	if (is_within_current_chunk(all, e_from) && \
-	//		((e_from->ideal < e_to->ideal && \
-	//		e_from->ideal > e_to_prev->ideal) || \
-	//		(e_from->ideal > all->a->max && e_to->ideal == all->a->min) || \
-	//		(e_from->ideal < all->a->min && e_to->ideal == all->a->min)))
-	//		return (1);
 		if (((e_from->ideal < e_to->ideal && \
 			e_from->ideal > e_to_prev->ideal) || \
 			(e_from->ideal > all->a->max && e_to->ideal == all->a->min) || \

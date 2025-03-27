@@ -51,9 +51,9 @@ int	do_nearest_rotation_to_a(t_all *all)
 			return (rotate(all->b, 1), i);
 		if (is_pushable_to_a(all->e->b_rev, all))
 			return (reverse_rotate(all->b, 1), i);
-		if (is_pushable_to_a2(all->e->b_best, all->e->a, all))
+		if (is_pushable_to_a2(all->b->start, all->e->a, all))
 			return (rotate(all->a, 1), i);
-		if (is_pushable_to_a2(all->e->b_best, all->e->a_rev, all))
+		if (is_pushable_to_a2(all->b->start, all->e->a_rev, all))
 			return (reverse_rotate(all->a, 1), i);
 		update_voltigeur(all);
 		i++;
@@ -81,9 +81,9 @@ void	back_to_a(t_all *all)
 {
 	while (all->b->nb_element)
 	{
-//		if (all->b->nb_element > 2 && all->b->start->next && \
-//			all->b->start->ideal == all->b->start->next->ideal + 1)
-//			swap(all->b, 1);
+/*		if (all->b->nb_element > 2 && all->b->start->next && \
+			all->b->start->ideal == all->b->start->next->ideal + 1)
+			swap(all->b, 1);*/
 		if (is_pushable_to_a(all->b->start, all))
 		{
 			push(all->b, all->a, 1);

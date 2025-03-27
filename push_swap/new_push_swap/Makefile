@@ -11,7 +11,7 @@
 # **************************************************************************** #
 
 CC 		= cc
-CFLAGS 	= -Wall -Werror -Wextra -MMD -MP -g
+CFLAGS 	= -Wall -Werror -Wextra -MMD -MP -g -fPIE
 NAME 	= push_swap
 
 SRC_DIR 		= src/
@@ -21,7 +21,7 @@ OBJ_DIR			= obj/
 OBJ_DIR_BONUS	= obj/checker/
 BONUS_OBJ_DIR	= bonus_obj/
 LIB_DIR			= biglibft/
-LIB				= -L biglibft/ -lft
+LIB				= -L biglibft/ -lft -fPIE
 
 MANDATORY	= main list operations double_operations window max_min to_a to_b \
 			check_rotate is_pushable voltigeur utils chunk valid_list
