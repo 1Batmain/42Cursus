@@ -30,6 +30,8 @@ int	moyenne_a(t_all *all)
 		e = e->next;
 	}
 	moyenne /= nb_element;
+	if (all->nb_element <= 100)
+		moyenne *= 2;
 	return (moyenne);
 }
 
@@ -65,10 +67,10 @@ void	to_b(t_all *all)
 		}
 		if (!all->a->start->window && all->a->start->ideal <= moyenne_a(all))
 			push(all->a, all->b, 1);
+		else if (all->a->start && all->a->start->next && (all->a->start == all->a->start->next + 1))
+			swap(all->a, 1);
 		else
 			rotate_to_nearest(all);
-		if (all->a->start && all->a->start->next && (all->a->start == all->a->start->next + 1))
-			swap(all->a, 1);
 		if (all->b->start && all->b->start->next && (all->b->start + 1 == all->b->start->next))
 			swap(all->b, 1);
 	}
