@@ -71,7 +71,5 @@ void	to_b(t_all *all)
 			swap(all->a, 1);
 		else
 			rotate_to_nearest(all);
-		if (all->b->start && all->b->start->next && (all->b->start + 1 == all->b->start->next))
-			swap(all->b, 1);
 	}
 }

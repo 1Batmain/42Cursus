@@ -81,9 +81,8 @@ void	back_to_a(t_all *all)
 {
 	while (all->b->nb_element)
 	{
-/*		if (all->b->nb_element > 2 && all->b->start->next && \
-			all->b->start->ideal == all->b->start->next->ideal + 1)
-			swap(all->b, 1);*/
+		if (all->b->start && all->b->start->next && (all->b->start + 1 == all->b->start->next))
+			swap(all->b, 1);
 		if (is_pushable_to_a(all->b->start, all))
 		{
 			push(all->b, all->a, 1);
