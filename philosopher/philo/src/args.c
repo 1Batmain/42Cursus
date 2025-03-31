@@ -6,7 +6,7 @@
 /*   By: bduval <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 22:21:54 by bduval            #+#    #+#             */
-/*   Updated: 2025/03/22 22:21:56 by bduval           ###   ########.fr       */
+/*   Updated: 2025/03/31 19:54:07 by bduval           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,32 +31,35 @@ static int	args_contain_not_numbers(int ac, char **av)
 	return (0);
 }
 
+static int	compare_to_int_max(int ac, char **av)
+{
+	int	i;
+	int	divider;
+	int	max;
+
+	i = 0;
+	max = 2147483647;
+	divider = 1000000000;
+	while (*av[ac] == '0')
+		av[ac]++;
+	while (av[ac][i])
+	{
+		if (av[ac][i] - '0' > max / divider)
+			return (1);
+		i++;
+		max %= divider;
+		divider /= 10;
+	}
+}
+
 static int	args_is_overflowed(int ac, char **av)
 {
-	int	max;
-	int	divider;
-	int	i;
-
 	while (--ac)
 	{
 		if (ft_nbrlen(av[ac]) > 10)
 			return (1);
-		if (ft_nbrlen(av[ac]) == 10)
-		{
-			i = 0;
-			max = 2147483647;
-			divider = 1000000000;
-			while (*av[ac] == '0')
-				av[ac]++;
-			while (av[ac][i])
-			{
-				if (av[ac][i] - '0' > max / divider)
-					return (1);
-				i++;
-				max %= divider;
-				divider /= 10;
-			}
-		}
+		if (ft_nbrlen(av[ac]) == 10 && compare_to_int_max(ac, av))
+			return (1);
 	}
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: bduval <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 22:21:40 by bduval            #+#    #+#             */
-/*   Updated: 2025/03/24 16:39:36 by bduval           ###   ########.fr       */
+/*   Updated: 2025/03/31 18:37:26 by bduval           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 
 static int	take_fork(t_table *table, t_philo *philo, int pos)
 {
+	(void) philo;
 	pthread_mutex_lock(&table->lock[0]);
 	if (!table->fork[pos])
 	{
 		table->fork[pos] = 1;
 		pthread_mutex_unlock(&table->lock[0]);
-		print_fork(table, philo);
 		return (1);
 	}
 	pthread_mutex_unlock(&table->lock[0]);
@@ -44,6 +44,8 @@ static void	eat(t_table *table, t_philo *philo)
 		left = table->nb_total_philo - 1;
 	if (!game_is_on(table, philo))
 		return ;
+	print_fork(table, philo);
+	print_fork(table, philo);
 	print_eat(table, philo);
 	usleep(table->time_to_eat * 1000);
 	pthread_mutex_lock(&philo->lock);

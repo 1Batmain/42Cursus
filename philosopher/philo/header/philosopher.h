@@ -6,7 +6,7 @@
 /*   By: bduval <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 22:22:22 by bduval            #+#    #+#             */
-/*   Updated: 2025/03/24 20:22:55 by bduval           ###   ########.fr       */
+/*   Updated: 2025/03/31 19:50:00 by bduval           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,24 @@
 # define SLEEP	2
 # define NB_LOCK	3
 
-#define RESET   "\033[0m"
-#define RED     "\033[1m\033[31m" 
-#define GREEN   "\033[1m\033[32m" 
-#define YELLOW  "\033[1m\033[33m" 
-#define BLUE    "\033[1m\033[34m" 
-#define MAGENTA "\033[1m\033[35m" 
-#define CYAN    "\033[1m\033[36m" 
-#define WHITE   "\033[1m\033[37m" 
+/*
+#define RESET   ""
+#define RED     ""
+#define GREEN   ""
+#define YELLOW  ""
+#define BLUE    ""
+#define MAGENTA ""
+#define CYAN    ""
+#define WHITE   ""
+*/
+# define RESET   "\033[0m"
+# define RED     "\033[1m\033[31m" 
+# define GREEN   "\033[1m\033[32m" 
+# define YELLOW  "\033[1m\033[33m" 
+# define BLUE    "\033[1m\033[34m" 
+# define MAGENTA "\033[1m\033[35m" 
+# define CYAN    "\033[1m\033[36m" 
+# define WHITE   "\033[1m\033[37m" 
 
 typedef struct s_philo
 {

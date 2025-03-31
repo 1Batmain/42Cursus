@@ -6,7 +6,7 @@
 /*   By: bduval <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 22:22:12 by bduval            #+#    #+#             */
-/*   Updated: 2025/03/22 22:25:57 by bduval           ###   ########.fr       */
+/*   Updated: 2025/03/31 18:36:46 by bduval           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ int	set_table(int ac, char **av, t_table *table)
 		return (1);
 	memset(table, 0, sizeof(t_table));
 	table->nb_total_philo = ft_atoi(av[1]);
+	if (!table->nb_total_philo)
+		return (printf("You must have at least 1 philosopher to play\n"), 1);
 	table->time_to_die = ft_atoi(av[2]);
 	table->time_to_eat = ft_atoi(av[3]);
 	table->time_to_sleep = ft_atoi(av[4]);
