@@ -6,7 +6,7 @@
 /*   By: bduval <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 22:21:54 by bduval            #+#    #+#             */
-/*   Updated: 2025/03/31 19:54:07 by bduval           ###   ########.fr       */
+/*   Updated: 2025/03/31 21:03:36 by bduval           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ static int	compare_to_int_max(int ac, char **av)
 		max %= divider;
 		divider /= 10;
 	}
+	return (0);
 }
 
 static int	args_is_overflowed(int ac, char **av)

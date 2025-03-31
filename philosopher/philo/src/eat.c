@@ -6,7 +6,7 @@
 /*   By: bduval <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 22:21:40 by bduval            #+#    #+#             */
-/*   Updated: 2025/03/31 18:37:26 by bduval           ###   ########.fr       */
+/*   Updated: 2025/04/01 00:16:56 by bduval           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,14 @@
 static int	take_fork(t_table *table, t_philo *philo, int pos)
 {
 	(void) philo;
-	pthread_mutex_lock(&table->lock[0]);
+	pthread_mutex_lock(&table->fork_lock[pos]);
 	if (!table->fork[pos])
 	{
 		table->fork[pos] = 1;
-		pthread_mutex_unlock(&table->lock[0]);
+		pthread_mutex_unlock(&table->fork_lock[pos]);
 		return (1);
 	}
-	pthread_mutex_unlock(&table->lock[0]);
+	pthread_mutex_unlock(&table->fork_lock[pos]);
 	return (0);
 }
 
@@ -51,10 +51,12 @@ static void	eat(t_table *table, t_philo *philo)
 	pthread_mutex_lock(&philo->lock);
 	gettimeofday(&philo->last_meal, NULL);
 	pthread_mutex_unlock(&philo->lock);
-	pthread_mutex_lock(&table->lock[0]);
+	pthread_mutex_lock(&table->fork_lock[left]);
 	table->fork[left] = 0;
+	pthread_mutex_unlock(&table->fork_lock[left]);
+	pthread_mutex_lock(&table->fork_lock[right]);
 	table->fork[right] = 0;
-	pthread_mutex_unlock(&table->lock[0]);
+	pthread_mutex_unlock(&table->fork_lock[right]);
 	philo->state = SLEEP;
 	philo->nb_eat++;
 	if (philo->nb_eat == table->philo_must_eat)
@@ -78,9 +80,9 @@ void	philo_can_eat(t_table *table, t_philo *philo)
 			eat(table, philo);
 		else
 		{
-			pthread_mutex_lock(&table->lock[0]);
+			pthread_mutex_lock(&table->fork_lock[right]);
 			table->fork[right] = 0;
-			pthread_mutex_unlock(&table->lock[0]);
+			pthread_mutex_unlock(&table->fork_lock[right]);
 		}
 	}
 }

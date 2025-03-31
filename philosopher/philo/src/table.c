@@ -6,7 +6,7 @@
 /*   By: bduval <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 22:22:12 by bduval            #+#    #+#             */
-/*   Updated: 2025/03/31 18:36:46 by bduval           ###   ########.fr       */
+/*   Updated: 2025/04/01 00:08:37 by bduval           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,24 @@ int	init_fork(t_table *table)
 	memset(table->fork, 0, table->nb_total_philo * sizeof(int));
 	return (0);
 }
+int	init_mutexs(t_table *table)
+{
+	int	i;
+
+	i = -1;
+	while (++i < NB_LOCK)
+		if (pthread_mutex_init(&table->lock[i], NULL))
+			return (1);
+	i = -1;
+	while (++i < MAX_FORKS)
+		if (pthread_mutex_init(&table->fork_lock[i], NULL))
+			return (1);
+	return (0);
+	
+}
 
 int	set_table(int ac, char **av, t_table *table)
 {
-	int	i;
 
 	if (args_not_valid(ac, av))
 		return (1);
@@ -56,10 +70,8 @@ int	set_table(int ac, char **av, t_table *table)
 		table->philo_must_eat = ft_atoi(av[5]);
 	else
 		table->philo_must_eat = -1;
-	i = -1;
-	while (++i < NB_LOCK)
-		if (pthread_mutex_init(&table->lock[0], NULL))
-			return (printf("Error mutex_init()\n"), 1);
+	if (init_mutexs(table))
+		return (printf("Error init_mutexs()\n"), 1);
 	if (init_fork(table))
 		return (printf("Error allocating fork\n"), 1);
 	gettimeofday(&table->start_festivities, NULL);
