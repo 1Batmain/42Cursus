@@ -43,6 +43,8 @@ static void	rotate_to_nearest(t_all *all)
 	fwd = all->a->start->next;
 	rvs = all->a->end;
 
+	if (all->nb_element > 5)
+		return (rotate(all->a, 1));
 	while (fwd)
 	{
 		if (!fwd->window && fwd->ideal <= moyenne_a(all))

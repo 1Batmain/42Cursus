@@ -81,7 +81,7 @@ void	back_to_a(t_all *all)
 {
 	while (all->b->nb_element)
 	{
-		if (all->b->start && all->b->start->next && (all->b->start + 1 == all->b->start->next))
+		if (all->b->start && all->b->start->next && all->b->start->ideal + 1 == all->b->start->next->ideal)
 			swap(all->b, 1);
 		if (is_pushable_to_a(all->b->start, all))
 		{
