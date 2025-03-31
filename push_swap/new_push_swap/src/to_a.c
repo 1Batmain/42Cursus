@@ -6,7 +6,7 @@
 /*   By: bduval <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 13:40:57 by bduval            #+#    #+#             */
-/*   Updated: 2025/03/27 00:21:01 by bduval           ###   ########.fr       */
+/*   Updated: 2025/03/31 16:44:45 by bduval           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "push_swap.h"
@@ -81,7 +81,8 @@ void	back_to_a(t_all *all)
 {
 	while (all->b->nb_element)
 	{
-		if (all->b->start && all->b->start->next && all->b->start->ideal + 1 == all->b->start->next->ideal)
+		if (all->b->start && all->b->start->next && \
+			all->b->start->ideal + 1 == all->b->start->next->ideal)
 			swap(all->b, 1);
 		if (is_pushable_to_a(all->b->start, all))
 		{

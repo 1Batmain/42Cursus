@@ -6,12 +6,12 @@
 #    By: bduval <bduval@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/19 13:54:02 by bduval            #+#    #+#              #
-#    Updated: 2025/03/26 22:58:11 by bduval           ###   ########.fr        #
+#    Updated: 2025/03/31 16:45:41 by bduval           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC 		= cc
-CFLAGS 	= -Wall -Werror -Wextra -MMD -MP -g -fPIE
+CFLAGS 	= -Wall -Werror -Wextra -MMD -MP
 NAME 	= push_swap
 
 SRC_DIR 		= src/
@@ -21,7 +21,7 @@ OBJ_DIR			= obj/
 OBJ_DIR_BONUS	= obj/checker/
 BONUS_OBJ_DIR	= bonus_obj/
 LIB_DIR			= biglibft/
-LIB				= -L biglibft/ -lft -fPIE
+LIB				= -L biglibft/ -lft
 
 MANDATORY	= main list operations double_operations window max_min to_a to_b \
 			check_rotate is_pushable voltigeur utils chunk valid_list

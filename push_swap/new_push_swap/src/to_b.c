@@ -6,7 +6,7 @@
 /*   By: bduval <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 13:36:47 by bduval            #+#    #+#             */
-/*   Updated: 2025/03/26 22:43:54 by bduval           ###   ########.fr       */
+/*   Updated: 2025/03/31 16:45:08 by bduval           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "push_swap.h"
@@ -42,7 +42,6 @@ static void	rotate_to_nearest(t_all *all)
 
 	fwd = all->a->start->next;
 	rvs = all->a->end;
-
 	if (all->nb_element > 5)
 		return (rotate(all->a, 1));
 	while (fwd)
@@ -69,7 +68,8 @@ void	to_b(t_all *all)
 		}
 		if (!all->a->start->window && all->a->start->ideal <= moyenne_a(all))
 			push(all->a, all->b, 1);
-		else if (all->a->start && all->a->start->next && (all->a->start == all->a->start->next + 1))
+		else if (all->a->start && all->a->start->next && \
+				(all->a->start == all->a->start->next + 1))
 			swap(all->a, 1);
 		else
 			rotate_to_nearest(all);
