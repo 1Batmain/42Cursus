@@ -6,7 +6,7 @@
 /*   By: bduval <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 22:21:49 by bduval            #+#    #+#             */
-/*   Updated: 2025/03/24 16:32:08 by bduval           ###   ########.fr       */
+/*   Updated: 2025/04/01 23:54:09 by bduval           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,13 @@ int	game_is_on(t_table *table, t_philo *philo)
 
 void	take_action(t_table *table, t_philo *philo)
 {
+	if (philo->id % 2 != 0)
+		usleep((table->time_to_eat / 2) * 1000);
 	while (game_is_on(table, philo))
 	{
-		philo_can_eat(table, philo);
 		philo_can_think(table, philo);
+		philo_can_eat(table, philo);
 		philo_can_sleep(table, philo);
+		usleep(1000);
 	}
 }

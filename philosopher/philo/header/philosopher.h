@@ -6,7 +6,7 @@
 /*   By: bduval <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 22:22:22 by bduval            #+#    #+#             */
-/*   Updated: 2025/04/01 00:19:26 by bduval           ###   ########.fr       */
+/*   Updated: 2025/04/02 00:06:17 by bduval           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,15 +25,16 @@
 # define NB_LOCK	3
 # define MAX_FORKS	200
 
-#define RESET   ""
-#define RED     ""
-#define GREEN   ""
-#define YELLOW  ""
-#define BLUE    ""
-#define MAGENTA ""
-#define CYAN    ""
-#define WHITE   ""
 /*
+# define RESET   ""
+# define RED     ""
+# define GREEN   ""
+# define YELLOW  ""
+# define BLUE    ""
+# define MAGENTA ""
+# define CYAN    ""
+# define WHITE   ""
+*/
 # define RESET   "\033[0m"
 # define RED     "\033[1m\033[31m" 
 # define GREEN   "\033[1m\033[32m" 
@@ -42,7 +43,6 @@
 # define MAGENTA "\033[1m\033[35m" 
 # define CYAN    "\033[1m\033[36m" 
 # define WHITE   "\033[1m\033[37m" 
-*/
 
 typedef struct s_philo
 {
@@ -51,6 +51,8 @@ typedef struct s_philo
 	struct timeval	last_meal;
 	int				nb_eat;
 	pthread_mutex_t	lock;
+	int				left;
+	int				right;
 }	t_philo;
 
 typedef struct s_table

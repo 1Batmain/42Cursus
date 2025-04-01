@@ -1,7 +1,7 @@
 CC			= cc
 CFLAGS		= -Wall -Werror -Wextra -MMD -MP
 
-NAME		= philosopher
+NAME		= philo
 HEADER		= -I header/
 LIB			= -pthread
 

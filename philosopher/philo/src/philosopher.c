@@ -6,7 +6,7 @@
 /*   By: bduval <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 22:22:08 by bduval            #+#    #+#             */
-/*   Updated: 2025/03/24 16:40:15 by bduval           ###   ########.fr       */
+/*   Updated: 2025/04/01 22:59:16 by bduval           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,10 +55,16 @@ int	init_philosopher(t_table *table, t_philo *philo, t_watcher *watcher)
 	pthread_mutex_lock(&table->lock[0]);
 	philo->id = ++table->nb_seated_philo;
 	pthread_mutex_unlock(&table->lock[0]);
+	philo->left = philo->id - 2;
+	philo->right = philo->id - 1;
+	if (philo->id == 1)
+		philo->left = table->nb_total_philo - 1;
 	if (pthread_mutex_init(&philo->lock, NULL))
 		return (printf("Error mutex_init()\n"), 1);
 	init_watcher(table, philo, watcher);
-	gettimeofday(&philo->last_meal, NULL);
+	pthread_mutex_lock(&philo->lock);
+	philo->last_meal = table->start_festivities;
+	pthread_mutex_unlock(&philo->lock);
 	return (0);
 }
 

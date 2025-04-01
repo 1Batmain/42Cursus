@@ -6,7 +6,7 @@
 /*   By: bduval <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 16:32:13 by bduval            #+#    #+#             */
-/*   Updated: 2025/03/24 20:41:43 by bduval           ###   ########.fr       */
+/*   Updated: 2025/04/01 23:35:46 by bduval           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ long	gettime(t_watcher *watcher)
 	struct timeval	current;
 	long			delta_time;
 
-	gettimeofday(&current, NULL);
 	pthread_mutex_lock(&watcher->philo->lock);
+	gettimeofday(&current, NULL);
 	delta_time = ((current.tv_sec - watcher->philo->last_meal.tv_sec) * 1000) + \
 		((current.tv_usec - watcher->philo->last_meal.tv_usec) / 1000);
 	pthread_mutex_unlock(&watcher->philo->lock);
@@ -47,7 +47,7 @@ void	*ft_watcher(void *arg)
 			}
 			pthread_mutex_unlock(&watcher->table->lock[1]);
 		}
-		usleep(100);
+		usleep(1000);
 	}
 	return (NULL);
 }

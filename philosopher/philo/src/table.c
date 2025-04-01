@@ -6,7 +6,7 @@
 /*   By: bduval <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 22:22:12 by bduval            #+#    #+#             */
-/*   Updated: 2025/04/01 00:08:37 by bduval           ###   ########.fr       */
+/*   Updated: 2025/04/01 21:45:16 by bduval           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ int	init_fork(t_table *table)
 	memset(table->fork, 0, table->nb_total_philo * sizeof(int));
 	return (0);
 }
+
 int	init_mutexs(t_table *table)
 {
 	int	i;
@@ -51,12 +52,10 @@ int	init_mutexs(t_table *table)
 		if (pthread_mutex_init(&table->fork_lock[i], NULL))
 			return (1);
 	return (0);
-	
 }
 
 int	set_table(int ac, char **av, t_table *table)
 {
-
 	if (args_not_valid(ac, av))
 		return (1);
 	memset(table, 0, sizeof(t_table));
