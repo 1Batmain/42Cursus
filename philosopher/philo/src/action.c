@@ -48,6 +48,6 @@ void	take_action(t_table *table, t_philo *philo)
 		philo_can_think(table, philo);
 		philo_can_eat(table, philo);
 		philo_can_sleep(table, philo);
-		usleep(1000);
+		usleep(100);
 	}
 }
