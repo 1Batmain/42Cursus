@@ -26,7 +26,7 @@ int	init_semaphores(t_table *table)
 	return  (0);
 }
 
-int	open_semaphores(t_table *table, int *my_pid)
+int	open_semaphores(t_table *table)
 {
 	table->forks = sem_open("FORKS", 0);
 	if (table->forks == SEM_FAILED)
@@ -37,8 +37,6 @@ int	open_semaphores(t_table *table, int *my_pid)
 	table->end = sem_open("END", 0);
 	if (table->end == SEM_FAILED)
 		return (ft_error_sem("END"));
-	if (!*my_pid)
-		sem_post(table->forks);
 	return (0);
 }
 
@@ -51,7 +49,7 @@ int	make_theses_gentlemens_seat(t_table *table, int *my_pid)
 	while (*my_pid && ++i <= table->nb_total_philo)
 	{
 		*my_pid = fork();
-		open_semaphores(table, my_pid);
+		open_semaphores(table);
 		if (!*my_pid)
 			philosopher(table, i);
 		else

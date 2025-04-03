@@ -25,6 +25,7 @@ static void	philo_can_sleep(t_table *table, t_philo *philo)
 	if (philo->state != SLEEP)
 		return ;
 	print_sleep(table, philo);
+	may_i_die_during(table->time_to_sleep, table, philo);
 	usleep(table->time_to_sleep * 1000);
 	philo->state = THINK;
 }

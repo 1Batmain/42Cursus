@@ -12,19 +12,6 @@
 
 #include "philo_bonus.h"
 
-long	gettime(t_watcher *watcher)
-{
-	struct timeval	current;
-	long			delta_time;
-
-	pthread_mutex_lock(&watcher->philo->lock);
-	gettimeofday(&current, NULL);
-	delta_time = ((current.tv_sec - watcher->philo->last_meal.tv_sec) * 1000) + \
-		((current.tv_usec - watcher->philo->last_meal.tv_usec) / 1000);
-	pthread_mutex_unlock(&watcher->philo->lock);
-	return (delta_time);
-}
-
 void	*ft_watcher(void *arg)
 {
 	t_watcher	*watcher;
@@ -39,7 +26,7 @@ void	*ft_watcher(void *arg)
 		{
 			print_death(watcher->table, watcher->philo, "died\n");
 			sem_post(watcher->table->end);
-			end_process(watcher->table);
+			end_process(watcher->table, watcher->philo);
 		}
 		usleep(1000);
 	}

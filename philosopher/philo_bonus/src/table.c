@@ -14,14 +14,17 @@
 
 void	print_table(t_table *table)
 {
+	int forks;
+// TODO unauthorized function
+	sem_getvalue(table->forks, &forks);
 	printf("TABLE :\n"\
-			"\tfork = %p\n"\
+			"\tfork = %d (%p)\n"\
 			"\tnb_total_philo = %d\n"\
 			"\ttime_to_die = %d\n"\
 			"\ttime_to_eat = %d\n"\
 			"\ttime_to_sleep = %d\n"\
 			"\tphilo_must_eat = %d\n"\
-			, table->forks, table->nb_total_philo, \
+			, forks, table->forks, table->nb_total_philo, \
 			table->time_to_die, \
 			table->time_to_eat, table->time_to_sleep, table->philo_must_eat);
 	return ;

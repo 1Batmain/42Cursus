@@ -53,7 +53,7 @@ typedef struct s_philo
 	int				state;
 	struct timeval	last_meal;
 	int				nb_eat;
-	pthread_mutex_t			lock;
+	sem_t			*lock;
 }	t_philo;
 
 typedef struct s_table
@@ -81,14 +81,17 @@ typedef struct s_watcher
 int					is_digit(char c);
 int					ft_nbrlen(char *str);
 int					ft_atoi(char *str);
-void				end_process(t_table *table);
 void				free_ressources(t_table *table);
 
 //TABLE
+void	print_table(t_table *table);
 int		set_table(int ac, char **av, t_table *table);
 
 //ARGS
 int		args_not_valid(int ac, char **av);
+
+//TIME
+void	may_i_die_during(int laps, t_table  *table, t_philo *philo);
 
 //PHILO
 void	*philosopher(t_table *table, int id);

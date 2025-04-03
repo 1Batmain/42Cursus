@@ -8,7 +8,7 @@ LIB			= -pthread
 SRC_DIR		= src/
 OBJ_DIR		= obj/
 
-MANDATORY	= main table utils args error watcher philosopher action print_action eat
+MANDATORY	= main table utils args error philosopher action print_action eat
 
 SRC			= $(MANDATORY:%=$(SRC_DIR)%.c)
 OBJ			= $(MANDATORY:%=$(OBJ_DIR)%.o)
