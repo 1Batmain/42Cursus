@@ -6,7 +6,7 @@
 /*   By: bduval <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 22:22:03 by bduval            #+#    #+#             */
-/*   Updated: 2025/03/22 22:23:52 by bduval           ###   ########.fr       */
+/*   Updated: 2025/04/03 23:36:50 by bduval           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,15 +61,17 @@ int	make_theses_gentlemens_seat(t_table *table, int *my_pid)
 int	anakill(t_table *table)
 {
 	int	i;
-	int r_kill;
+//	int r_kill;
 	int r_wait;
 
+	usleep(1000000);
 	i = -1;
 	while (++i < table->nb_total_philo)
 	{
-		r_kill = kill(table->child[i], SIGINT);
+//		r_kill = kill(table->child[i], SIGINT);
 		r_wait = waitpid(table->child[i], NULL, 0);
-		printf("Process %d killed (%d) and waited (%d)\n", i, r_kill, r_wait);
+//		printf("Process %d killed (%d) and waited (%d)\n", i, r_kill, r_wait);
+		printf("Process %d waited (%d)\n", i, r_wait);
 	}
 	return (0);
 }
@@ -82,9 +84,12 @@ int	main(int ac, char **av)
 	set_table(ac, av, &table);
 	init_semaphores(&table);
 	make_theses_gentlemens_seat(&table, &my_pid);
-	waitpid(-1, NULL, 0);
-	anakill(&table);
-	free_ressources(&table);
+	if (my_pid)
+	{
+		sem_wait(table.end);
+		anakill(&table);
+		free_ressources(&table);
+	}
 	return (0);
 }
 

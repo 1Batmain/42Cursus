@@ -6,21 +6,48 @@
 /*   By: bduval <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 22:22:08 by bduval            #+#    #+#             */
-/*   Updated: 2025/04/01 22:59:16 by bduval           ###   ########.fr       */
+/*   Updated: 2025/04/03 23:29:09 by bduval           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
 
+void	get_philo_name(t_philo *philo)
+{
+	int	nb;
+	int	len;
+
+	nb = philo->id;
+	len = 1;
+	while (nb /= 10)
+		len++;
+	nb = philo->id;	
+	while (len--)
+	{
+		philo->name[len] = nb % 10 + '0';
+		nb /= 10;
+	}
+}
+
 int	init_philosopher(t_table *table, t_philo *philo, t_watcher *watcher, int id)
 {
 	memset(philo, 0, sizeof(t_philo));
 	philo->id = id;
+	get_philo_name(philo);
 	philo->last_meal = table->start_festivities;
 	watcher->table = table;
 	watcher->philo = philo;
-	if (pthread_create(&watcher->watcher, NULL, take_action, watcher))
-		return (printf("Error creating thread\n"), free_process(watcher->table));
+	philo->lock = sem_open(philo->name, O_CREAT | O_EXCL, 0600, 1);
+	if (philo->lock == SEM_FAILED)
+		return (ft_error_sem(philo->name));
+	if (pthread_create(&watcher->t_watcher, NULL, ft_watcher, watcher))
+		return (printf("Error creating thread\n"), free_process(table, philo));
+	if (pthread_detach(watcher->t_watcher))
+		return (printf("Error detaching thread\n"));
+	if (pthread_create(&watcher->t_philo, NULL, take_action, watcher))
+		return (printf("Error creating thread\n"), free_process(table, philo));
+	if (pthread_detach(watcher->t_philo))
+		return (printf("Error detaching thread\n"));
 	return (0);
 }
 
@@ -31,6 +58,7 @@ void	*philosopher(t_table *table, int id)
 
 	init_philosopher(table, &philo, &watcher, id);
 	sem_wait(table->end);
-	free_process(table);
+	sem_wait(philo.lock);
+	free_process(table, &philo);
 	return (NULL);
 }

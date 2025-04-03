@@ -1,5 +1,5 @@
 CC			= cc
-CFLAGS		= -Wall -Werror -Wextra -MMD -MP
+CFLAGS		= -Wall -Werror -Wextra -MMD -MP -g
 
 NAME		= philo_bonus
 HEADER		= -I header/
@@ -8,7 +8,7 @@ LIB			= -pthread
 SRC_DIR		= src/
 OBJ_DIR		= obj/
 
-MANDATORY	= main table utils args error philosopher action print_action eat
+MANDATORY	= main table utils args error philosopher action print_action eat watcher
 
 SRC			= $(MANDATORY:%=$(SRC_DIR)%.c)
 OBJ			= $(MANDATORY:%=$(OBJ_DIR)%.o)
@@ -25,8 +25,8 @@ $(OBJ_DIR)%.o	: $(SRC_DIR)%.c
 $(NAME)	: $(OBJ)
 	$(CC) $(LIB) $^ -o $@
 
-semclean :
-	rm $(addprefix /dev/shm/sem., END FORKS PRINTF); 
+semclean : all
+	rm $(addprefix /dev/shm/sem., END FORKS PRINTF PHILO); 
 clear	:
 	clear
 clean	:

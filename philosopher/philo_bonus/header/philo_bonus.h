@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philosopher.h                                      :+:      :+:    :+:   */
+/*   philo_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bduval <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 22:22:22 by bduval            #+#    #+#             */
-/*   Updated: 2025/04/02 00:06:17 by bduval           ###   ########.fr       */
+/*   Updated: 2025/04/03 23:24:22 by bduval           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ typedef struct s_philo
 	struct timeval	last_meal;
 	int				nb_eat;
 	sem_t			*lock;
+	char			name[11];
 }	t_philo;
 
 typedef struct s_table
@@ -74,15 +75,17 @@ typedef struct s_watcher
 {
 	t_table		*table;
 	t_philo		*philo;
-	pthread_t	watcher;
+	pthread_t	t_watcher;
+	pthread_t	t_philo;
 }	t_watcher;
 
 //UTILS
+char				*ft_itoa(t_philo *philo, int nb);
 int					is_digit(char c);
 int					ft_nbrlen(char *str);
 int					ft_atoi(char *str);
 void				free_ressources(t_table *table);
-int					free_process(t_table *table);
+int					free_process(t_table *table, t_philo *philo);
 void				im_i_dead(t_table *table, t_philo *philo);
 
 //TABLE
@@ -101,6 +104,7 @@ int		make_theses_gentlemens_seat(t_table *table, int *my_pid);
 int		init_philo_threads(t_table *table);
 
 //WATCHER
+void	end_game(t_table *table, t_philo *philo);
 void	*ft_watcher(void *arg);
 
 //EAT

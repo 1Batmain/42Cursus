@@ -6,7 +6,7 @@
 /*   By: bduval <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 22:21:49 by bduval            #+#    #+#             */
-/*   Updated: 2025/04/01 23:54:09 by bduval           ###   ########.fr       */
+/*   Updated: 2025/04/03 21:45:26 by bduval           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ static void	philo_can_sleep(t_table *table, t_philo *philo)
 	if (philo->state != SLEEP)
 		return ;
 	print_sleep(table, philo);
-	may_i_die_during(table->time_to_sleep, table, philo);
 	usleep(table->time_to_sleep * 1000);
 	philo->state = THINK;
 }
@@ -39,11 +38,8 @@ void	*take_action(void *arg)
 		usleep((watcher->table->time_to_eat / 2) * 1000);
 	while (1)
 	{
-		im_i_dead(watcher->table, watcher->philo);
 		philo_can_think(watcher->table, watcher->philo);
-		im_i_dead(watcher->table, watcher->philo);
 		philo_can_eat(watcher->table, watcher->philo);
-		im_i_dead(watcher->table, watcher->philo);
 		philo_can_sleep(watcher->table, watcher->philo);
 		usleep(100);
 	}
