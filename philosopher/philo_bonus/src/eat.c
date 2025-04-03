@@ -12,17 +12,13 @@
 
 #include "philo_bonus.h"
 
-static void	end_process(t_table *table, t_philo *philo)
+void	end_game(t_table *table)
 {
-	sem_unlink("PHILO_LOCK");
-	sem_unlink("FORKS");
-	sem_unlink("END");
-	sem_unlink("PRINTF");
-	sem_close(philo->lock);
-	sem_close(table->forks);
-	sem_close(table->end);
-	sem_close(table->printf);
-	exit (0);
+	int	i;
+
+	i = -1;
+	while (++i <= table->nb_total_philo)
+		sem_post(table->end);
 }
 
 long	gettime(t_philo *philo)
@@ -38,7 +34,7 @@ long	gettime(t_philo *philo)
 
 static void	philo_is_sustented(t_table *table)
 {
-	sem_post(table->end);
+	end_game(table);
 }
 
 static int	take_forks(t_table *table, t_philo *philo)
@@ -60,6 +56,17 @@ static void	put_forks_back(t_table *table)
 	sem_post(table->forks);
 }
 
+void	im_i_dead(t_table *table, t_philo *philo)
+{
+	long delta_time;
+
+	delta_time = gettime(philo);
+	if (delta_time >= table->time_to_die)
+	{
+		print_death(table, philo, "died\n");
+		end_game(table);
+	}
+}
 void	may_i_die_during(int laps, t_table *table, t_philo *philo)
 {
 	long delta_time;
@@ -68,15 +75,13 @@ void	may_i_die_during(int laps, t_table *table, t_philo *philo)
 	if (delta_time >= table->time_to_die)
 	{
 		print_death(table, philo, "died\n");
-		sem_post(table->end);
-		end_process(table, philo);
+		end_game(table);
 	}
 	else if (delta_time + laps >= table->time_to_die)
 	{
 		usleep((table->time_to_die - delta_time) * 1000);
 		print_death(table, philo, "died\n");
-		sem_post(table->end);
-		end_process(table, philo);
+		end_game(table);
 	}
 	else
 		return ;

@@ -30,15 +30,21 @@ static void	philo_can_sleep(t_table *table, t_philo *philo)
 	philo->state = THINK;
 }
 
-void	take_action(t_table *table, t_philo *philo)
+void	*take_action(void *arg)
 {
-	if (philo->id % 2 != 0)
-		usleep((table->time_to_eat / 2) * 1000);
+	t_watcher *watcher;
+
+	watcher = (t_watcher *)arg;
+	if (watcher->philo->id % 2 != 0)
+		usleep((watcher->table->time_to_eat / 2) * 1000);
 	while (1)
 	{
-		philo_can_think(table, philo);
-		philo_can_eat(table, philo);
-		philo_can_sleep(table, philo);
+		im_i_dead(watcher->table, watcher->philo);
+		philo_can_think(watcher->table, watcher->philo);
+		im_i_dead(watcher->table, watcher->philo);
+		philo_can_eat(watcher->table, watcher->philo);
+		im_i_dead(watcher->table, watcher->philo);
+		philo_can_sleep(watcher->table, watcher->philo);
 		usleep(100);
 	}
 }

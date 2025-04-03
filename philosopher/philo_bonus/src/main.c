@@ -82,7 +82,7 @@ int	main(int ac, char **av)
 	set_table(ac, av, &table);
 	init_semaphores(&table);
 	make_theses_gentlemens_seat(&table, &my_pid);
-	sem_wait(table.end);
+	waitpid(-1, NULL, 0);
 	anakill(&table);
 	free_ressources(&table);
 	return (0);

@@ -53,6 +53,17 @@ int	ft_atoi(char *str)
 	return (res);
 }
 
+int	free_process(t_table *table)
+{
+	sem_unlink("FORKS");
+	sem_unlink("END");
+	sem_unlink("PRINTF");
+	sem_close(table->forks);
+	sem_close(table->end);
+	sem_close(table->printf);
+	return(0);
+}
+
 void	free_ressources(t_table *table)
 {
 	sem_unlink("FORKS");

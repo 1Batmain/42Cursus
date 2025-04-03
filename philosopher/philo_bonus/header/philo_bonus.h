@@ -82,6 +82,8 @@ int					is_digit(char c);
 int					ft_nbrlen(char *str);
 int					ft_atoi(char *str);
 void				free_ressources(t_table *table);
+int					free_process(t_table *table);
+void				im_i_dead(t_table *table, t_philo *philo);
 
 //TABLE
 void	print_table(t_table *table);
@@ -105,7 +107,7 @@ void	*ft_watcher(void *arg);
 void	philo_can_eat(t_table *table, t_philo *philo);
 
 //ACTION
-void	take_action(t_table *table, t_philo *philo);
+void	*take_action(void *args);
 
 //PRINT_ACTION
 void	print_fork(t_table *table, t_philo *philo);
