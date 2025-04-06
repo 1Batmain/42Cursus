@@ -47,7 +47,7 @@ void	*ft_watcher(void *arg)
 	while (1)
 	{
 		delta_time = gettime(watcher);
-		if (delta_time >= watcher->table->time_to_die)
+		if (delta_time > watcher->table->time_to_die)
 		{
 				print_death(watcher->table, watcher->philo, "died\n");
 				end_game(watcher->table, watcher->philo);

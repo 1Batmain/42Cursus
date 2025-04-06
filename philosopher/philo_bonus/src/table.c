@@ -30,17 +30,6 @@ void	print_table(t_table *table)
 	return ;
 }
 
-int	init_child(t_table *table)
-{
-	table->child = malloc(table->nb_total_philo * sizeof(pid_t));
-	if (!table->child)
-	{
-		printf("Error malloc child()");
-		exit(1);
-	}
-	return (0);
-}
-
 int	set_table(int ac, char **av, t_table *table)
 {
 	if (args_not_valid(ac, av))
@@ -56,7 +45,6 @@ int	set_table(int ac, char **av, t_table *table)
 		table->philo_must_eat = ft_atoi(av[5]);
 	else
 		table->philo_must_eat = -1;
-	init_child(table);
 	gettimeofday(&table->start_festivities, NULL);
 	return (0);
 }

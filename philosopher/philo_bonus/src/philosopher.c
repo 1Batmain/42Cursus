@@ -62,3 +62,22 @@ void	*philosopher(t_table *table, int id)
 	free_process(table, &philo);
 	return (NULL);
 }
+
+int	make_theses_gentlemens_seat(t_table *table, int *my_pid)
+{
+	int	i;
+
+	*my_pid = 1;
+	i = 0;
+	while (*my_pid && ++i <= table->nb_total_philo)
+	{
+		*my_pid = fork();
+		open_semaphores(table);
+		if (!*my_pid)
+			philosopher(table, i);
+		else
+			table->child[i - 1] = *my_pid;
+	}
+	return (0);
+}
+

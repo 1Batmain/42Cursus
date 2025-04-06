@@ -41,6 +41,6 @@ void	*take_action(void *arg)
 		philo_can_think(watcher->table, watcher->philo);
 		philo_can_eat(watcher->table, watcher->philo);
 		philo_can_sleep(watcher->table, watcher->philo);
-		usleep(100);
+		usleep(1000);
 	}
 }

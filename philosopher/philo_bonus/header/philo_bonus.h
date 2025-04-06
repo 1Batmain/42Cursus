@@ -63,7 +63,7 @@ typedef struct s_table
 	sem_t			*forks;
 	sem_t			*end;
 	sem_t			*printf;
-	pid_t			*child;
+	pid_t			child[200];
 	int				nb_total_philo;
 	int				time_to_die;
 	int				time_to_eat;
@@ -92,6 +92,10 @@ void				im_i_dead(t_table *table, t_philo *philo);
 void	print_table(t_table *table);
 int		set_table(int ac, char **av, t_table *table);
 
+//INIT_SEM
+int	anakill(t_table *table);
+int	init_semaphores(t_table *table);
+int	open_semaphores(t_table *table);
 //ARGS
 int		args_not_valid(int ac, char **av);
 

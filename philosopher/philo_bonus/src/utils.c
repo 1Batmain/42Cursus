@@ -72,5 +72,4 @@ void	free_ressources(t_table *table)
 	sem_close(table->forks);
 	sem_close(table->end);
 	sem_close(table->printf);
-	free(table->child);
 }

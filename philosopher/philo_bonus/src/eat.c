@@ -38,8 +38,8 @@ static void	eat(t_table *table, t_philo *philo)
 	print_eat(table, philo);
 	sem_wait(philo->lock);
 	gettimeofday(&philo->last_meal, NULL);
-	sem_post(philo->lock);
 	usleep(table->time_to_eat * 1000);
+	sem_post(philo->lock);
 	philo->state = SLEEP;
 	philo->nb_eat++;
 	if (philo->nb_eat == table->philo_must_eat)

@@ -8,7 +8,7 @@ LIB			= -pthread
 SRC_DIR		= src/
 OBJ_DIR		= obj/
 
-MANDATORY	= main table utils args error philosopher action print_action eat watcher
+MANDATORY	= main table utils args error philosopher action print_action eat watcher init_sem
 
 SRC			= $(MANDATORY:%=$(SRC_DIR)%.c)
 OBJ			= $(MANDATORY:%=$(OBJ_DIR)%.o)
@@ -26,7 +26,7 @@ $(NAME)	: $(OBJ)
 	$(CC) $(LIB) $^ -o $@
 
 semclean : all
-	rm $(addprefix /dev/shm/sem., END FORKS PRINTF PHILO); 
+	rm $(addprefix /dev/shm/sem., *); 
 clear	:
 	clear
 clean	:
