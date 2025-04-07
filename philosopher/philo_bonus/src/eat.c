@@ -6,7 +6,7 @@
 /*   By: bduval <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 22:21:40 by bduval            #+#    #+#             */
-/*   Updated: 2025/04/03 22:40:11 by bduval           ###   ########.fr       */
+/*   Updated: 2025/04/07 18:06:32 by bduval           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static void	eat(t_table *table, t_philo *philo)
 
 void	philo_can_eat(t_table *table, t_philo *philo)
 {
-	if (philo->state != EAT)
+	if (philo->state != EAT && im_alive(philo))
 		return ;
 	if (take_forks(table, philo))
 	{

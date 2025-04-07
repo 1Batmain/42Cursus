@@ -6,7 +6,7 @@
 /*   By: bduval <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 22:22:15 by bduval            #+#    #+#             */
-/*   Updated: 2025/04/03 23:40:23 by bduval           ###   ########.fr       */
+/*   Updated: 2025/04/07 20:51:52 by bduval           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,13 +55,16 @@ int	ft_atoi(char *str)
 
 int	free_process(t_table *table, t_philo *philo)
 {
-	(void)table;
+//	(void)table;
 	sem_unlink("FORKS");
 	sem_unlink("END");
 	sem_unlink("PRINTF");
 	sem_unlink(philo->name);
 	sem_close(philo->lock);
-	return(0);
+	sem_close(table->forks);
+	sem_close(table->end);
+	sem_close(table->printf);
+	return (0);
 }
 
 void	free_ressources(t_table *table)

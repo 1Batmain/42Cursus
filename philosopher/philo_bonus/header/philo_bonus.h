@@ -6,7 +6,7 @@
 /*   By: bduval <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 22:22:22 by bduval            #+#    #+#             */
-/*   Updated: 2025/04/03 23:24:22 by bduval           ###   ########.fr       */
+/*   Updated: 2025/04/07 18:09:01 by bduval           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ typedef struct s_philo
 	int				nb_eat;
 	sem_t			*lock;
 	char			name[11];
+	int				alive;
 }	t_philo;
 
 typedef struct s_table
@@ -103,6 +104,7 @@ int		args_not_valid(int ac, char **av);
 void	may_i_die_during(int laps, t_table  *table, t_philo *philo);
 
 //PHILO
+int		im_alive(t_philo *philo);
 void	*philosopher(t_table *table, int id);
 int		make_theses_gentlemens_seat(t_table *table, int *my_pid);
 int		init_philo_threads(t_table *table);

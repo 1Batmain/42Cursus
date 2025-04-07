@@ -6,7 +6,7 @@
 /*   By: bduval <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 22:21:35 by bduval            #+#    #+#             */
-/*   Updated: 2025/04/02 00:09:13 by bduval           ###   ########.fr       */
+/*   Updated: 2025/04/07 21:03:05 by bduval           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ void	print_fork(t_table *table, t_philo *philo)
 	struct timeval	current;
 	long			delta;
 
+	if (!im_alive(philo))
+		return ;
 	gettimeofday(&current, NULL);
 	delta = ((current.tv_sec - table->start_festivities.tv_sec) * 1000) \
 			+ ((current.tv_usec - table->start_festivities.tv_usec) / 1000);
@@ -30,6 +32,8 @@ void	print_eat(t_table *table, t_philo *philo)
 	struct timeval	current;
 	long			delta;
 
+	if (!im_alive(philo))
+		return ;
 	gettimeofday(&current, NULL);
 	delta = ((current.tv_sec - table->start_festivities.tv_sec) * 1000) \
 			+ ((current.tv_usec - table->start_festivities.tv_usec) / 1000);
@@ -43,6 +47,8 @@ void	print_sleep(t_table *table, t_philo *philo)
 	struct timeval	current;
 	long			delta;
 
+	if (!im_alive(philo))
+		return ;
 	gettimeofday(&current, NULL);
 	delta = ((current.tv_sec - table->start_festivities.tv_sec) * 1000) \
 			+ ((current.tv_usec - table->start_festivities.tv_usec) / 1000);
@@ -56,6 +62,8 @@ void	print_think(t_table *table, t_philo *philo)
 	struct timeval	current;
 	long			delta;
 
+	if (!im_alive(philo))
+		return ;
 	gettimeofday(&current, NULL);
 	delta = ((current.tv_sec - table->start_festivities.tv_sec) * 1000) \
 			+ ((current.tv_usec - table->start_festivities.tv_usec) / 1000);
@@ -72,7 +80,8 @@ void	print_death(t_table *table, t_philo *philo, char *action)
 	gettimeofday(&current, NULL);
 	delta = ((current.tv_sec - table->start_festivities.tv_sec) * 1000) \
 			+ ((current.tv_usec - table->start_festivities.tv_usec) / 1000);
+	if (!im_alive(philo))
+		return ;
 	sem_wait(table->printf);
 	printf(RED "%ld %d %s" RESET, delta, philo->id, action);
-	sem_post(table->printf);
 }

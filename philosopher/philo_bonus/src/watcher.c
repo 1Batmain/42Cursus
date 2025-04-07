@@ -6,7 +6,7 @@
 /*   By: bduval <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 16:32:13 by bduval            #+#    #+#             */
-/*   Updated: 2025/04/03 23:06:14 by bduval           ###   ########.fr       */
+/*   Updated: 2025/04/07 20:52:28 by bduval           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ void	end_game(t_table *table, t_philo *philo)
 {
 	int	i;
 
-	sem_wait(table->printf);
 	sem_wait(philo->lock);
 	i = -1;
 	while (++i <= table->nb_total_philo)
@@ -44,7 +43,7 @@ void	*ft_watcher(void *arg)
 
 	watcher = (t_watcher *)arg;
 	usleep(1000);
-	while (1)
+	while (im_alive(watcher->philo))
 	{
 		delta_time = gettime(watcher);
 		if (delta_time > watcher->table->time_to_die)
