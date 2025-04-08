@@ -18,13 +18,14 @@ int	main(int ac, char **av)
 	pid_t			my_pid;
 
 	set_table(ac, av, &table);
+	sem_free(&table);
 	init_semaphores(&table);
 	make_theses_gentlemens_seat(&table, &my_pid);
 	if (my_pid)
 	{
 		sem_wait(table.end);
 		anakill(&table);
-		free_ressources(&table);
+		sem_free(&table);
 	}
 	return (0);
 }

@@ -38,7 +38,7 @@
 # define CYAN    ""
 # define WHITE   ""
 */
-# define RESET   "\033[0m"
+# define RESET   "\033[0m\n"
 # define RED     "\033[1m\033[31m" 
 # define GREEN   "\033[1m\033[32m" 
 # define YELLOW  "\033[1m\033[33m" 
@@ -85,8 +85,8 @@ char				*ft_itoa(t_philo *philo, int nb);
 int					is_digit(char c);
 int					ft_nbrlen(char *str);
 int					ft_atoi(char *str);
-void				free_ressources(t_table *table);
-int					free_process(t_table *table, t_philo *philo);
+void				sem_free(t_table *table);
+int					sem_philo_free(t_philo *philo);
 void				im_i_dead(t_table *table, t_philo *philo);
 
 //TABLE

@@ -37,7 +37,8 @@ int	anakill(t_table *table)
 	while (++i < table->nb_total_philo)
 	{
 		r_wait = waitpid(table->child[i], NULL, 0);
-		printf("Process %d waited (%d)\n", i, r_wait);
+		(void)r_wait;
+		//printf("Process %d waited (%d)\n", i, r_wait);
 	}
 	return (0);
 }

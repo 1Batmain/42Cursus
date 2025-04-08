@@ -38,13 +38,14 @@ int	init_philosopher(t_table *table, t_philo *philo, t_watcher *watcher, int id)
 	philo->last_meal = table->start_festivities;
 	watcher->table = table;
 	watcher->philo = philo;
+	sem_philo_free(philo);
 	philo->lock = sem_open(philo->name, O_CREAT | O_EXCL, 0600, 1);
 	if (philo->lock == SEM_FAILED)
 		return (ft_error_sem(philo->name));
 	if (pthread_create(&watcher->t_watcher, NULL, ft_watcher, watcher))
-		return (printf("Error creating thread\n"), free_process(table, philo));
+		return (printf("Error creating thread\n"), end_game(table, philo), 1);
 	if (pthread_create(&watcher->t_philo, NULL, take_action, watcher))
-		return (printf("Error creating thread\n"), free_process(table, philo));
+		return (printf("Error creating thread\n"), end_game(table, philo), 1);
 	return (0);
 }
 
@@ -58,9 +59,13 @@ void	*philosopher(t_table *table, int id)
 	sem_wait(philo.lock);
 	philo.alive = 0;
 	sem_post(philo.lock);
-	pthread_join(watcher.t_philo, NULL);
 	pthread_join(watcher.t_watcher, NULL);
-	free_process(table, &philo);
+	usleep(10000 * table->nb_total_philo);
+	sem_post(table->printf);
+	sem_post(table->printf);
+	pthread_join(watcher.t_philo, NULL);
+	sem_philo_free(&philo);
+	sem_free(table);
 	return (NULL);
 }
 

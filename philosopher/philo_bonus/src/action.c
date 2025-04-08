@@ -43,8 +43,6 @@ void	*take_action(void *arg)
 	t_watcher *watcher;
 
 	watcher = (t_watcher *)arg;
-	if (watcher->philo->id % 2 != 0)
-		usleep((watcher->table->time_to_eat / 2) * 1000);
 	while (im_alive(watcher->philo))
 	{
 		philo_can_think(watcher->table, watcher->philo);
