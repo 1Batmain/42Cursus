@@ -1,7 +1,7 @@
 CC				=	cc
 CFLAGS			=	-Wall -Wextra -Werror -MMD -MP
 
-LINKFLAGS		= -fPIE
+LINKFLAGS		= 
 
 NAME			= client server
 
