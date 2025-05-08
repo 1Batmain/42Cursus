@@ -1,8 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init_sem.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bduval <bduval@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/07 16:08:33 by bduval            #+#    #+#             */
+/*   Updated: 2025/05/07 16:28:55 by bduval           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo_bonus.h"
 
 int	init_semaphores(t_table *table)
 {
-	table->forks = sem_open("FORKS", O_CREAT | O_EXCL, 0600, table->nb_total_philo);
+	table->forks = sem_open("FORKS", O_CREAT | O_EXCL, 0600,\
+		table->nb_total_philo);
 	if (table->forks == SEM_FAILED)
 		return (ft_error_sem("FORKS"));
 	table->printf = sem_open("PRINTF", O_CREAT | O_EXCL, 0600, 1);
@@ -11,7 +24,7 @@ int	init_semaphores(t_table *table)
 	table->end = sem_open("END", O_CREAT | O_EXCL, 0600, 0);
 	if (table->end == SEM_FAILED)
 		return (ft_error_sem("END"));
-	return  (0);
+	return (0);
 }
 
 int	open_semaphores(t_table *table)
@@ -38,7 +51,6 @@ int	anakill(t_table *table)
 	{
 		r_wait = waitpid(table->child[i], NULL, 0);
 		(void)r_wait;
-		//printf("Process %d waited (%d)\n", i, r_wait);
 	}
 	return (0);
 }

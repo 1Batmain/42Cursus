@@ -6,7 +6,7 @@
 /*   By: bduval <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 22:21:49 by bduval            #+#    #+#             */
-/*   Updated: 2025/05/07 11:57:30 by bduval           ###   ########.fr       */
+/*   Updated: 2025/05/07 12:21:28 by bduval           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	game_is_on(t_table *table, t_philo *philo)
 {
 	(void)philo;
 	pthread_mutex_lock(&table->lock[1]);
-	if (!table->dead && !table->eat_enough)
+	if (!table->dead && table->eat_enough < table->nb_total_philo)
 		return (pthread_mutex_unlock(&table->lock[1]), 1);
 	pthread_mutex_unlock(&table->lock[1]);
 	return (0);

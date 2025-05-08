@@ -6,7 +6,7 @@
 /*   By: bduval <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 22:22:22 by bduval            #+#    #+#             */
-/*   Updated: 2025/04/07 18:09:01 by bduval           ###   ########.fr       */
+/*   Updated: 2025/05/07 16:07:59 by bduval           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,27 +81,27 @@ typedef struct s_watcher
 }	t_watcher;
 
 //UTILS
-char				*ft_itoa(t_philo *philo, int nb);
-int					is_digit(char c);
-int					ft_nbrlen(char *str);
-int					ft_atoi(char *str);
-void				sem_free(t_table *table);
-int					sem_philo_free(t_philo *philo);
-void				im_i_dead(t_table *table, t_philo *philo);
+char	*ft_itoa(t_philo *philo, int nb);
+int		is_digit(char c);
+int		ft_nbrlen(char *str);
+int		ft_atoi(char *str);
+void	sem_free(t_table *table);
+int		sem_philo_free(t_philo *philo);
+void	im_i_dead(t_table *table, t_philo *philo);
 
 //TABLE
 void	print_table(t_table *table);
 int		set_table(int ac, char **av, t_table *table);
 
 //INIT_SEM
-int	anakill(t_table *table);
-int	init_semaphores(t_table *table);
-int	open_semaphores(t_table *table);
+int		anakill(t_table *table);
+int		init_semaphores(t_table *table);
+int		open_semaphores(t_table *table);
 //ARGS
 int		args_not_valid(int ac, char **av);
 
 //TIME
-void	may_i_die_during(int laps, t_table  *table, t_philo *philo);
+void	may_i_die_during(int laps, t_table *table, t_philo *philo);
 
 //PHILO
 int		im_alive(t_philo *philo);

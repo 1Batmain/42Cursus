@@ -37,4 +37,7 @@ fclean	: clean
 
 re	: fclean all
 
+vi	:
+	ctags $(SRC); vim $(SRC) Makefifle header/philo_bonus.h
+
 PHONY	: re fclean clean

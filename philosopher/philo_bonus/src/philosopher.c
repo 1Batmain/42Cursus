@@ -6,7 +6,7 @@
 /*   By: bduval <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 22:22:08 by bduval            #+#    #+#             */
-/*   Updated: 2025/04/07 20:53:34 by bduval           ###   ########.fr       */
+/*   Updated: 2025/05/07 16:25:34 by bduval           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,12 @@ void	get_philo_name(t_philo *philo)
 
 	nb = philo->id;
 	len = 1;
-	while (nb /= 10)
+	while (nb)
+	{
 		len++;
-	nb = philo->id;	
+		nb /= 10;
+	}
+	nb = philo->id;
 	while (len--)
 	{
 		philo->name[len] = nb % 10 + '0';
@@ -85,4 +88,3 @@ int	make_theses_gentlemens_seat(t_table *table, int *my_pid)
 	}
 	return (0);
 }
-

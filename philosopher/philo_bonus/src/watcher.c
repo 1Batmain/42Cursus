@@ -6,7 +6,7 @@
 /*   By: bduval <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 16:32:13 by bduval            #+#    #+#             */
-/*   Updated: 2025/04/07 20:52:28 by bduval           ###   ########.fr       */
+/*   Updated: 2025/05/07 16:29:53 by bduval           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ long	gettime(t_watcher *watcher)
 
 	sem_wait(watcher->philo->lock);
 	gettimeofday(&current, NULL);
-	delta_time = ((current.tv_sec - watcher->philo->last_meal.tv_sec) * 1000) + \
-		((current.tv_usec - watcher->philo->last_meal.tv_usec) / 1000);
+	delta_time = ((current.tv_sec - watcher->philo->last_meal.tv_sec) * 1000) \
+		+ ((current.tv_usec - watcher->philo->last_meal.tv_usec) / 1000);
 	sem_post(watcher->philo->lock);
 	return (delta_time);
 }
@@ -48,9 +48,9 @@ void	*ft_watcher(void *arg)
 		delta_time = gettime(watcher);
 		if (delta_time > watcher->table->time_to_die)
 		{
-				print_death(watcher->table, watcher->philo, "died\n");
-				end_game(watcher->table, watcher->philo);
-				return (NULL);
+			print_death(watcher->table, watcher->philo, "died\n");
+			end_game(watcher->table, watcher->philo);
+			return (NULL);
 		}
 		usleep(1000);
 	}

@@ -6,20 +6,19 @@
 /*   By: bduval <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 22:21:40 by bduval            #+#    #+#             */
-/*   Updated: 2025/04/07 18:06:32 by bduval           ###   ########.fr       */
+/*   Updated: 2025/05/08 21:06:14 by bduval           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
 
-
 static int	take_forks(t_table *table, t_philo *philo)
 {
 	if (table->nb_total_philo > 1)
 	{
-		sem_wait(table->forks);	
+		sem_wait(table->forks);
 		print_fork(table, philo);
-		sem_wait(table->forks);	
+		sem_wait(table->forks);
 		print_fork(table, philo);
 		return (1);
 	}
@@ -32,7 +31,6 @@ static void	put_forks_back(t_table *table)
 	sem_post(table->forks);
 }
 
-
 static void	eat(t_table *table, t_philo *philo)
 {
 	print_eat(table, philo);
@@ -42,7 +40,7 @@ static void	eat(t_table *table, t_philo *philo)
 	sem_post(philo->lock);
 	philo->state = SLEEP;
 	philo->nb_eat++;
-	if (philo->nb_eat == table->philo_must_eat)
+	if (philo->nb_eat == table->philo_must_eat + 1)
 		end_game(table, philo);
 }
 

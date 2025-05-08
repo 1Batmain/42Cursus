@@ -35,4 +35,8 @@ fclean	: clean
 
 re	: fclean all
 
+vi :
+	find . -name "*.c" -exec ctags {} +
+	vim $(SRC) Makefile header/philosopher.h
+
 PHONY	: re fclean clean

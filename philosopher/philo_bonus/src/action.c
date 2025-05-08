@@ -6,7 +6,7 @@
 /*   By: bduval <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 22:21:49 by bduval            #+#    #+#             */
-/*   Updated: 2025/04/07 20:00:04 by bduval           ###   ########.fr       */
+/*   Updated: 2025/05/07 16:11:05 by bduval           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static void	philo_can_sleep(t_table *table, t_philo *philo)
 
 void	*take_action(void *arg)
 {
-	t_watcher *watcher;
+	t_watcher	*watcher;
 
 	watcher = (t_watcher *)arg;
 	while (im_alive(watcher->philo))

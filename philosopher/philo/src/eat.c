@@ -6,7 +6,7 @@
 /*   By: bduval <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 22:21:40 by bduval            #+#    #+#             */
-/*   Updated: 2025/05/07 12:08:26 by bduval           ###   ########.fr       */
+/*   Updated: 2025/05/07 12:20:48 by bduval           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 static void	philo_is_sustented(t_table *table, t_philo *philo)
 {
+	(void)philo;
 	pthread_mutex_lock(&table->lock[1]);
 	table->eat_enough++;
 	pthread_mutex_unlock(&table->lock[1]);
