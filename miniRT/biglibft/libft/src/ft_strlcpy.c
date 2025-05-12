@@ -1,25 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strlcpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bduval <bduval@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/08 17:51:12 by bduval            #+#    #+#             */
-/*   Updated: 2025/05/10 12:29:03 by bduval           ###   ########.fr       */
+/*   Created: 2024/11/11 15:37:59 by bduval            #+#    #+#             */
+/*   Updated: 2024/11/16 13:25:44 by bduval           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
+#include "libft.h"
 
-int	main(int ac, char **av)
+size_t	ft_strlcpy(char *dst, const char *src, size_t siz)
 {
-	t_all	all;
+	size_t	i;
+	size_t	src_len;
 
-	if (parse_map(ac, av, &all))
-		return (1);
-	if (set_mlx(&all))
-		return (free_mlx(&all), 1);
-	free_mlx(&all);
-	return (0);
+	src_len = ft_strlen(src);
+	if (siz != 0)
+	{
+		i = 0;
+		while (i < siz - 1 && i < src_len)
+		{
+			dst[i] = src[i];
+			i++;
+		}
+			dst[i] = 0;
+	}
+	return (src_len);
 }

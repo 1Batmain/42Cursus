@@ -1,25 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_putendl_fd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bduval <bduval@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/08 17:51:12 by bduval            #+#    #+#             */
-/*   Updated: 2025/05/10 12:29:03 by bduval           ###   ########.fr       */
+/*   Created: 2024/11/15 13:02:31 by bduval            #+#    #+#             */
+/*   Updated: 2024/11/15 14:22:09 by bduval           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
+#include "libft.h"
 
-int	main(int ac, char **av)
+void	ft_putendl_fd(char *s, int fd)
 {
-	t_all	all;
+	size_t	i;
 
-	if (parse_map(ac, av, &all))
-		return (1);
-	if (set_mlx(&all))
-		return (free_mlx(&all), 1);
-	free_mlx(&all);
-	return (0);
+	i = 0;
+	while (s[i])
+		i++;
+	write(fd, s, i);
+	write(fd, "\n", 1);
 }

@@ -1,25 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bduval <bduval@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/08 17:51:12 by bduval            #+#    #+#             */
-/*   Updated: 2025/05/10 12:29:03 by bduval           ###   ########.fr       */
+/*   Created: 2025/05/09 16:00:30 by bduval            #+#    #+#             */
+/*   Updated: 2025/05/11 09:10:06 by bduval           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-int	main(int ac, char **av)
+int	print_error2(char *err1, char *err2)
 {
-	t_all	all;
-
-	if (parse_map(ac, av, &all))
-		return (1);
-	if (set_mlx(&all))
-		return (free_mlx(&all), 1);
-	free_mlx(&all);
+	write(2, err1, ft_strlen(err1));
+	write(2, " : ", 3);
+	write(2, err2, ft_strlen(err2));
+	write(2, "\n", 1);
 	return (0);
+}
+
+int	print_error(char *err)
+{
+	write(2, err, ft_strlen(err));
+	write(2, "\n", 1);
+	return (1);
+}
+
+int	error(char *str)
+{
+	perror(str);
+	return (1);
 }

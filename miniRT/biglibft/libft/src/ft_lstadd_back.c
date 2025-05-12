@@ -1,25 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_lstadd_back.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bduval <bduval@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/08 17:51:12 by bduval            #+#    #+#             */
-/*   Updated: 2025/05/10 12:29:03 by bduval           ###   ########.fr       */
+/*   Created: 2024/11/15 12:14:44 by bduval            #+#    #+#             */
+/*   Updated: 2024/11/19 12:23:58 by bduval           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
+#include "libft.h"
 
-int	main(int ac, char **av)
+void	ft_lstadd_back(t_list **lst, t_list *new)
 {
-	t_all	all;
+	t_list	*idx;
 
-	if (parse_map(ac, av, &all))
-		return (1);
-	if (set_mlx(&all))
-		return (free_mlx(&all), 1);
-	free_mlx(&all);
-	return (0);
+	if (*lst == NULL)
+	{
+		*lst = new;
+		return ;
+	}
+	idx = *lst;
+	while (idx->next)
+		idx = idx->next;
+	idx->next = new;
 }

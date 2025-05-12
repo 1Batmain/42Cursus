@@ -1,25 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bduval <bduval@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/08 17:51:12 by bduval            #+#    #+#             */
-/*   Updated: 2025/05/10 12:29:03 by bduval           ###   ########.fr       */
+/*   Created: 2024/11/13 15:25:32 by bduval            #+#    #+#             */
+/*   Updated: 2024/11/16 16:11:46 by bduval           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
+#include "libft.h"
 
-int	main(int ac, char **av)
+char	*ft_strdup(const char *src)
 {
-	t_all	all;
+	size_t	len;
+	char	*new;
 
-	if (parse_map(ac, av, &all))
-		return (1);
-	if (set_mlx(&all))
-		return (free_mlx(&all), 1);
-	free_mlx(&all);
-	return (0);
+	len = ft_strlen(src);
+	new = malloc(len + 1);
+	if (!new)
+		return (NULL);
+	len = 0;
+	while (src[len])
+	{
+		new[len] = src[len];
+		len++;
+	}
+	new[len] = '\0';
+	return (new);
 }

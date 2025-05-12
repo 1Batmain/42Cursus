@@ -1,25 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strmapi.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bduval <bduval@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/08 17:51:12 by bduval            #+#    #+#             */
-/*   Updated: 2025/05/10 12:29:03 by bduval           ###   ########.fr       */
+/*   Created: 2024/11/15 12:25:35 by bduval            #+#    #+#             */
+/*   Updated: 2024/11/15 12:25:50 by bduval           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
+#include "libft.h"
 
-int	main(int ac, char **av)
+char	*ft_strmapi(const char *s, char (*f)(unsigned int, char))
 {
-	t_all	all;
+	char			*new;
+	size_t			len;
+	unsigned int	idx;
 
-	if (parse_map(ac, av, &all))
-		return (1);
-	if (set_mlx(&all))
-		return (free_mlx(&all), 1);
-	free_mlx(&all);
-	return (0);
+	len = ft_strlen(s);
+	new = malloc(len + 1);
+	if (new)
+	{
+		new[len] = '\0';
+		idx = 0;
+		while (s[idx])
+		{
+			new[idx] = f(idx, s[idx]);
+			idx++;
+		}
+		return (new);
+	}
+	return (NULL);
 }

@@ -1,25 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_memmove.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bduval <bduval@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/08 17:51:12 by bduval            #+#    #+#             */
-/*   Updated: 2025/05/10 12:29:03 by bduval           ###   ########.fr       */
+/*   Created: 2024/11/11 13:55:27 by bduval            #+#    #+#             */
+/*   Updated: 2024/11/15 15:30:02 by bduval           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
+#include "libft.h"
 
-int	main(int ac, char **av)
+void	*ft_memmove(void *dest, const void *src, size_t n)
 {
-	t_all	all;
+	char		*p_dest;
+	const char	*p_src;
+	size_t		i;
 
-	if (parse_map(ac, av, &all))
-		return (1);
-	if (set_mlx(&all))
-		return (free_mlx(&all), 1);
-	free_mlx(&all);
-	return (0);
+	if (dest || src)
+	{
+		p_dest = (char *) dest;
+		p_src = (const char *) src;
+		if (p_dest < p_src)
+		{
+			i = 0;
+			while (i < n)
+			{
+				p_dest[i] = p_src[i];
+				i++;
+			}
+		}
+		else
+		{
+			while (n--)
+				p_dest[n] = p_src[n];
+		}
+		return (dest);
+	}
+	return (NULL);
 }

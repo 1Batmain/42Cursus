@@ -1,33 +1,106 @@
 NAME		= miniRT
 
 CC			= cc
-CFLAGS		= -Wall -Werror -Wextra
+CFLAGS		= -Wall -Werror -Wextra -g
 
-CPPFLAGS	= -I includes/ -I mlx
-LDFLAGS		= -L biglibft/
-LDLIBS		= -lft -lmlx -Lmlx -L /usr/lib -lX11 
-
-MANDATORY	= main
+CPPFLAGS	= -Iincludes/ -Ibiglibft/header/ -Imlx -I/usr/include/X11/
+LDFLAGS		= -Lbiglibft/ -Lmlx -L/usr/lib/
+LDLIBS		= -lft -lmlx -lX11 -lXext -lm -lz
 
 SRC_DIR	= src/
 TMP_DIR = tmp/
 
-SRC = $(addprefix $(SRC_DIR), $(addsuffix .c, $(MANDATORY)))
-OBJ = $(addprefix $(TMP_DIR), $(addsuffix .o, $(notdir $(MANDATORY))))
-DEP = $(addprefix $(TMP_DIR), $(addsuffix .d, $(notdir $(MANDATORY))))
+SRC = $(FILES:%=$(SRC_DIR)%.c)
+OBJ = $(SRC:$(SRC_DIR)%.c=$(TMP_DIR)%.o)
+DEP = $(OBJ:%.o=%.d)
+
+MAKEFLAGS += --no-print-directory
+
+FILES	=\
+		 error/error \
+		 mlx/init \
+		 mlx/free \
+		 mlx/event \
+		 mlx/loop \
+		 parsing/parse \
+		 parsing/split_set \
+		 parsing/amb_light \
+		 parsing/light \
+		 parsing/cam \
+		 parsing/object \
+		 utils/free \
+		 main
+			
 
 all : $(NAME)
 
-$(NAME) :	$(TMP_DIR) mlx $(OBJ) $(DEP) 
+.PHONY :  clean fclean re
+
+$(TMP_DIR)%.o : $(SRC_DIR)%.c
+	$(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
 
 -include $(DEP)
--include biglibft/Makefile
+
+$(NAME) :  biglibft/libft.a mlx $(TMP_DIR) $(OBJ)
+	$(CC) $(CPPFLAGS) $(LDFLAGS) $(OBJ) $(LDLIBS) -o $@
+
+clean :
+	rm $(NAME)
+
+fclean :
+	- $(MAKE) clean
+	rm -rf $(TMP_DIR)
+
+re : fclean
+	make
 
 $(TMP_DIR) :
-	mkdir -p $(TMP_DIR)
+	@mkdir -p $(TMP_DIR)$(filter-out {./}, \
+		{$(subst $(space),$(coma),$(dir $(FILES)))})
+
+biglibft/libft.a :
+	@$(MAKE) -C biglibft
 
 mlx :
 	git clone https://github.com/42paris/minilibx-linux.git mlx
-	cd mlx; ./configure
+		cd mlx; make
 
+#<--------------	DEV_TOOLS	------------->
 
+.PHONY : vi dev watch
+
+watch :
+	source ~/42/42_venv/bin/activate
+	watch -n1 "norminette | grep -v 'OK'; make"
+
+vi vim :
+	find . -name "*.c" -exec ctags {} +
+	vim $(SRC) includes/minirt.h Makefile
+
+dev : all
+	valgrind --leak-check=full --track-origins=yes --show-leak-kinds=all ./$(NAME) scene_files/scene1.rt
+
+coma := ,
+space := $(empty) $(empty)
+empty :=
+
+home :
+	sudo docker run -it --rm -v "$$PWD":/mnt -w /mnt dev-env bash -c "make"
+
+docker_set :
+	echo "$$DOCKER" > Dockerfile
+	sudo docker build -t dev-env .
+
+export DOCKER
+define DOCKER
+FROM ubuntu:20.04
+
+ENV DEBIAN_FRONTEND=noninteractive
+ENV TZ=Europe/Paris
+
+RUN apt update && apt install -y \
+	    build-essential \
+		    xorg-dev \
+			    libbsd-dev \
+				    && rm -rf /var/lib/apt/lists/*
+endef

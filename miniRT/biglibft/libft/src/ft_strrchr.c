@@ -1,25 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strrchr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bduval <bduval@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/08 17:51:12 by bduval            #+#    #+#             */
-/*   Updated: 2025/05/10 12:29:03 by bduval           ###   ########.fr       */
+/*   Created: 2024/11/12 13:37:24 by bduval            #+#    #+#             */
+/*   Updated: 2024/11/18 20:28:44 by bduval           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
-
-int	main(int ac, char **av)
+char	*ft_strrchr(const char *str, int c)
 {
-	t_all	all;
+	char	*last_c;
 
-	if (parse_map(ac, av, &all))
-		return (1);
-	if (set_mlx(&all))
-		return (free_mlx(&all), 1);
-	free_mlx(&all);
-	return (0);
+	last_c = 0;
+	while (*str != 0)
+	{
+		if (*str == (unsigned char)c)
+			last_c = (char *)str;
+		str++;
+	}
+	if ((unsigned char)c == 0)
+		last_c = (char *)str;
+	return (last_c);
 }

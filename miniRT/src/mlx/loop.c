@@ -1,25 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   loop.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bduval <bduval@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/08 17:51:12 by bduval            #+#    #+#             */
-/*   Updated: 2025/05/10 12:29:03 by bduval           ###   ########.fr       */
+/*   Created: 2025/05/10 11:24:08 by bduval            #+#    #+#             */
+/*   Updated: 2025/05/10 12:03:58 by bduval           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-int	main(int ac, char **av)
+static int	loop_hook(void *param)
 {
-	t_all	all;
+	(void)param;
+	return (0);
+}
 
-	if (parse_map(ac, av, &all))
-		return (1);
-	if (set_mlx(&all))
-		return (free_mlx(&all), 1);
-	free_mlx(&all);
+int	start_mlx_loop(t_all *all)
+{
+	mlx_loop_hook(all->mlx_ptr, &loop_hook, NULL);
+	mlx_loop(all->mlx_ptr);
 	return (0);
 }

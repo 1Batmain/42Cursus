@@ -1,25 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strnstr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bduval <bduval@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/08 17:51:12 by bduval            #+#    #+#             */
-/*   Updated: 2025/05/10 12:29:03 by bduval           ###   ########.fr       */
+/*   Created: 2024/11/12 16:55:19 by bduval            #+#    #+#             */
+/*   Updated: 2024/11/18 20:26:20 by bduval           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
+#include "libft.h"
 
-int	main(int ac, char **av)
+char	*ft_strnstr(const char *big, const char *to_find, size_t len)
 {
-	t_all	all;
+	size_t	i;
+	size_t	g;
 
-	if (parse_map(ac, av, &all))
-		return (1);
-	if (set_mlx(&all))
-		return (free_mlx(&all), 1);
-	free_mlx(&all);
-	return (0);
+	if (!*to_find)
+		return ((char *)big);
+	g = 0;
+	while (big[g])
+	{
+		i = 0;
+		while (big[g + i] == to_find[i] && big[g + i] && i + g < len)
+			i++;
+		if (!to_find[i])
+			return ((char *)&big[g]);
+		g++;
+	}
+	return (NULL);
 }

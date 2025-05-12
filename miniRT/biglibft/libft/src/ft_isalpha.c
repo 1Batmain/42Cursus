@@ -1,25 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_isalpha.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bduval <bduval@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/08 17:51:12 by bduval            #+#    #+#             */
-/*   Updated: 2025/05/10 12:29:03 by bduval           ###   ########.fr       */
+/*   Created: 2024/11/09 15:57:14 by bduval            #+#    #+#             */
+/*   Updated: 2024/11/09 18:26:46 by bduval           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#include "minirt.h"
-
-int	main(int ac, char **av)
+int	ft_isalpha(int c)
 {
-	t_all	all;
-
-	if (parse_map(ac, av, &all))
+	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'))
 		return (1);
-	if (set_mlx(&all))
-		return (free_mlx(&all), 1);
-	free_mlx(&all);
 	return (0);
 }
