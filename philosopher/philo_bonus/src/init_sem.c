@@ -6,7 +6,7 @@
 /*   By: bduval <bduval@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 16:08:33 by bduval            #+#    #+#             */
-/*   Updated: 2025/05/07 16:28:55 by bduval           ###   ########.fr       */
+/*   Updated: 2025/05/13 15:44:59 by bduval           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	init_semaphores(t_table *table)
 {
-	table->forks = sem_open("FORKS", O_CREAT | O_EXCL, 0600,\
+	table->forks = sem_open("FORKS", O_CREAT | O_EXCL, 0600, \
 		table->nb_total_philo);
 	if (table->forks == SEM_FAILED)
 		return (ft_error_sem("FORKS"));

@@ -6,7 +6,7 @@
 /*   By: bduval <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 22:21:40 by bduval            #+#    #+#             */
-/*   Updated: 2025/05/08 21:06:14 by bduval           ###   ########.fr       */
+/*   Updated: 2025/05/13 15:42:04 by bduval           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ static void	put_forks_back(t_table *table)
 
 static void	eat(t_table *table, t_philo *philo)
 {
+	if (philo->nb_eat == table->philo_must_eat)
+		return (end_game(table, philo));
 	print_eat(table, philo);
 	sem_wait(philo->lock);
 	gettimeofday(&philo->last_meal, NULL);
@@ -40,8 +42,6 @@ static void	eat(t_table *table, t_philo *philo)
 	sem_post(philo->lock);
 	philo->state = SLEEP;
 	philo->nb_eat++;
-	if (philo->nb_eat == table->philo_must_eat + 1)
-		end_game(table, philo);
 }
 
 void	philo_can_eat(t_table *table, t_philo *philo)
