@@ -6,7 +6,7 @@
 /*   By: bduval <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 22:22:12 by bduval            #+#    #+#             */
-/*   Updated: 2025/04/01 21:45:16 by bduval           ###   ########.fr       */
+/*   Updated: 2025/05/14 13:35:40 by bduval           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,8 @@ int	set_table(int ac, char **av, t_table *table)
 		table->philo_must_eat = ft_atoi(av[5]);
 	else
 		table->philo_must_eat = -1;
+	if (!table->philo_must_eat)
+		return (1);
 	if (init_mutexs(table))
 		return (printf("Error init_mutexs()\n"), 1);
 	if (init_fork(table))

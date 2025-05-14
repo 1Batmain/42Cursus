@@ -6,11 +6,24 @@
 /*   By: bduval <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 22:22:15 by bduval            #+#    #+#             */
-/*   Updated: 2025/03/22 22:26:13 by bduval           ###   ########.fr       */
+/*   Updated: 2025/05/14 13:51:11 by bduval           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosopher.h"
+
+int	reverse_left_right(t_philo *philo)
+{
+	int	temp;
+
+	if (!philo->id % 2)
+	{
+		temp = philo->left;
+		philo->left = philo->right;
+		philo->right = temp;
+	}
+	return (0);
+}
 
 int	is_digit(char c)
 {

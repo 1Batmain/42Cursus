@@ -6,7 +6,7 @@
 /*   By: bduval <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 22:22:22 by bduval            #+#    #+#             */
-/*   Updated: 2025/05/07 10:22:50 by bduval           ###   ########.fr       */
+/*   Updated: 2025/05/14 13:23:30 by bduval           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ int		is_digit(char c);
 int		ft_nbrlen(char *str);
 int		ft_atoi(char *str);
 void	free_ressources(t_table *table);
+int		reverse_left_right(t_philo *philo);
 
 //TABLE
 int		set_table(int ac, char **av, t_table *table);

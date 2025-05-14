@@ -6,7 +6,7 @@
 /*   By: bduval <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 22:22:08 by bduval            #+#    #+#             */
-/*   Updated: 2025/04/01 22:59:16 by bduval           ###   ########.fr       */
+/*   Updated: 2025/05/14 13:38:14 by bduval           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ int	init_philosopher(t_table *table, t_philo *philo, t_watcher *watcher)
 	philo->right = philo->id - 1;
 	if (philo->id == 1)
 		philo->left = table->nb_total_philo - 1;
+	reverse_left_right(philo);
 	if (pthread_mutex_init(&philo->lock, NULL))
 		return (printf("Error mutex_init()\n"), 1);
 	init_watcher(table, philo, watcher);

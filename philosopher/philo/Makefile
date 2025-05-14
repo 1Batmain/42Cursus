@@ -5,6 +5,8 @@ NAME		= philo
 HEADER		= -I header/
 LIB			= -pthread
 
+FS			= 
+
 SRC_DIR		= src/
 OBJ_DIR		= obj/
 
@@ -23,7 +25,7 @@ $(OBJ_DIR)%.o	: $(SRC_DIR)%.c
 -include $(DEP)
 
 $(NAME)	: $(OBJ)
-	$(CC) $(LIB) $^ -o $@
+	$(CC) $(FS) $(LIB) $^ -o $@
 
 clear	:
 	clear
