@@ -6,7 +6,7 @@
 /*   By: bduval <bduval@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 16:08:33 by bduval            #+#    #+#             */
-/*   Updated: 2025/05/13 15:44:59 by bduval           ###   ########.fr       */
+/*   Updated: 2025/05/14 14:55:32 by bduval           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ int	anakill(t_table *table)
 	int	i;
 	int	r_wait;
 
+	return (0);
 	i = -1;
 	while (++i < table->nb_total_philo)
 	{

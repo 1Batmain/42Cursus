@@ -6,7 +6,7 @@
 /*   By: bduval <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 22:22:03 by bduval            #+#    #+#             */
-/*   Updated: 2025/04/03 23:36:50 by bduval           ###   ########.fr       */
+/*   Updated: 2025/05/14 15:15:14 by bduval           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	main(int ac, char **av)
 	if (my_pid)
 	{
 		sem_wait(table.end);
-		anakill(&table);
+		usleep(500000);
 		sem_free(&table);
 	}
 	return (0);

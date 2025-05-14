@@ -6,7 +6,7 @@
 /*   By: bduval <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 22:22:15 by bduval            #+#    #+#             */
-/*   Updated: 2025/04/07 20:51:52 by bduval           ###   ########.fr       */
+/*   Updated: 2025/05/14 15:04:19 by bduval           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,8 @@ int	ft_atoi(char *str)
 int	sem_philo_free(t_philo *philo)
 {
 	sem_unlink(philo->name);
-	sem_close(philo->lock);
+	if (philo->lock)
+		sem_close(philo->lock);
 	return (0);
 }
 
@@ -65,7 +66,10 @@ void	sem_free(t_table *table)
 	sem_unlink("FORKS");
 	sem_unlink("END");
 	sem_unlink("PRINTF");
-	sem_close(table->forks);
-	sem_close(table->end);
-	sem_close(table->printf);
+	if (table->forks)
+		sem_close(table->forks);
+	if (table->end)
+		sem_close(table->end);
+	if (table->printf)
+		sem_close(table->printf);
 }
