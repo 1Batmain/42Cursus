@@ -7,6 +7,8 @@ CPPFLAGS	= -Iincludes/ -Ibiglibft/header/ -Imlx -I/usr/include/X11/
 LDFLAGS		= -Lbiglibft/ -Lmlx -L/usr/lib/
 LDLIBS		= -lft -lmlx -lX11 -lXext -lm -lz
 
+LIB			= biglibft/libft.a mlx
+
 SRC_DIR	= src/
 TMP_DIR = tmp/
 
@@ -31,7 +33,6 @@ FILES	=\
 		 utils/free \
 		 main
 			
-
 all : $(NAME)
 
 .PHONY :  clean fclean re
@@ -41,7 +42,7 @@ $(TMP_DIR)%.o : $(SRC_DIR)%.c
 
 -include $(DEP)
 
-$(NAME) :  biglibft/libft.a mlx $(TMP_DIR) $(OBJ)
+$(NAME) :  $(LIB) $(TMP_DIR) $(OBJ)
 	$(CC) $(CPPFLAGS) $(LDFLAGS) $(OBJ) $(LDLIBS) -o $@
 
 clean :
@@ -55,8 +56,7 @@ re : fclean
 	make
 
 $(TMP_DIR) :
-	@mkdir -p $(TMP_DIR)$(filter-out {./}, \
-		{$(subst $(space),$(coma),$(dir $(FILES)))})
+	@mkdir -p $(addprefix $(TMP_DIR), $(filter-out $(curr), $(sort $(dir $(FILES)))))
 
 biglibft/libft.a :
 	@$(MAKE) -C biglibft
@@ -80,9 +80,10 @@ vi vim :
 dev : all
 	valgrind --leak-check=full --track-origins=yes --show-leak-kinds=all ./$(NAME) scene_files/scene1.rt
 
-coma := ,
-space := $(empty) $(empty)
-empty :=
+coma 	:= ,
+space 	:= $(empty) $(empty)
+empty 	:=
+curr	:=./
 
 home :
 	sudo docker run -it --rm -v "$$PWD":/mnt -w /mnt dev-env bash -c "make"
