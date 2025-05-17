@@ -24,14 +24,14 @@ FILES	:= $(basename $(shell cat .c_files))
 
 all : $(NAME)
 
-.PHONY :  clean fclean re
+.PHONY :  clean fclean re update_files
 
 $(TMP_DIR)%.o : $(SRC_DIR)%.c
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
 
 -include $(DEP)
 
-$(NAME) :  $(LIB) $(TMP_DIRS) $(OBJ) update_files
+$(NAME) :  $(LIB) $(TMP_DIRS) $(OBJ) 
 	$(CC) $(CPPFLAGS) $(LDFLAGS) $(OBJ) $(LDLIBS) -o $@
 
 clean :
@@ -44,8 +44,8 @@ fclean :
 re : fclean
 	make
 
-update_files:
-	$(shell find src -type f | sed 's/src\///g' > .c_files;)
+update_files :
+	find src -type f | sed 's/src\///g' > .c_files;
 
 $(TMP_DIRS) :
 	@mkdir -p $(TMP_DIRS)
@@ -55,7 +55,7 @@ biglibft/libft.a :
 
 mlx :
 	git clone https://github.com/42paris/minilibx-linux.git mlx
-		cd mlx; make
+	cd mlx; make
 
 #<--------------	DEV_TOOLS	------------->
 
@@ -71,6 +71,7 @@ vi vim :
 
 gdb : all
 	gdb --args ./$(NAME) scene_files/scene1.rt
+
 dev : all
 	valgrind --leak-check=full --track-origins=yes --show-leak-kinds=all ./$(NAME) scene_files/scene1.rt
 
