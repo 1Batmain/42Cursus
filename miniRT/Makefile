@@ -11,6 +11,8 @@ LIB			= biglibft/libft.a mlx
 
 SRC_DIR	= src/
 TMP_DIR = tmp/
+TMP_DIRS	= $(addprefix $(TMP_DIR), $(filter-out $(curr), $(sort $(dir $(FILES)))))
+
 
 SRC = $(FILES:%=$(SRC_DIR)%.c)
 OBJ = $(SRC:$(SRC_DIR)%.c=$(TMP_DIR)%.o)
@@ -18,21 +20,8 @@ DEP = $(OBJ:%.o=%.d)
 
 MAKEFLAGS += --no-print-directory
 
-FILES	=\
-		 error/error \
-		 mlx/init \
-		 mlx/free \
-		 mlx/event \
-		 mlx/loop \
-		 parsing/parse \
-		 parsing/split_set \
-		 parsing/amb_light \
-		 parsing/light \
-		 parsing/cam \
-		 parsing/object \
-		 utils/free \
-		 main
-			
+FILES	:= $(basename $(shell cat .c_files))
+
 all : $(NAME)
 
 .PHONY :  clean fclean re
@@ -42,7 +31,7 @@ $(TMP_DIR)%.o : $(SRC_DIR)%.c
 
 -include $(DEP)
 
-$(NAME) :  $(LIB) $(TMP_DIR) $(OBJ)
+$(NAME) :  $(LIB) $(TMP_DIRS) $(OBJ) update_files
 	$(CC) $(CPPFLAGS) $(LDFLAGS) $(OBJ) $(LDLIBS) -o $@
 
 clean :
@@ -55,11 +44,14 @@ fclean :
 re : fclean
 	make
 
-$(TMP_DIR) :
-	@mkdir -p $(addprefix $(TMP_DIR), $(filter-out $(curr), $(sort $(dir $(FILES)))))
+update_files:
+	$(shell find src -type f | sed 's/src\///g' > .c_files;)
+
+$(TMP_DIRS) :
+	@mkdir -p $(TMP_DIRS)
 
 biglibft/libft.a :
-	@$(MAKE) -C biglibft
+	@$(MAKE) -C biglibft make
 
 mlx :
 	git clone https://github.com/42paris/minilibx-linux.git mlx
@@ -75,8 +67,10 @@ watch :
 
 vi vim :
 	find . -name "*.c" -exec ctags {} +
-	vim $(SRC) includes/minirt.h Makefile
+	vim $(SRC) includes/* Makefile
 
+gdb : all
+	gdb --args ./$(NAME) scene_files/scene1.rt
 dev : all
 	valgrind --leak-check=full --track-origins=yes --show-leak-kinds=all ./$(NAME) scene_files/scene1.rt
 
@@ -88,6 +82,8 @@ curr	:=./
 home :
 	sudo docker run -it --rm -v "$$PWD":/mnt -w /mnt dev-env bash -c "make"
 
+docker_run :
+	sudo docker run -it --rm -v "$$PWD":/mnt -w /mnt dev-env
 docker_set :
 	echo "$$DOCKER" > Dockerfile
 	sudo docker build -t dev-env .

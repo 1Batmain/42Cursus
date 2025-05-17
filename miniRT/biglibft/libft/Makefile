@@ -6,7 +6,7 @@
 #    By: bduval <bduval@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/08 10:56:02 by bduval            #+#    #+#              #
-#    Updated: 2025/03/26 22:01:34 by bduval           ###   ########.fr        #
+#    Updated: 2025/05/16 06:40:17 by bduval           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 CC = cc
@@ -25,7 +25,7 @@ MANDATORY = ft_atoibase ft_atoi ft_bzero ft_calloc ft_isalnum ft_isalpha ft_isas
 			ft_strlcat ft_strlcpy ft_strlen ft_strmapi ft_strncmp ft_strnstr \
 			ft_strrchr ft_strtrim ft_substr ft_tolower ft_toupper ft_lstadd_back \
 			ft_lstmap ft_lstnew ft_lstsize ft_lstadd_front ft_lstclear ft_lstdelone ft_lstiter ft_lstlast \
-			get_next_line get_next_line_utils
+			get_next_line get_next_line_utils ft_strcmp
 
 SRC = $(MANDATORY:%=$(SRC_DIR)%.c)
 OBJ = $(SRC:$(SRC_DIR)%.c=$(OBJ_DIR)%.o)

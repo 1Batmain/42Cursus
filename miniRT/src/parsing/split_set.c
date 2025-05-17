@@ -6,13 +6,13 @@
 /*   By: bduval <bduval@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 12:24:36 by bduval            #+#    #+#             */
-/*   Updated: 2025/05/11 10:05:55 by bduval           ###   ########.fr       */
+/*   Updated: 2025/05/16 07:48:38 by bduval           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
 
-static int		is_in_set(const char s, const char *c)
+static int	is_in_set(const char s, const char *c)
 {
 	while (*c)
 	{

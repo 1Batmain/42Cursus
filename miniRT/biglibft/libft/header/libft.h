@@ -6,7 +6,7 @@
 /*   By: bduval <bduval@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 16:21:18 by bduval            #+#    #+#             */
-/*   Updated: 2024/11/19 11:59:00 by bduval           ###   ########.fr       */
+/*   Updated: 2025/05/16 06:39:55 by bduval           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef LIBFT_H
@@ -42,6 +42,7 @@ int		ft_tolower(int c);
 char	*ft_strchr(const char *str, int c);
 char	*ft_strrchr(const char *str, int c);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
+int		ft_strcmp(const char *s1, const char *s2);
 void	*ft_memchr(const void *s, int c, size_t n);
 int		ft_memcmp(const char *s1, const char *s2, size_t n);
 char	*ft_strnstr(const char *big, const char *to_find, size_t len);

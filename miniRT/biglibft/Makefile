@@ -7,6 +7,8 @@ CFLAGS	= -Wall -Werror -Wextra
 
 all : $(NAME)
 
+.PHONY :
+
 $(NAME) :
 	@cd libft; make; cd ..;\
 	cd ft_printf; make; cd ..;\
